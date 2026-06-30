@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>小金鲤 - 股票详情</title>
+<script src="assets/vendor/tailwindcss.js"></script>
+<script src="assets/vendor/iconify-icon.min.js"></script>
+<script src="assets/vendor/echarts.min.js"></script>
+<script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FFB800',
+                        secondary: '#FF6B00',
+                        bgMain: '#F8F9FC',
+                        up: '#FF4D4F',
+                        down: '#52C41A',
+                        textMain: '#1A1A2E',
+                        textSub: '#666666',
+                        textAssist: '#999999'
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+    </style>
+</head>
+<body class="bg-bgMain text-textMain">
+<div class="max-w-[414px] mx-auto min-h-screen flex flex-col relative bg-bgMain shadow-xl">
+<!-- 顶部品牌栏 -->
+<header class="sticky top-0 z-50 bg-primary px-4 py-3 flex justify-between items-center shadow-md text-white">
+<div class="flex items-center gap-3">
+<button onclick="history.back()"><iconify-icon class="text-2xl" icon="solar:alt-arrow-left-linear"></iconify-icon></button>
+<span class="font-bold">宁德时代 300750</span>
+</div>
+<iconify-icon class="text-2xl text-white" icon="solar:star-bold"></iconify-icon>
+</header>
+<main class="flex-1 overflow-y-auto pb-24">
+<!-- 基础数据区 -->
+<section class="bg-white p-6 shadow-sm">
+<div class="flex justify-between items-end">
+<div>
+<div class="text-3xl font-bold text-up">189.52</div>
+<div class="text-sm font-bold text-up mt-1">+9.45 (+5.24%)</div>
+</div>
+<div class="text-right text-[10px] text-textAssist">
+<div class="mb-1">所属板块</div>
+<div class="bg-primary/10 text-primary px-2 py-0.5 rounded">电力设备 / 锂电池</div>
+</div>
+</div>
+</section>
+<!-- 公司利润来源 (ECharts) -->
+<section class="mt-4 px-4">
+<div class="bg-white rounded-2xl p-4 shadow-sm">
+<h2 class="text-sm font-bold mb-4">利润来源结构 (2023年报)</h2>
+<div class="w-full h-48" id="profitChart"></div>
+<p class="text-[10px] text-textAssist mt-2 leading-relaxed">
+                        动力电池系统依然是核心利润来源（占比72%），储能系统增长迅猛，同比提升35%，成为第二增长曲线。
+                    </p>
+</div>
+</section>
+<!-- 行业指标卡片 -->
+<section class="mt-4 px-4 grid grid-cols-2 gap-3">
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 text-center">
+<div class="text-[10px] text-textAssist mb-1">市盈率 PE(TTM)</div>
+<div class="text-lg font-bold">18.45</div>
+<div class="text-[10px] text-down">低于行业平均 45%</div>
+</div>
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 text-center">
+<div class="text-[10px] text-textAssist mb-1">净资产收益率 ROE</div>
+<div class="text-lg font-bold">25.8%</div>
+<div class="text-[10px] text-up">优秀</div>
+</div>
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 text-center">
+<div class="text-[10px] text-textAssist mb-1">股息率</div>
+<div class="text-lg font-bold">1.2%</div>
+<div class="text-[10px] text-textAssist">分红稳定</div>
+</div>
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 text-center">
+<div class="text-[10px] text-textAssist mb-1">总市值</div>
+<div class="text-lg font-bold">8340亿</div>
+<div class="text-[10px] text-textAssist">行业龙头</div>
+</div>
+</section>
+<!-- 哪些大牛持有 -->
+<section class="mt-6 px-4">
+<h2 class="text-sm font-bold mb-3 px-1">哪些大牛/机构持有？</h2>
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-50">
+<div class="p-4 flex items-center justify-between border-b border-gray-50">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">CG</div>
+<div>
+<div class="text-xs font-bold">陈光明睿远</div>
+<div class="text-[9px] text-textAssist">持仓占比 9.5%</div>
+</div>
+</div>
+<div class="text-xs font-bold text-up">+28.4%</div>
+</div>
+<div class="p-4 flex items-center justify-between border-b border-gray-50">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">GY</div>
+<div>
+<div class="text-xs font-bold">高毅资产</div>
+<div class="text-[9px] text-textAssist">持仓占比 5.2%</div>
+</div>
+</div>
+<div class="text-xs font-bold text-up">+31.2%</div>
+</div>
+<div class="p-4 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">SH</div>
+<div>
+<div class="text-xs font-bold">上海超短帮</div>
+<div class="text-[9px] text-textAssist">近期大笔买入</div>
+</div>
+</div>
+<div class="text-xs font-bold text-up">+88.4%</div>
+</div>
+</div>
+</section>
+<!-- 问题灵感 -->
+<section class="mt-6 px-4">
+<h2 class="text-sm font-bold mb-3 px-1">继续研究建议</h2>
+<div class="grid grid-cols-1 gap-2">
+<a class="bg-orange-50 p-4 rounded-xl flex items-center justify-between active:bg-orange-100" href="ai_assistant.html">
+<div class="flex items-center gap-3">
+<iconify-icon class="text-secondary text-xl" icon="solar:calculator-minimalistic-bold-duotone"></iconify-icon>
+<span class="text-xs font-bold text-secondary">这只股票目前估值合理吗？</span>
+</div>
+<iconify-icon class="text-secondary" icon="solar:alt-arrow-right-linear"></iconify-icon>
+</a>
+<a class="bg-blue-50 p-4 rounded-xl flex items-center justify-between active:bg-blue-100" href="ai_assistant.html">
+<div class="flex items-center gap-3">
+<iconify-icon class="text-blue-600 text-xl" icon="solar:document-text-bold-duotone"></iconify-icon>
+<span class="text-xs font-bold text-blue-600">帮我快速解读最新财报要点</span>
+</div>
+<iconify-icon class="text-blue-600" icon="solar:alt-arrow-right-linear"></iconify-icon>
+</a>
+</div>
+</section>
+<!-- 底部研究入口 -->
+<div class="mt-6 px-4 grid grid-cols-3 gap-2">
+<button class="flex flex-col items-center gap-1 bg-white py-3 rounded-xl shadow-sm border border-gray-50">
+<iconify-icon class="text-primary text-xl" icon="solar:chart-2-bold-duotone"></iconify-icon>
+<span class="text-[10px]">估值助手</span>
+</button>
+<button class="flex flex-col items-center gap-1 bg-white py-3 rounded-xl shadow-sm border border-gray-50">
+<iconify-icon class="text-primary text-xl" icon="solar:notebook-bold-duotone"></iconify-icon>
+<span class="text-[10px]">财报速读</span>
+</button>
+<button class="flex flex-col items-center gap-1 bg-white py-3 rounded-xl shadow-sm border border-gray-50">
+<iconify-icon class="text-primary text-xl" icon="solar:users-group-two-rounded-bold-duotone"></iconify-icon>
+<span class="text-[10px]">同行对比</span>
+</button>
+</div>
+</main>
+<!-- 底部导航 (固定显示抄作业高亮) -->
+<nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-6 py-3 flex justify-between items-center z-50 safe-bottom">
+<a class="flex flex-col items-center gap-1 text-textAssist" href="discover.html">
+<iconify-icon class="text-2xl" icon="solar:home-smile-angle-linear"></iconify-icon>
+<span class="text-[10px]">发现</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="copytrade.html">
+<iconify-icon class="text-2xl" icon="solar:copy-bold"></iconify-icon>
+<span class="text-[10px] font-bold">抄作业</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-textAssist" href="toolbox.html">
+<iconify-icon class="text-2xl" icon="solar:box-linear"></iconify-icon>
+<span class="text-[10px]">工具箱</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-textAssist" href="profile.html">
+<iconify-icon class="text-2xl" icon="solar:user-linear"></iconify-icon>
+<span class="text-[10px]">我的</span>
+</a>
+</nav>
+</div>
+<script>
+        // 初始化 ECharts
+        const chartDom = document.getElementById('profitChart');
+        const myChart = echarts.init(chartDom);
+        const option = {
+            tooltip: { trigger: 'item' },
+            legend: { bottom: '0%', left: 'center', itemWidth: 10, itemHeight: 10, textStyle: { fontSize: 10 } },
+            series: [
+                {
+                    name: '利润占比',
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    itemStyle: { borderRadius: 10, borderColor: '#fff', borderWidth: 2 },
+                    label: { show: false },
+                    emphasis: { label: { show: true, fontSize: '12', fontWeight: 'bold' } },
+                    data: [
+                        { value: 72, name: '动力电池', itemStyle: { color: '#FFB800' } },
+                        { value: 15, name: '储能系统', itemStyle: { color: '#FF6B00' } },
+                        { value: 10, name: '电池材料', itemStyle: { color: '#FFD700' } },
+                        { value: 3, name: '其他业务', itemStyle: { color: '#F1F1F1' } }
+                    ]
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

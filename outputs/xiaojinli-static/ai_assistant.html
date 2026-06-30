@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>小金鲤 AI 助手</title>
+<script src="assets/vendor/tailwindcss.js"></script>
+<script src="assets/vendor/iconify-icon.min.js"></script>
+<script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FFB800',
+                        secondary: '#FF6B00',
+                        bgMain: '#F8F9FC',
+                        textMain: '#1A1A2E',
+                        textSub: '#666666',
+                        textAssist: '#999999'
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+        .chat-bubble-ai { background: linear-gradient(135deg, #FFF9EB 0%, #FFFDF7 100%); border: 1px solid #FFEBB8; }
+    </style>
+</head>
+<body class="bg-bgMain text-textMain">
+<div class="max-w-[414px] mx-auto h-screen flex flex-col relative bg-bgMain shadow-xl">
+<!-- 顶部品牌栏 -->
+<header class="sticky top-0 z-50 bg-white px-4 py-3 flex justify-between items-center shadow-sm border-b border-gray-100">
+<div class="flex items-center gap-3">
+<button onclick="history.back()"><iconify-icon class="text-2xl text-textSub" icon="solar:alt-arrow-left-linear"></iconify-icon></button>
+<div class="flex items-center gap-1 font-bold">
+<span class="text-xl">🐟</span>
+<span>小金鲤 AI 助手</span>
+</div>
+</div>
+<iconify-icon class="text-2xl text-textSub" icon="solar:menu-dots-bold"></iconify-icon>
+</header>
+<!-- 对话区域 -->
+<main class="flex-1 overflow-y-auto p-4 space-y-6" id="chat-container">
+<!-- AI 欢迎界面 -->
+<div class="flex flex-col items-center py-10 text-center">
+<div class="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg border-4 border-white mb-4">
+<span class="text-4xl">🐟</span>
+</div>
+<h1 class="text-lg font-bold">你好，我是小金鲤</h1>
+<p class="text-sm text-textSub mt-1">你的股票投资私人助理</p>
+<div class="grid grid-cols-1 gap-2 mt-8 w-full">
+<button class="bg-white p-3 rounded-xl border border-gray-100 text-xs text-left flex items-center gap-3 active:bg-gray-50" onclick="sendMessage('今天市场有什么热点？')">
+<iconify-icon class="text-up" icon="solar:fire-bold"></iconify-icon>
+                        今天市场有什么热点？
+                    </button>
+<button class="bg-white p-3 rounded-xl border border-gray-100 text-xs text-left flex items-center gap-3 active:bg-gray-50" onclick="sendMessage('帮我分析一下宁德时代')">
+<iconify-icon class="text-primary" icon="solar:chart-square-bold"></iconify-icon>
+                        帮我分析一下宁德时代
+                    </button>
+<button class="bg-white p-3 rounded-xl border border-gray-100 text-xs text-left flex items-center gap-3 active:bg-gray-50" onclick="sendMessage('高股息策略现在还能跟吗？')">
+<iconify-icon class="text-down" icon="solar:dollar-bold"></iconify-icon>
+                        高股息策略现在还能跟吗？
+                    </button>
+</div>
+</div>
+<!-- 模拟对话 1 -->
+<div class="flex flex-col items-end gap-2">
+<div class="bg-gray-200 text-textMain px-4 py-2 rounded-2xl rounded-tr-none text-sm max-w-[85%]">
+                    帮我分析一下宁德时代的估值
+                </div>
+<span class="text-[10px] text-textAssist">10:05</span>
+</div>
+<!-- 模拟对话 2 -->
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-full bg-primary flex flex-shrink-0 items-center justify-center text-sm shadow-sm border border-white">🐟</div>
+<div class="flex flex-col gap-2 max-w-[85%]">
+<div class="chat-bubble-ai px-4 py-3 rounded-2xl rounded-tl-none text-sm leading-relaxed shadow-sm">
+                        宁德时代 (300750) 目前估值处于历史相对低位：
+                        <ul class="list-disc ml-4 mt-2 space-y-1">
+<li><span class="font-bold">PE(TTM)：</span>18.45倍，处于上市以来 12% 分位点。</li>
+<li><span class="font-bold">业绩增速：</span>2023年净利润增长 44%，PEG 远低于 1。</li>
+</ul>
+<div class="mt-3 p-3 bg-white rounded-xl border border-orange-100 flex items-center justify-between" onclick="location.href='stock_detail.html'">
+<div class="flex items-center gap-2">
+<div class="w-2 h-8 bg-primary rounded-full"></div>
+<div>
+<div class="text-xs font-bold">宁德时代</div>
+<div class="text-[10px] text-textAssist">估值偏低 · 建议关注</div>
+</div>
+</div>
+<iconify-icon class="text-primary" icon="solar:alt-arrow-right-linear"></iconify-icon>
+</div>
+</div>
+<span class="text-[10px] text-textAssist">10:05</span>
+</div>
+</div>
+</main>
+<!-- 底部输入区 -->
+<div class="p-4 bg-white border-t border-gray-100 safe-bottom">
+<div class="flex gap-2 items-center">
+<button class="text-textSub p-2">
+<iconify-icon class="text-2xl" icon="solar:add-circle-linear"></iconify-icon>
+</button>
+<div class="flex-1 bg-bgMain rounded-full flex items-center px-4 py-2 border border-gray-100">
+<input class="bg-transparent flex-1 text-sm outline-none" id="chat-input" placeholder="问问小金鲤..." type="text"/>
+<iconify-icon class="text-textSub text-xl" icon="solar:smile-circle-linear"></iconify-icon>
+</div>
+<button class="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform" onclick="sendInput()">
+<iconify-icon class="text-xl" icon="solar:plain-bold"></iconify-icon>
+</button>
+</div>
+</div>
+</div>
+<script>
+        function sendMessage(text) {
+            const container = document.getElementById('chat-container');
+            
+            // 添加用户消息
+            const userMsg = `
+                <div class="flex flex-col items-end gap-2">
+                    <div class="bg-gray-200 text-textMain px-4 py-2 rounded-2xl rounded-tr-none text-sm max-w-[85%]">
+                        ${text}
+                    </div>
+                    <span class="text-[10px] text-textAssist">刚刚</span>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', userMsg);
+            
+            // 模拟 AI 回复
+            setTimeout(() => {
+                const aiMsg = `
+                    <div class="flex gap-3">
+                        <div class="w-8 h-8 rounded-full bg-primary flex flex-shrink-0 items-center justify-center text-sm shadow-sm border border-white">🐟</div>
+                        <div class="flex flex-col gap-2 max-w-[85%]">
+                            <div class="chat-bubble-ai px-4 py-3 rounded-2xl rounded-tl-none text-sm leading-relaxed shadow-sm">
+                                正在为你深度分析“${text}”... 请稍等，小金鲤正在查阅最新的全网研报和实时交易数据。
+                            </div>
+                            <span class="text-[10px] text-textAssist">刚刚</span>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', aiMsg);
+                container.scrollTop = container.scrollHeight;
+            }, 600);
+            
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function sendInput() {
+            const input = document.getElementById('chat-input');
+            if (input.value.trim()) {
+                sendMessage(input.value);
+                input.value = '';
+            }
+        }
+    </script>
+</body>
+</html>

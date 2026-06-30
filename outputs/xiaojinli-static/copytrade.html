@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>小金鲤 - 抄作业</title>
+<script src="assets/vendor/tailwindcss.js"></script>
+<script src="assets/vendor/iconify-icon.min.js"></script>
+<script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FFB800',
+                        secondary: '#FF6B00',
+                        bgMain: '#F8F9FC',
+                        card: '#FFFFFF',
+                        up: '#FF4D4F',
+                        down: '#52C41A',
+                        textMain: '#1A1A2E',
+                        textSub: '#666666',
+                        textAssist: '#999999'
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        .tab-active { color: #FFB800; border-bottom: 3px solid #FFB800; font-weight: bold; }
+        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+    </style>
+</head>
+<body class="bg-bgMain text-textMain">
+<div class="max-w-[414px] mx-auto min-h-screen flex flex-col relative bg-bgMain shadow-xl">
+<!-- 顶部品牌栏 -->
+<header class="sticky top-0 z-50 bg-primary px-4 py-3 flex justify-between items-center shadow-md">
+<div class="flex items-center gap-1 font-bold text-white text-lg">
+<span class="text-2xl">🐟</span>
+<span>小金鲤</span>
+</div>
+<div class="flex items-center gap-3">
+<iconify-icon class="text-2xl text-white" icon="solar:filter-linear"></iconify-icon>
+<iconify-icon class="text-2xl text-white" icon="solar:magnifer-linear"></iconify-icon>
+</div>
+</header>
+<!-- 一级 Tab 切换 -->
+<div class="bg-white flex px-4 border-b border-gray-100 sticky top-[52px] z-40">
+<button class="flex-1 py-3 text-sm tab-active" id="tab-bull" onclick="switchTab('bull')">大牛持仓</button>
+<button class="flex-1 py-3 text-sm text-textSub" id="tab-hot" onclick="switchTab('hot')">游资动向</button>
+<button class="flex-1 py-3 text-sm text-textSub" id="tab-private" onclick="switchTab('private')">私募持仓</button>
+</div>
+<!-- 榜单规则说明 -->
+<div class="px-4 py-2 bg-orange-50 flex justify-between items-center">
+<span class="text-[10px] text-secondary flex items-center gap-1">
+<iconify-icon icon="solar:info-circle-bold"></iconify-icon>
+                模拟样本 · 不构成投资建议
+            </span>
+<a class="text-[10px] text-primary underline" href="#">规则说明</a>
+</div>
+<!-- 榜单列表内容 -->
+<main class="flex-1 overflow-y-auto pb-24 px-4 pt-4">
+<section class="mb-4 bg-white rounded-2xl p-3 shadow-sm border border-orange-100">
+<div class="flex items-center gap-1 text-secondary text-xs font-bold mb-2">
+<iconify-icon icon="solar:document-text-bold-duotone"></iconify-icon>
+<span>字段说明</span>
+</div>
+<div class="space-y-1.5 text-[10px] text-textSub leading-relaxed">
+<div class="bg-bgMain rounded-lg px-3 py-2">
+<span class="font-bold text-textMain">成功率：</span>统计周期内跟随调仓后达到正向结果的比例。
+</div>
+<div class="bg-bgMain rounded-lg px-3 py-2">
+<span class="font-bold text-textMain">最大回撤：</span>组合从高点到低点的最大跌幅，越小越稳。
+</div>
+</div>
+</section>
+<div class="flex items-center justify-between mb-3 px-1">
+<div>
+<h2 class="text-sm font-bold">候选名单</h2>
+<p class="text-[10px] text-textAssist mt-0.5">按模拟样本、成功率和回撤稳定性综合排序</p>
+</div>
+<div class="text-[10px] text-primary bg-primary/10 px-2 py-1 rounded-full">按成功率</div>
+</div>
+<div class="space-y-3" id="list-container">
+<!-- 数据由 JS 动态渲染 -->
+</div>
+<!-- 加载更多示意 -->
+<div class="py-6 text-center text-xs text-textAssist">
+                已加载全部大牛数据
+            </div>
+</main>
+<!-- 底部导航 -->
+<nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-6 py-3 flex justify-between items-center z-50 safe-bottom">
+<a class="flex flex-col items-center gap-1 text-textAssist" href="discover.html">
+<iconify-icon class="text-2xl" icon="solar:home-smile-angle-linear"></iconify-icon>
+<span class="text-[10px]">发现</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="copytrade.html">
+<iconify-icon class="text-2xl" icon="solar:copy-bold"></iconify-icon>
+<span class="text-[10px] font-bold">抄作业</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-textAssist" href="toolbox.html">
+<iconify-icon class="text-2xl" icon="solar:box-linear"></iconify-icon>
+<span class="text-[10px]">工具箱</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-textAssist" href="profile.html">
+<iconify-icon class="text-2xl" icon="solar:user-linear"></iconify-icon>
+<span class="text-[10px]">我的</span>
+</a>
+</nav>
+<!-- 全局浮窗 -->
+<div class="fixed right-4 bottom-24 z-[60] cursor-pointer" onclick="location.href='ai_assistant.html'">
+<div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+<span class="text-2xl">🐟</span>
+</div>
+</div>
+</div>
+<script>
+        const mockData = {
+            bull: [
+                { id: 1, name: '睿远均衡', avatar: 'RY', successRate: '63%', maxDrawdown: '-18.4%', riskLevel: '中低波动', fit: '适合长线资金', sampleSize: '42次调仓', disclosureLag: '季报滞后45天', tags: ['价值成长', '分散持仓'], followed: true },
+                { id: 2, name: '易方达蓝筹', avatar: 'EF', successRate: '59%', maxDrawdown: '-21.7%', riskLevel: '中等波动', fit: '适合核心资产配置', sampleSize: '38次调仓', disclosureLag: '季报滞后45天', tags: ['消费医药', '大盘成长'], followed: false },
+                { id: 3, name: '兴证全球', avatar: 'XQ', successRate: '61%', maxDrawdown: '-19.6%', riskLevel: '中低波动', fit: '适合均衡跟随', sampleSize: '44次调仓', disclosureLag: '季报滞后45天', tags: ['均衡配置', '制造科技'], followed: false },
+                { id: 4, name: '中欧医疗', avatar: 'ZO', successRate: '52%', maxDrawdown: '-32.8%', riskLevel: '高波动', fit: '适合高风险偏好', sampleSize: '36次调仓', disclosureLag: '季报滞后45天', tags: ['医疗创新', '行业集中'], followed: true },
+                { id: 5, name: '富国长期', avatar: 'FG', successRate: '57%', maxDrawdown: '-23.5%', riskLevel: '中等波动', fit: '适合全市场配置', sampleSize: '40次调仓', disclosureLag: '季报滞后45天', tags: ['老牌主动', '全市场'], followed: false }
+            ],
+            hot: [
+                { id: 1, name: '章盟主', avatar: 'ZM', successRate: '48%', maxDrawdown: '-36.2%', riskLevel: '高波动', fit: '适合短线纪律强', sampleSize: '126次上榜', disclosureLag: '龙虎榜T+1', tags: ['题材主线', '高换手'], followed: false },
+                { id: 2, name: '方新侠', avatar: 'FX', successRate: '46%', maxDrawdown: '-34.9%', riskLevel: '高波动', fit: '适合趋势交易', sampleSize: '98次上榜', disclosureLag: '龙虎榜T+1', tags: ['趋势主升', '容量票'], followed: true },
+                { id: 3, name: '作手新一', avatar: 'ZX', successRate: '44%', maxDrawdown: '-38.7%', riskLevel: '极高波动', fit: '适合题材跟踪', sampleSize: '112次上榜', disclosureLag: '龙虎榜T+1', tags: ['接力博弈', '情绪周期'], followed: false }
+            ],
+            private: [
+                { id: 1, name: '高毅资产', avatar: 'GY', successRate: '58%', maxDrawdown: '-20.3%', riskLevel: '中等波动', fit: '适合低估值配置', sampleSize: '31次披露', disclosureLag: '定报滞后60天', tags: ['深度调研', '低估值'], followed: true },
+                { id: 2, name: '景林资产', avatar: 'JL', successRate: '55%', maxDrawdown: '-24.1%', riskLevel: '中高波动', fit: '适合全球消费配置', sampleSize: '29次披露', disclosureLag: '定报滞后60天', tags: ['消费科技', '全球视角'], followed: false },
+                { id: 3, name: '淡水泉', avatar: 'DS', successRate: '53%', maxDrawdown: '-22.6%', riskLevel: '中等波动', fit: '适合逆向配置', sampleSize: '27次披露', disclosureLag: '定报滞后60天', tags: ['逆向投资', '周期修复'], followed: false }
+            ]
+        };
+
+        function switchTab(type) {
+            // 更新 UI 状态
+            document.querySelectorAll('button[id^="tab-"]').forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('text-textSub');
+            });
+            document.getElementById(`tab-${type}`).classList.add('tab-active');
+            document.getElementById(`tab-${type}`).classList.remove('text-textSub');
+
+            renderList(type);
+        }
+
+        function renderList(type) {
+            const container = document.getElementById('list-container');
+            const data = mockData[type];
+            container.innerHTML = data.map((item, index) => `
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 active:bg-gray-50 transition-colors" onclick="location.href='portfolio.html?id=${item.id}'">
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <div class="relative flex-shrink-0">
+                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
+                                    ${item.avatar.length > 2 ? item.avatar : item.avatar}
+                                </div>
+                                ${index < 3 ? `<div class="absolute -top-1 -left-1 w-5 h-5 ${index === 0 ? 'bg-yellow-400' : index === 1 ? 'bg-gray-300' : 'bg-orange-400'} rounded-full flex items-center justify-center text-[10px] text-white border-2 border-white">${index + 1}</div>` : ''}
+                            </div>
+                            <div class="min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold truncate">${item.name}</span>
+                                    <span class="text-[9px] bg-orange-50 text-secondary px-1.5 py-0.5 rounded">${item.riskLevel}</span>
+                                </div>
+                                <div class="flex flex-wrap gap-1 mt-1">
+                                    ${item.tags.map(tag => `<span class="text-[9px] bg-bgMain px-1.5 py-0.5 rounded text-textAssist">${tag}</span>`).join('')}
+                                </div>
+                                <div class="text-[9px] text-textAssist mt-1">${item.sampleSize} · ${item.disclosureLag}</div>
+                            </div>
+                        </div>
+                        <button onclick="event.stopPropagation(); toggleFollow(this)" class="text-[10px] px-3 py-1.5 rounded-full border flex-shrink-0 ${item.followed ? 'bg-gray-100 text-textAssist border-gray-100' : 'border-primary text-primary'}">
+                            ${item.followed ? '已关注' : '+ 关注'}
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mt-4">
+                        <div class="bg-red-50 rounded-xl p-3">
+                            <div class="text-[10px] text-textAssist">成功率</div>
+                            <div class="text-2xl font-bold text-up leading-tight mt-1">${item.successRate}</div>
+                        </div>
+                        <div class="bg-green-50 rounded-xl p-3">
+                            <div class="text-[10px] text-textAssist">最大回撤</div>
+                            <div class="text-2xl font-bold text-down leading-tight mt-1">${item.maxDrawdown}</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-center justify-between gap-3 border-t border-dashed border-gray-100 pt-3">
+                        <div class="text-[11px] text-textSub truncate">风格匹配：<span class="font-bold text-textMain">${item.fit}</span></div>
+                        <div class="text-[10px] text-primary flex items-center gap-0.5 flex-shrink-0">
+                            查看持仓
+                            <iconify-icon icon="solar:alt-arrow-right-linear"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleFollow(btn) {
+            if (btn.innerText === '+ 关注') {
+                btn.innerText = '已关注';
+                btn.classList.remove('border-primary', 'text-primary');
+                btn.classList.add('bg-gray-100', 'text-textAssist', 'border-gray-100');
+            } else {
+                btn.innerText = '+ 关注';
+                btn.classList.add('border-primary', 'text-primary');
+                btn.classList.remove('bg-gray-100', 'text-textAssist', 'border-gray-100');
+            }
+        }
+
+        // 初始渲染
+        switchTab('bull');
+    </script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>小金鲤 - 工具箱</title>
+<script src="assets/vendor/tailwindcss.js"></script>
+<script src="assets/vendor/iconify-icon.min.js"></script>
+<script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FFB800',
+                        secondary: '#FF6B00',
+                        bgMain: '#F8F9FC',
+                        textMain: '#1A1A2E',
+                        textSub: '#666666',
+                        textAssist: '#999999'
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+        .tag-active { background-color: #FFB800; color: white; border-color: #FFB800; }
+    </style>
+</head>
+<body class="bg-bgMain text-textMain">
+<div class="max-w-[414px] mx-auto min-h-screen flex flex-col relative bg-bgMain shadow-xl">
+<!-- 顶部品牌栏 -->
+<header class="sticky top-0 z-50 bg-primary px-4 py-3 flex justify-between items-center shadow-md">
+<div class="flex items-center gap-1 font-bold text-white text-lg">
+<span class="text-2xl">🐟</span>
+<span>小金鲤工具箱</span>
+</div>
+<iconify-icon class="text-2xl text-white" icon="solar:settings-bold"></iconify-icon>
+</header>
+<main class="flex-1 overflow-y-auto pb-24">
+<!-- AI 选股器 区块 -->
+<section class="p-4">
+<div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-50">
+<div class="flex items-center gap-2 mb-4">
+<iconify-icon class="text-primary text-2xl" icon="solar:magic-stick-3-bold-duotone"></iconify-icon>
+<h2 class="text-lg font-bold">AI 选股器</h2>
+</div>
+<!-- 交易风格 -->
+<div class="mb-4">
+<label class="text-xs text-textSub block mb-2">交易风格</label>
+<div class="flex flex-wrap gap-2">
+<button class="tag-active px-3 py-1.5 rounded-lg text-xs border border-gray-100">价值投资</button>
+<button class="bg-bgMain px-3 py-1.5 rounded-lg text-xs border border-gray-100">成长投资</button>
+<button class="bg-bgMain px-3 py-1.5 rounded-lg text-xs border border-gray-100">短线交易</button>
+<button class="bg-bgMain px-3 py-1.5 rounded-lg text-xs border border-gray-100">量化策略</button>
+</div>
+</div>
+<!-- 筛选条件 -->
+<div class="space-y-4">
+<div>
+<div class="flex justify-between items-center mb-2">
+<label class="text-xs text-textSub">股息率 (高于)</label>
+<span class="text-xs font-bold text-primary" id="div-val">3%</span>
+</div>
+<input class="w-full h-1.5 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary" max="10" min="0" oninput="document.getElementById('div-val').innerText = this.value + '%'" type="range" value="3"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="text-xs text-textSub block mb-2">市盈率 PE</label>
+<select class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none">
+<option>0 - 15 (低估)</option>
+<option>15 - 30 (合理)</option>
+<option>30以上</option>
+</select>
+</div>
+<div>
+<label class="text-xs text-textSub block mb-2">连续分红</label>
+<select class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none">
+<option>3年以上</option>
+<option selected="">5年以上</option>
+<option>10年以上</option>
+</select>
+</div>
+</div>
+<div>
+<label class="text-xs text-textSub block mb-2">行业选择</label>
+<div class="flex flex-wrap gap-2">
+<span class="bg-primary/10 text-primary px-2 py-1 rounded text-[10px] flex items-center gap-1">银行 <iconify-icon icon="solar:close-circle-bold"></iconify-icon></span>
+<span class="bg-primary/10 text-primary px-2 py-1 rounded text-[10px] flex items-center gap-1">煤炭 <iconify-icon icon="solar:close-circle-bold"></iconify-icon></span>
+<span class="bg-bgMain text-textAssist px-2 py-1 rounded text-[10px] border border-gray-100">+ 添加行业</span>
+</div>
+</div>
+</div>
+<button class="w-full bg-primary text-white font-bold py-3 rounded-xl mt-6 shadow-lg shadow-primary/20 active:scale-95 transition-transform" onclick="showResults()">
+                        执行 AI 选股
+                    </button>
+<!-- 模拟结果 (默认隐藏) -->
+<div class="hidden mt-6 pt-6 border-t border-dashed border-gray-100 space-y-3" id="results">
+<div class="flex items-center justify-between p-3 bg-bgMain rounded-xl" onclick="location.href='stock_detail.html'">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-xs font-bold text-primary">1</div>
+<div>
+<div class="text-sm font-bold">工商银行</div>
+<div class="text-[10px] text-textAssist">601398.SH</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-sm font-bold text-up">股息 5.8%</div>
+<div class="text-[10px] text-textAssist">匹配度 98%</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 bg-bgMain rounded-xl" onclick="location.href='stock_detail.html'">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-xs font-bold text-primary">2</div>
+<div>
+<div class="text-sm font-bold">中国神华</div>
+<div class="text-[10px] text-textAssist">601088.SH</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-sm font-bold text-up">股息 7.2%</div>
+<div class="text-[10px] text-textAssist">匹配度 95%</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 计算器类工具 -->
+<section class="mt-2 px-4">
+<h2 class="text-sm font-bold mb-3 px-1">计算器类工具</h2>
+<div class="grid grid-cols-3 gap-3">
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-500">🧮</div>
+<span class="text-[10px] font-medium">收益计算</span>
+</div>
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-500">🎯</div>
+<span class="text-[10px] font-medium">止盈止损</span>
+</div>
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">💰</div>
+<span class="text-[10px] font-medium">交易费用</span>
+</div>
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-500">🧧</div>
+<span class="text-[10px] font-medium">分红计算</span>
+</div>
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 flex flex-col items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-500">💱</div>
+<span class="text-[10px] font-medium">货币换算</span>
+</div>
+</div>
+</section>
+<!-- 学习类工具 -->
+<section class="mt-6 px-4 mb-10">
+<h2 class="text-sm font-bold mb-3 px-1">学习与成长</h2>
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-gradient-to-br from-gray-800 to-black p-4 rounded-2xl text-white flex items-center gap-3">
+<div class="text-2xl">📊</div>
+<div>
+<div class="text-xs font-bold">K线教程</div>
+<div class="text-[9px] opacity-60">零基础入门</div>
+</div>
+</div>
+<div class="bg-gradient-to-br from-primary to-secondary p-4 rounded-2xl text-white flex items-center gap-3">
+<div class="text-2xl">📖</div>
+<div>
+<div class="text-xs font-bold">投资词典</div>
+<div class="text-[9px] opacity-80">查阅专业术语</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- 底部导航 -->
+<nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-6 py-3 flex justify-between items-center z-50 safe-bottom">
+<a class="flex flex-col items-center gap-1 text-textAssist" href="discover.html">
+<iconify-icon class="text-2xl" icon="solar:home-smile-angle-linear"></iconify-icon>
+<span class="text-[10px]">发现</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-textAssist" href="copytrade.html">
+<iconify-icon class="text-2xl" icon="solar:copy-linear"></iconify-icon>
+<span class="text-[10px]">抄作业</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="toolbox.html">
+<iconify-icon class="text-2xl" icon="solar:box-bold"></iconify-icon>
+<span class="text-[10px] font-bold">工具箱</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-textAssist" href="profile.html">
+<iconify-icon class="text-2xl" icon="solar:user-linear"></iconify-icon>
+<span class="text-[10px]">我的</span>
+</a>
+</nav>
+</div>
+<script>
+        function showResults() {
+            const res = document.getElementById('results');
+            res.classList.remove('hidden');
+            res.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

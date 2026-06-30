@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>小金鲤 - 组合清单</title>
+<script src="assets/vendor/tailwindcss.js"></script>
+<script src="assets/vendor/iconify-icon.min.js"></script>
+<script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FFB800',
+                        secondary: '#FF6B00',
+                        bgMain: '#F8F9FC',
+                        up: '#FF4D4F',
+                        down: '#52C41A',
+                        textMain: '#1A1A2E',
+                        textSub: '#666666',
+                        textAssist: '#999999'
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+    </style>
+</head>
+<body class="bg-bgMain text-textMain">
+<div class="max-w-[414px] mx-auto min-h-screen flex flex-col relative bg-bgMain shadow-xl">
+<!-- 顶部品牌栏 -->
+<header class="sticky top-0 z-50 bg-primary px-4 py-3 flex justify-between items-center shadow-md text-white">
+<div class="flex items-center gap-3">
+<a href="copytrade.html"><iconify-icon class="text-2xl" icon="solar:alt-arrow-left-linear"></iconify-icon></a>
+<span class="font-bold">陈光明睿远组合</span>
+</div>
+<iconify-icon class="text-2xl text-white" icon="solar:star-bold"></iconify-icon>
+</header>
+<main class="flex-1 overflow-y-auto pb-24">
+<!-- 抄作业前先问自己3个问题 -->
+<section class="p-4">
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-orange-100">
+<button class="w-full px-4 py-3 flex justify-between items-center bg-orange-50/50" onclick="toggleSection('questions')">
+<span class="font-bold text-secondary text-sm flex items-center gap-2">
+<iconify-icon icon="solar:shield-check-bold-duotone"></iconify-icon>
+                            抄作业前先问自己 3 个问题
+                        </span>
+<iconify-icon class="transition-transform" icon="solar:alt-arrow-down-linear" id="icon-questions"></iconify-icon>
+</button>
+<div class="p-4 space-y-4" id="section-questions">
+<div class="flex gap-3">
+<div class="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs flex-shrink-0">1</div>
+<p class="text-xs text-textSub leading-relaxed">这笔钱打算投多久？该策略平均持仓周期为 1.5 年，短期波动可能较大。</p>
+</div>
+<div class="flex gap-3 border-t border-gray-50 pt-3">
+<div class="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs flex-shrink-0">2</div>
+<p class="text-xs text-textSub leading-relaxed">能承受多大波动？最大回撤曾达到 25%，你的风险偏好是否匹配？</p>
+</div>
+<div class="flex gap-3 border-t border-gray-50 pt-3">
+<div class="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs flex-shrink-0">3</div>
+<p class="text-xs text-textSub leading-relaxed">为什么选这个策略？是因为短期涨得好，还是认同其价值投资逻辑？</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 持仓列表 -->
+<section class="mt-2 px-4 space-y-3">
+<div class="flex justify-between items-center px-1 mb-2">
+<h2 class="text-sm font-bold">当前持仓 (12只)</h2>
+<span class="text-[10px] text-textAssist">更新于：2024-06-25</span>
+</div>
+<!-- 股票卡片 1 -->
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-50">
+<div class="flex justify-between items-start mb-3" onclick="location.href='stock_detail.html'">
+<div>
+<div class="font-bold">宁德时代</div>
+<div class="text-[10px] text-textAssist">300750.SZ · 电力设备</div>
+</div>
+<div class="text-right">
+<div class="text-sm font-bold text-up">+5.24%</div>
+<div class="text-[10px] text-textAssist">今日涨幅</div>
+</div>
+</div>
+<div class="flex items-center gap-3 mb-4">
+<div class="text-[10px] text-textAssist w-12">持仓比例</div>
+<div class="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[9.5%]"></div>
+</div>
+<div class="text-[10px] font-bold">9.5%</div>
+</div>
+<div class="border-t border-dashed border-gray-100 pt-3">
+<button class="w-full flex justify-between items-center text-xs text-primary font-medium" onclick="toggleDetail('detail-1')">
+                            展开解读
+                            <iconify-icon icon="solar:alt-arrow-down-linear" id="icon-detail-1"></iconify-icon>
+</button>
+<div class="hidden mt-3 text-[11px] text-textSub space-y-2 bg-bgMain p-3 rounded-xl" id="detail-1">
+<p><span class="font-bold text-textMain">业务：</span>全球领先的锂电池研发制造企业，市占率连续多年全球第一。</p>
+<p><span class="font-bold text-textMain">逻辑：</span>新能源车渗透率持续提升，储能业务迎来爆发期，成本控制能力极强。</p>
+<p><span class="font-bold text-textMain">风险：</span>原材料价格波动风险，国际贸易政策变化，行业竞争加剧。</p>
+</div>
+</div>
+</div>
+<!-- 股票卡片 2 -->
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-50">
+<div class="flex justify-between items-start mb-3" onclick="location.href='stock_detail.html'">
+<div>
+<div class="font-bold">贵州茅台</div>
+<div class="text-[10px] text-textAssist">600519.SH · 食品饮料</div>
+</div>
+<div class="text-right">
+<div class="text-sm font-bold text-down">-0.12%</div>
+<div class="text-[10px] text-textAssist">今日涨幅</div>
+</div>
+</div>
+<div class="flex items-center gap-3 mb-4">
+<div class="text-[10px] text-textAssist w-12">持仓比例</div>
+<div class="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[8.2%]"></div>
+</div>
+<div class="text-[10px] font-bold">8.2%</div>
+</div>
+<div class="border-t border-dashed border-gray-100 pt-3">
+<button class="w-full flex justify-between items-center text-xs text-primary font-medium" onclick="toggleDetail('detail-2')">
+                            展开解读
+                            <iconify-icon icon="solar:alt-arrow-down-linear" id="icon-detail-2"></iconify-icon>
+</button>
+<div class="hidden mt-3 text-[11px] text-textSub space-y-2 bg-bgMain p-3 rounded-xl" id="detail-2">
+<p><span class="font-bold text-textMain">逻辑：</span>核心资产，极高的品牌护城河与现金流能力。</p>
+</div>
+</div>
+</div>
+<!-- 股票卡片 3 -->
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-50">
+<div class="flex justify-between items-start mb-3" onclick="location.href='stock_detail.html'">
+<div>
+<div class="font-bold">中国平安</div>
+<div class="text-[10px] text-textAssist">601318.SH · 非银金融</div>
+</div>
+<div class="text-right">
+<div class="text-sm font-bold text-up">+1.45%</div>
+<div class="text-[10px] text-textAssist">今日涨幅</div>
+</div>
+</div>
+<div class="flex items-center gap-3 mb-4">
+<div class="text-[10px] text-textAssist w-12">持仓比例</div>
+<div class="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[6.8%]"></div>
+</div>
+<div class="text-[10px] font-bold">6.8%</div>
+</div>
+</div>
+</section>
+</main>
+<!-- 底部导航 (保持高亮抄作业) -->
+<nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-6 py-3 flex justify-between items-center z-50 safe-bottom">
+<a class="flex flex-col items-center gap-1 text-textAssist" href="discover.html">
+<iconify-icon class="text-2xl" icon="solar:home-smile-angle-linear"></iconify-icon>
+<span class="text-[10px]">发现</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="copytrade.html">
+<iconify-icon class="text-2xl" icon="solar:copy-bold"></iconify-icon>
+<span class="text-[10px] font-bold">抄作业</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-textAssist" href="toolbox.html">
+<iconify-icon class="text-2xl" icon="solar:box-linear"></iconify-icon>
+<span class="text-[10px]">工具箱</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-textAssist" href="profile.html">
+<iconify-icon class="text-2xl" icon="solar:user-linear"></iconify-icon>
+<span class="text-[10px]">我的</span>
+</a>
+</nav>
+</div>
+<script>
+        function toggleSection(id) {
+            const el = document.getElementById(`section-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            el.classList.toggle('hidden');
+            icon.style.transform = el.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+
+        function toggleDetail(id) {
+            const el = document.getElementById(id);
+            const icon = document.getElementById(`icon-${id}`);
+            el.classList.toggle('hidden');
+            icon.style.transform = el.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+    </script>
+</body>
+</html>

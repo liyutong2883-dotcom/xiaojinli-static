@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>小金鲤 - 我的</title>
+<script src="assets/vendor/tailwindcss.js"></script>
+<script src="assets/vendor/iconify-icon.min.js"></script>
+<script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FFB800',
+                        secondary: '#FF6B00',
+                        bgMain: '#F8F9FC',
+                        textMain: '#1A1A2E',
+                        textSub: '#666666',
+                        textAssist: '#999999'
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+    </style>
+</head>
+<body class="bg-bgMain text-textMain">
+<div class="max-w-[414px] mx-auto min-h-screen flex flex-col relative bg-bgMain shadow-xl">
+<!-- 顶部品牌栏 -->
+<header class="bg-primary px-4 py-3 flex justify-between items-center text-white">
+<div class="flex items-center gap-1 font-bold text-lg">
+<span class="text-2xl">🐟</span>
+<span>个人中心</span>
+</div>
+<iconify-icon class="text-2xl" icon="solar:settings-linear"></iconify-icon>
+</header>
+<main class="flex-1 overflow-y-auto pb-24">
+<!-- 用户头像与昵称 -->
+<section class="bg-primary px-6 pb-12 pt-4 relative overflow-hidden">
+<div class="flex items-center gap-4 relative z-10">
+<div class="w-16 h-16 rounded-full border-2 border-white/50 p-1">
+<img alt="User Avatar" class="w-full h-full rounded-full object-cover" src="assets/images/profile-avatar.jpg"/>
+</div>
+<div class="text-white">
+<div class="text-xl font-bold">小金鲤粉丝001</div>
+<div class="text-xs opacity-80 mt-1">ID: 88886666</div>
+</div>
+</div>
+<!-- 装饰鲤鱼 -->
+<div class="absolute -right-4 top-0 opacity-10 rotate-12">
+<iconify-icon class="text-[120px] text-white" icon="solar:fish-bold"></iconify-icon>
+</div>
+</section>
+<!-- 我的投资画像 -->
+<section class="px-4 -mt-8 relative z-20">
+<div class="bg-white rounded-2xl p-5 shadow-lg border border-gray-50">
+<div class="flex justify-between items-center mb-4">
+<h2 class="text-sm font-bold">我的投资画像</h2>
+<span class="text-[10px] text-primary">修改画像 &gt;</span>
+</div>
+<div class="flex gap-2 mb-4">
+<span class="bg-green-50 text-green-600 px-3 py-1 rounded-full text-xs font-bold">稳健型</span>
+<span class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-bold">价值投资者</span>
+<span class="bg-orange-50 text-orange-600 px-3 py-1 rounded-full text-xs font-bold">红利爱好者</span>
+</div>
+<p class="text-xs text-textSub leading-relaxed">
+                        你倾向于寻找高分红、低估值的核心资产，对短期波动有较强的耐受力，属于典型的“长跑型选手”。
+                    </p>
+</div>
+</section>
+<!-- 功能列表 -->
+<section class="mt-6 px-4">
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-50">
+<a class="flex items-center justify-between p-4 active:bg-gray-50" href="#">
+<div class="flex items-center gap-3">
+<iconify-icon class="text-primary text-xl" icon="solar:notebook-bold-duotone"></iconify-icon>
+<span class="text-sm">我的作业本</span>
+</div>
+<iconify-icon class="text-textAssist" icon="solar:alt-arrow-right-linear"></iconify-icon>
+</a>
+<a class="flex items-center justify-between p-4 border-t border-gray-50 active:bg-gray-50" href="#">
+<div class="flex items-center gap-3">
+<iconify-icon class="text-primary text-xl" icon="solar:heart-bold-duotone"></iconify-icon>
+<span class="text-sm">我的关注</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="text-xs text-textAssist">12 位大牛</span>
+<iconify-icon class="text-textAssist" icon="solar:alt-arrow-right-linear"></iconify-icon>
+</div>
+</a>
+<a class="flex items-center justify-between p-4 border-t border-gray-50 active:bg-gray-50" href="#">
+<div class="flex items-center gap-3">
+<iconify-icon class="text-primary text-xl" icon="solar:footprint-bold-duotone"></iconify-icon>
+<span class="text-sm">我的足迹</span>
+</div>
+<iconify-icon class="text-textAssist" icon="solar:alt-arrow-right-linear"></iconify-icon>
+</a>
+<a class="flex items-center justify-between p-4 border-t border-gray-50 active:bg-gray-50" href="#">
+<div class="flex items-center gap-3">
+<iconify-icon class="text-primary text-xl" icon="solar:bell-bing-bold-duotone"></iconify-icon>
+<span class="text-sm">消息通知</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-up rounded-full"></span>
+<iconify-icon class="text-textAssist" icon="solar:alt-arrow-right-linear"></iconify-icon>
+</div>
+</a>
+</div>
+</section>
+<!-- 设置列表 -->
+<section class="mt-4 px-4 mb-10">
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-50">
+<a class="flex items-center justify-between p-4 active:bg-gray-50" href="#">
+<span class="text-sm">账号与安全</span>
+<iconify-icon class="text-textAssist" icon="solar:alt-arrow-right-linear"></iconify-icon>
+</a>
+<a class="flex items-center justify-between p-4 border-t border-gray-50 active:bg-gray-50" href="#">
+<span class="text-sm">隐私设置</span>
+<iconify-icon class="text-textAssist" icon="solar:alt-arrow-right-linear"></iconify-icon>
+</a>
+<a class="flex items-center justify-between p-4 border-t border-gray-50 active:bg-gray-50" href="#">
+<span class="text-sm">帮助与反馈</span>
+<iconify-icon class="text-textAssist" icon="solar:alt-arrow-right-linear"></iconify-icon>
+</a>
+<a class="flex items-center justify-between p-4 border-t border-gray-50 active:bg-gray-50" href="#">
+<span class="text-sm">关于我们</span>
+<iconify-icon class="text-textAssist" icon="solar:alt-arrow-right-linear"></iconify-icon>
+</a>
+</div>
+<div class="mt-6 text-center">
+<button class="text-textAssist text-xs">退出登录</button>
+</div>
+</section>
+</main>
+<!-- 底部导航 -->
+<nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-6 py-3 flex justify-between items-center z-50 safe-bottom">
+<a class="flex flex-col items-center gap-1 text-textAssist" href="discover.html">
+<iconify-icon class="text-2xl" icon="solar:home-smile-angle-linear"></iconify-icon>
+<span class="text-[10px]">发现</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-textAssist" href="copytrade.html">
+<iconify-icon class="text-2xl" icon="solar:copy-linear"></iconify-icon>
+<span class="text-[10px]">抄作业</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-textAssist" href="toolbox.html">
+<iconify-icon class="text-2xl" icon="solar:box-linear"></iconify-icon>
+<span class="text-[10px]">工具箱</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="profile.html">
+<iconify-icon class="text-2xl" icon="solar:user-bold"></iconify-icon>
+<span class="text-[10px] font-bold">我的</span>
+</a>
+</nav>
+</div>
+</body>
+</html>

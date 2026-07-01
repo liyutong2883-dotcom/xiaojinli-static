@@ -182,7 +182,7 @@ test("toolbox page repurposed as 灵感 with ideas and calculator", async () => 
   const html = await readPage("toolbox.html");
   // 灵感区块 (三合一)
   assert.match(html, /我的灵感/, "should have my inspiration tab");
-  assert.match(html, /自定义灵感/, "should have custom inspiration tab");
+  assert.match(html, /一句话灵感/, "should have one-sentence inspiration tab");
   assert.match(html, /灵感广场/, "should have inspiration marketplace tab");
   assert.match(html, /评级上调数量/, "should have editable conditions");
   assert.match(html, /北向连续净买/, "should have marketplace inspiration cards");

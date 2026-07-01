@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>小金鲤 - 工具箱</title>
+<title>小金鲤 - 仓库</title>
 <script src="assets/vendor/tailwindcss.js"></script>
 <script src="assets/vendor/iconify-icon.min.js"></script>
 <script>
@@ -17,7 +17,9 @@
                         bgMain: '#F8F9FC',
                         textMain: '#1A1A2E',
                         textSub: '#666666',
-                        textAssist: '#999999'
+                        textAssist: '#999999',
+                        up: '#FF4D4F',
+                        down: '#52C41A'
                     }
                 }
             }
@@ -35,12 +37,12 @@
 <header class="sticky top-0 z-50 bg-primary px-4 py-3 flex justify-between items-center shadow-md">
 <div class="flex items-center gap-1 font-bold text-white text-lg">
 <span class="text-2xl">🐟</span>
-<span>小金鲤工具箱</span>
+<span>小金鲤仓库</span>
 </div>
 <iconify-icon class="text-2xl text-white" icon="solar:settings-bold"></iconify-icon>
 </header>
 <main class="flex-1 overflow-y-auto pb-24">
-<!-- AI 选股器 区块 -->
+<!-- Section 1: AI 选股器 -->
 <section class="p-4">
 <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-50">
 <div class="flex items-center gap-2 mb-4">
@@ -51,10 +53,10 @@
 <div class="mb-4">
 <label class="text-xs text-textSub block mb-2">交易风格</label>
 <div class="flex flex-wrap gap-2">
-<button class="tag-active px-3 py-1.5 rounded-lg text-xs border border-gray-100">价值投资</button>
-<button class="bg-bgMain px-3 py-1.5 rounded-lg text-xs border border-gray-100">成长投资</button>
-<button class="bg-bgMain px-3 py-1.5 rounded-lg text-xs border border-gray-100">短线交易</button>
-<button class="bg-bgMain px-3 py-1.5 rounded-lg text-xs border border-gray-100">量化策略</button>
+<button class="tag-active px-3 py-1.5 rounded-lg text-xs border border-gray-100" onclick="toggleTag(this)">价值投资</button>
+<button class="bg-bgMain px-3 py-1.5 rounded-lg text-xs border border-gray-100" onclick="toggleTag(this)">成长投资</button>
+<button class="bg-bgMain px-3 py-1.5 rounded-lg text-xs border border-gray-100" onclick="toggleTag(this)">短线交易</button>
+<button class="bg-bgMain px-3 py-1.5 rounded-lg text-xs border border-gray-100" onclick="toggleTag(this)">量化策略</button>
 </div>
 </div>
 <!-- 筛选条件 -->
@@ -127,78 +129,179 @@
 </div>
 </div>
 </section>
-<!-- 计算器类工具 -->
-<section class="mt-2 px-4">
-<h2 class="text-sm font-bold mb-3 px-1">计算器类工具</h2>
-<div class="grid grid-cols-3 gap-3">
-<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 flex flex-col items-center gap-2">
-<div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-500">🧮</div>
-<span class="text-[10px] font-medium">收益计算</span>
+
+<!-- Section 2: 验证我的作业 -->
+<section class="px-4 pb-6">
+<div class="mb-4">
+<h2 class="text-lg font-bold flex items-center gap-2">
+<iconify-icon class="text-primary text-xl" icon="solar:clipboard-check-bold-duotone"></iconify-icon>
+验证我的作业
+</h2>
+<p class="text-xs text-textAssist mt-1">选一份你抄过的作业，AI 帮你诊断</p>
 </div>
-<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 flex flex-col items-center gap-2">
-<div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-500">🎯</div>
-<span class="text-[10px] font-medium">止盈止损</span>
+
+<div class="space-y-3" id="verify-list">
+<!-- 已抄作业 1: 睿远均衡 -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+<div class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">RY</div>
+<div class="flex-1">
+<div class="font-bold text-sm">睿远均衡</div>
+<div class="text-[10px] text-textAssist">已抄 128 天 · 收益率 +13.5%</div>
 </div>
-<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 flex flex-col items-center gap-2">
-<div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">💰</div>
-<span class="text-[10px] font-medium">交易费用</span>
-</div>
-<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 flex flex-col items-center gap-2">
-<div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-500">🧧</div>
-<span class="text-[10px] font-medium">分红计算</span>
-</div>
-<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 flex flex-col items-center gap-2">
-<div class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-500">💱</div>
-<span class="text-[10px] font-medium">货币换算</span>
-</div>
-</div>
-</section>
-<!-- 学习类工具 -->
-<section class="mt-6 px-4 mb-10">
-<h2 class="text-sm font-bold mb-3 px-1">学习与成长</h2>
-<div class="grid grid-cols-2 gap-3">
-<div class="bg-gradient-to-br from-gray-800 to-black p-4 rounded-2xl text-white flex items-center gap-3">
-<div class="text-2xl">📊</div>
-<div>
-<div class="text-xs font-bold">K线教程</div>
-<div class="text-[9px] opacity-60">零基础入门</div>
+<button class="text-xs text-primary border border-primary px-3 py-1.5 rounded-full" onclick="toggleDiag(0)">AI 验证</button>
 </div>
 </div>
-<div class="bg-gradient-to-br from-primary to-secondary p-4 rounded-2xl text-white flex items-center gap-3">
-<div class="text-2xl">📖</div>
-<div>
-<div class="text-xs font-bold">投资词典</div>
-<div class="text-[9px] opacity-80">查阅专业术语</div>
+<div class="hidden px-4 pb-4" id="diag-0">
+<div class="p-4 bg-bgMain rounded-xl border border-orange-100">
+<div class="flex items-center gap-2 mb-2">
+<span class="text-lg">🐟</span>
+<span class="font-bold text-sm">小金鲤诊断</span>
+</div>
+<p class="text-xs text-textSub leading-relaxed">
+这份作业的核心逻辑是价值成长+分散持仓。过去 128 天表现稳健，最大回撤 -18.4%，在你的投资 DNA（乌龟）匹配范围内。
+</p>
+<div class="mt-3 grid grid-cols-2 gap-2">
+<div class="bg-green-50 rounded-lg p-2 text-center">
+<div class="text-[10px] text-textAssist">匹配度</div>
+<div class="text-sm font-bold text-down">87%</div>
+</div>
+<div class="bg-orange-50 rounded-lg p-2 text-center">
+<div class="text-[10px] text-textAssist">建议</div>
+<div class="text-sm font-bold text-secondary">继续持有</div>
+</div>
+</div>
+<p class="mt-2 text-[10px] text-textAssist">
+这份作业不适合：追求短期高收益、无法忍受季度级别回撤的用户。
+</p>
+</div>
+</div>
+</div>
+
+<!-- 已抄作业 2: 易方达蓝筹 -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+<div class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">EF</div>
+<div class="flex-1">
+<div class="font-bold text-sm">易方达蓝筹</div>
+<div class="text-[10px] text-textAssist">已抄 86 天 · 收益率 +8.2%</div>
+</div>
+<button class="text-xs text-primary border border-primary px-3 py-1.5 rounded-full" onclick="toggleDiag(1)">AI 验证</button>
+</div>
+</div>
+<div class="hidden px-4 pb-4" id="diag-1">
+<div class="p-4 bg-bgMain rounded-xl border border-orange-100">
+<div class="flex items-center gap-2 mb-2">
+<span class="text-lg">🐟</span>
+<span class="font-bold text-sm">小金鲤诊断</span>
+</div>
+<p class="text-xs text-textSub leading-relaxed">
+这份作业重仓消费龙头，过去 86 天收益稳健但波动较大。最大回撤 -21.7%，在你的投资 DNA（猎豹）可接受范围内，但需注意消费板块政策风险。
+</p>
+<div class="mt-3 grid grid-cols-2 gap-2">
+<div class="bg-green-50 rounded-lg p-2 text-center">
+<div class="text-[10px] text-textAssist">匹配度</div>
+<div class="text-sm font-bold text-down">72%</div>
+</div>
+<div class="bg-orange-50 rounded-lg p-2 text-center">
+<div class="text-[10px] text-textAssist">建议</div>
+<div class="text-sm font-bold text-secondary">减仓观望</div>
+</div>
+</div>
+<p class="mt-2 text-[10px] text-textAssist">
+这份作业不适合：无法忍受单季度超过 15% 回撤、对消费行业没有独立判断的用户。
+</p>
+</div>
+</div>
+</div>
+
+<!-- 已抄作业 3: 高毅资产 -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+<div class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">GY</div>
+<div class="flex-1">
+<div class="font-bold text-sm">高毅资产</div>
+<div class="text-[10px] text-textAssist">已抄 45 天 · 收益率 +5.7%</div>
+</div>
+<button class="text-xs text-primary border border-primary px-3 py-1.5 rounded-full" onclick="toggleDiag(2)">AI 验证</button>
+</div>
+</div>
+<div class="hidden px-4 pb-4" id="diag-2">
+<div class="p-4 bg-bgMain rounded-xl border border-orange-100">
+<div class="flex items-center gap-2 mb-2">
+<span class="text-lg">🐟</span>
+<span class="font-bold text-sm">小金鲤诊断</span>
+</div>
+<p class="text-xs text-textSub leading-relaxed">
+这份作业以深度调研和低估值为核心，过去 45 天表现平稳。最大回撤 -20.3%，与你的投资 DNA（乌龟）高度匹配，属于稳健型配置。
+</p>
+<div class="mt-3 grid grid-cols-2 gap-2">
+<div class="bg-green-50 rounded-lg p-2 text-center">
+<div class="text-[10px] text-textAssist">匹配度</div>
+<div class="text-sm font-bold text-down">91%</div>
+</div>
+<div class="bg-orange-50 rounded-lg p-2 text-center">
+<div class="text-[10px] text-textAssist">建议</div>
+<div class="text-sm font-bold text-down">加仓持有</div>
+</div>
+</div>
+<p class="mt-2 text-[10px] text-textAssist">
+这份作业不适合：追求短期爆发收益、无法忍受价值风格长时间不涨的用户。
+</p>
+</div>
 </div>
 </div>
 </div>
 </section>
 </main>
 <!-- 底部导航 -->
-<nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-6 py-3 flex justify-between items-center z-50 safe-bottom">
+<nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-4 py-3 flex justify-between items-center z-50 safe-bottom">
 <a class="flex flex-col items-center gap-1 text-textAssist" href="discover.html">
 <iconify-icon class="text-2xl" icon="solar:home-smile-angle-linear"></iconify-icon>
 <span class="text-[10px]">发现</span>
 </a>
 <a class="flex flex-col items-center gap-1 text-textAssist" href="copytrade.html">
-<iconify-icon class="text-2xl" icon="solar:copy-linear"></iconify-icon>
-<span class="text-[10px]">抄作业</span>
+<iconify-icon class="text-2xl" icon="solar:copy-bold"></iconify-icon>
+<span class="text-[10px]">广场</span>
 </a>
 <a class="flex flex-col items-center gap-1 text-primary" href="toolbox.html">
 <iconify-icon class="text-2xl" icon="solar:box-bold"></iconify-icon>
-<span class="text-[10px] font-bold">工具箱</span>
+<span class="text-[10px] font-bold">仓库</span>
 </a>
 <a class="flex flex-col items-center gap-1 text-textAssist" href="profile.html">
-<iconify-icon class="text-2xl" icon="solar:user-linear"></iconify-icon>
+<iconify-icon class="text-2xl" icon="solar:user-bold"></iconify-icon>
 <span class="text-[10px]">我的</span>
 </a>
 </nav>
+<!-- 全局浮窗 -->
+<div class="fixed right-4 bottom-24 z-[60] cursor-pointer" onclick="location.href='ai_assistant.html'">
+<div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+<span class="text-2xl">🐟</span>
+</div>
+</div>
 </div>
 <script>
         function showResults() {
             const res = document.getElementById('results');
             res.classList.remove('hidden');
             res.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleTag(btn) {
+            document.querySelectorAll('.tag-active').forEach(b => {
+                b.classList.remove('tag-active');
+                b.classList.add('bg-bgMain');
+            });
+            btn.classList.add('tag-active');
+            btn.classList.remove('bg-bgMain');
+        }
+
+        function toggleDiag(index) {
+            const el = document.getElementById('diag-' + index);
+            el.classList.toggle('hidden');
         }
     </script>
 </body>

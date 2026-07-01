@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>小金鲤 - 你的投资 DNA</title>
+  <script src="assets/vendor/tailwindcss.js"></script>
+  <script src="assets/vendor/iconify-icon.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FFB800',
+            secondary: '#FF6B00',
+            bgMain: '#F8F9FC',
+            up: '#FF4D4F',
+            down: '#52C41A',
+            textMain: '#1A1A2E',
+            textSub: '#666666',
+            textAssist: '#999999'
+          },
+          borderRadius: { 'xl': '12px', '2xl': '16px' }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+    .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+    .result-card { animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    .star-filled { color: #FFB800; }
+    .star-empty { color: #E5E7EB; }
+    .fade-in { animation: fadeIn 0.6s ease-out 0.3s both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+<div class="max-w-[414px] mx-auto min-h-screen flex flex-col relative bg-bgMain shadow-xl">
+
+  <!-- Header -->
+  <div class="pt-12 pb-2 px-5 flex items-center">
+    <a href="onboarding.html" class="w-9 h-9 flex items-center justify-center rounded-full bg-white shadow-sm">
+      <iconify-icon class="text-lg text-textMain" icon="solar:alt-arrow-left-linear"></iconify-icon>
+    </a>
+    <span class="ml-3 text-base font-semibold text-textMain">你的投资 DNA</span>
+  </div>
+
+  <!-- Result Content -->
+  <div id="resultContent" class="flex-1 px-5 pb-36">
+    <!-- Rendered by JS -->
+  </div>
+
+  <!-- Floating AI Button -->
+  <div class="fixed right-4 bottom-24 z-[60] cursor-pointer" onclick="location.href='ai_assistant.html'">
+    <div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+      <span class="text-2xl">🐟</span>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-4 py-3 flex justify-between items-center z-50 safe-bottom">
+    <a class="flex flex-col items-center gap-1 text-primary" href="discover.html">
+      <iconify-icon class="text-2xl" icon="solar:home-smile-angle-bold"></iconify-icon>
+      <span class="text-[10px] font-bold">发现</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-textAssist" href="copytrade.html">
+      <iconify-icon class="text-2xl" icon="solar:copy-bold"></iconify-icon>
+      <span class="text-[10px]">广场</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-textAssist" href="toolbox.html">
+      <iconify-icon class="text-2xl" icon="solar:box-bold"></iconify-icon>
+      <span class="text-[10px]">仓库</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-textAssist" href="profile.html">
+      <iconify-icon class="text-2xl" icon="solar:user-bold"></iconify-icon>
+      <span class="text-[10px]">我的</span>
+    </a>
+  </nav>
+
+</div>
+
+<script>
+var dnaData = {
+  owl: {
+    id: 'owl', name: '猫头鹰', emoji: '🦉',
+    headline: '认真研究型',
+    tagline: '先搞清楚为什么，再决定怎么做',
+    description: '你习惯先理解原因再做决定，不容易被情绪带走。适合逻辑清晰、解释充分的作业。',
+    preferredSort: 'aiClarity',
+    recommendedCategories: ['牛股跟投', '私募精选'],
+    avoid: '高频短线和纯情绪驱动的作业',
+    stars: { risk: 3, action: 3, info: 5, stability: 4, discipline: 4 }
+  },
+  cheetah: {
+    id: 'cheetah', name: '猎豹', emoji: '🐆',
+    headline: '行动派',
+    tagline: '看到机会就出手，速度就是优势',
+    description: '你决策速度快，对机会敏感，收益预期高。适合高弹性、趋势明确的作业。',
+    preferredSort: 'returnRate',
+    recommendedCategories: ['热门作业', '牛股跟投'],
+    avoid: '低波动长周期的防御型作业',
+    stars: { risk: 5, action: 5, info: 3, stability: 2, discipline: 3 }
+  },
+  turtle: {
+    id: 'turtle', name: '乌龟', emoji: '🐢',
+    headline: '稳稳赚钱派',
+    tagline: '先拿得住，再谈赚多少',
+    description: '你不喜欢大起大落，更相信时间的力量。适合低回撤、分散配置的作业。',
+    preferredSort: 'drawdown',
+    recommendedCategories: ['牛股跟投', '私募精选'],
+    avoid: '高频短线和高回撤作业',
+    stars: { risk: 2, action: 2, info: 3, stability: 5, discipline: 5 }
+  },
+  fox: {
+    id: 'fox', name: '狐狸', emoji: '🦊',
+    headline: '消息雷达',
+    tagline: '先搞清楚发生了什么，再决定怎么做',
+    description: '你喜欢先弄清楚信息再行动，对变化敏感。适合事件催化、资讯驱动的作业。',
+    preferredSort: 'heat',
+    recommendedCategories: ['热门作业'],
+    avoid: '信息不透明的冷门标的',
+    stars: { risk: 3, action: 4, info: 5, stability: 3, discipline: 3 }
+  },
+  squirrel: {
+    id: 'squirrel', name: '松鼠', emoji: '🐿️',
+    headline: '准备型',
+    tagline: '一点一点积累，对未知保持好奇',
+    description: '你偏谨慎，愿意从小开始学习。适合入门级、轻仓模拟的作业。',
+    preferredSort: 'beginner',
+    recommendedCategories: ['牛股跟投'],
+    avoid: '高杠杆和复杂衍生品作业',
+    stars: { risk: 2, action: 2, info: 4, stability: 4, discipline: 3 }
+  }
+};
+
+var starLabels = {
+  risk: '风险',
+  action: '行动',
+  info: '信息',
+  stability: '稳健',
+  discipline: '纪律'
+};
+
+function renderStars(count) {
+  var html = '';
+  for (var i = 0; i < 5; i++) {
+    html += '<span class="' + (i < count ? 'star-filled' : 'star-empty') + ' text-lg">&#9733;</span>';
+  }
+  return html;
+}
+
+function render() {
+  var dnaId = localStorage.getItem('investmentDna');
+  if (!dnaId || !dnaData[dnaId]) {
+    location.href = 'onboarding.html';
+    return;
+  }
+
+  var dna = dnaData[dnaId];
+  var container = document.getElementById('resultContent');
+
+  var starRows = '';
+  for (var key in starLabels) {
+    starRows += '<div class="flex items-center justify-between py-2">' +
+      '<span class="text-sm text-textSub w-12">' + starLabels[key] + '</span>' +
+      '<div class="flex gap-0.5">' + renderStars(dna.stars[key]) + '</div>' +
+      '</div>';
+  }
+
+  container.innerHTML =
+    '<div class="result-card bg-white rounded-2xl shadow-md p-6 mt-4 text-center">' +
+      '<div class="text-[80px] leading-none mb-3">' + dna.emoji + '</div>' +
+      '<div class="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-2">投资 DNA</div>' +
+      '<h2 class="text-2xl font-bold text-textMain">' + dna.name + '</h2>' +
+      '<p class="text-base font-semibold text-secondary mt-1">' + dna.headline + '</p>' +
+      '<p class="text-sm text-textSub mt-2 leading-relaxed">' + dna.tagline + '</p>' +
+      '<p class="text-sm text-textSub mt-3 leading-relaxed">' + dna.description + '</p>' +
+    '</div>' +
+    '<div class="fade-in bg-white rounded-2xl shadow-sm p-5 mt-4">' +
+      '<h3 class="text-sm font-semibold text-textMain mb-3">能力画像</h3>' +
+      '<div class="divide-y divide-gray-50">' + starRows + '</div>' +
+    '</div>' +
+    '<div class="fade-in bg-white rounded-2xl shadow-sm p-5 mt-4">' +
+      '<h3 class="text-sm font-semibold text-textMain mb-3">推荐 & 不推荐</h3>' +
+      '<div class="space-y-3">' +
+        '<div class="flex items-start gap-3">' +
+          '<span class="flex-shrink-0 w-7 h-7 rounded-full bg-green-50 flex items-center justify-center text-sm">✅</span>' +
+          '<div>' +
+            '<p class="text-sm font-medium text-textMain">适合看</p>' +
+            '<p class="text-sm text-textSub mt-0.5">' + dna.recommendedCategories.join('、') + '类型的作业</p>' +
+          '</div>' +
+        '</div>' +
+        '<div class="flex items-start gap-3">' +
+          '<span class="flex-shrink-0 w-7 h-7 rounded-full bg-red-50 flex items-center justify-center text-sm">⚠️</span>' +
+          '<div>' +
+            '<p class="text-sm font-medium text-textMain">不适合看</p>' +
+            '<p class="text-sm text-textSub mt-0.5">' + dna.avoid + '</p>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="fade-in mt-4 px-1">' +
+      '<p class="text-xs text-textAssist leading-relaxed text-center">提醒：投资 DNA 只是帮你找到更适合的内容，不构成投资建议。</p>' +
+    '</div>' +
+    '<div class="fade-in mt-5 px-1">' +
+      '<a href="discover.html" class="block w-full py-4 rounded-xl text-base font-semibold text-white text-center bg-gradient-to-r from-primary to-secondary shadow-md hover:shadow-lg transition-shadow">去看适合我的作业</a>' +
+      '<a href="onboarding.html" class="block text-center mt-4 text-sm text-textAssist hover:text-textSub transition-colors">重做测试</a>' +
+    '</div>';
+}
+
+render();
+</script>
+
+</body>
+</html>

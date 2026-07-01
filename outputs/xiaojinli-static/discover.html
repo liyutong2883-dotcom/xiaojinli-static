@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
@@ -8,266 +7,467 @@
 <script src="assets/vendor/tailwindcss.js"></script>
 <script src="assets/vendor/iconify-icon.min.js"></script>
 <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#FFB800',
-                        secondary: '#FF6B00',
-                        bgMain: '#F8F9FC',
-                        card: '#FFFFFF',
-                        up: '#FF4D4F',
-                        down: '#52C41A',
-                        textMain: '#1A1A2E',
-                        textSub: '#666666',
-                        textAssist: '#999999'
-                    },
-                    borderRadius: {
-                        'xl': '12px',
-                        '2xl': '16px'
-                    }
-                }
-            }
-        }
-    </script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: '#FFB800',
+          secondary: '#FF6B00',
+          bgMain: '#F8F9FC',
+          up: '#FF4D4F',
+          down: '#52C41A',
+          textMain: '#1A1A2E',
+          textSub: '#666666',
+          textAssist: '#999999'
+        },
+        borderRadius: { 'xl': '12px', '2xl': '16px' }
+      }
+    }
+  }
+</script>
 <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
-        .glass-effect { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
-    </style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .glass-effect { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
+
+  @keyframes slide-up {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .animate-slide-up { animation: slide-up 0.3s ease-out forwards; }
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in { animation: fade-in 0.4s ease-out forwards; }
+  .delay-1 { animation-delay: 0.05s; opacity: 0; }
+  .delay-2 { animation-delay: 0.1s; opacity: 0; }
+  .delay-3 { animation-delay: 0.15s; opacity: 0; }
+  .delay-4 { animation-delay: 0.2s; opacity: 0; }
+  .delay-5 { animation-delay: 0.25s; opacity: 0; }
+
+  .dna-card-glow {
+    box-shadow: 0 0 0 1px rgba(255,184,0,0.1), 0 4px 16px rgba(255,184,0,0.08);
+  }
+
+  .rank-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .rank-card:active {
+    transform: scale(0.98);
+  }
+
+  .video-card {
+    transition: transform 0.2s ease;
+  }
+  .video-card:active {
+    transform: scale(0.97);
+  }
+
+  .yi-ji-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+</style>
 </head>
 <body class="bg-bgMain text-textMain">
-<!-- 手机外壳容器 -->
+
 <div class="max-w-[414px] mx-auto min-h-screen flex flex-col relative bg-bgMain shadow-xl">
-<!-- 顶部品牌栏 -->
-<header class="sticky top-0 z-50 bg-primary px-4 py-3 flex justify-between items-center shadow-md">
-<div class="flex items-center gap-1 font-bold text-white text-lg">
-<span class="text-2xl">🐟</span>
-<span>小金鲤</span>
+
+  <!-- 1. Header -->
+  <header class="sticky top-0 z-50 bg-gradient-to-r from-primary to-[#FFC933] px-4 py-3 flex justify-between items-center shadow-md">
+    <div class="flex items-center gap-1.5 font-bold text-white text-lg">
+      <span class="text-2xl">🐟</span>
+      <span>小金鲤</span>
+    </div>
+    <div class="relative cursor-pointer">
+      <iconify-icon class="text-2xl text-white" icon="solar:bell-bing-bold-duotone"></iconify-icon>
+      <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-up rounded-full border-2 border-primary"></span>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 pb-24">
+
+    <!-- 2. DNA Profile Banner -->
+    <div class="px-4 mt-4 animate-fade-in delay-1" id="dna-section">
+      <!-- Dynamic content injected by JS -->
+    </div>
+
+    <!-- 3. Personalized Recommendation Hint -->
+    <div class="px-4 mt-2 animate-fade-in delay-2" id="recommend-hint">
+      <!-- Dynamic content injected by JS -->
+    </div>
+
+    <!-- 4. Daily Sign -->
+    <div class="px-4 mt-4 animate-fade-in delay-3" id="daily-sign">
+      <!-- Dynamic content injected by JS -->
+    </div>
+
+    <!-- 5. Rankings -->
+    <section class="mt-6 animate-fade-in delay-4">
+      <div class="px-4 flex justify-between items-end mb-3">
+        <h2 class="text-lg font-bold flex items-center gap-1.5">
+          <iconify-icon class="text-secondary" icon="solar:chart-square-bold-duotone"></iconify-icon>
+          今天谁赚了大钱
+        </h2>
+        <a href="copytrade.html" class="text-xs text-textAssist flex items-center gap-0.5">
+          查看更多
+          <iconify-icon class="text-sm" icon="solar:alt-arrow-right-linear"></iconify-icon>
+        </a>
+      </div>
+      <div class="px-4 space-y-3" id="rankings-container">
+        <!-- Dynamic content injected by JS -->
+      </div>
+    </section>
+
+    <!-- 6. Expert Research -->
+    <section class="mt-6 animate-fade-in delay-5">
+      <div class="px-4 flex justify-between items-end mb-3">
+        <h2 class="text-lg font-bold flex items-center gap-1.5">
+          <iconify-icon class="text-secondary" icon="solar:video-frame-round-bold-duotone"></iconify-icon>
+          大咖投研
+        </h2>
+        <a href="ai_assistant.html" class="text-xs text-textAssist flex items-center gap-0.5">
+          更多
+          <iconify-icon class="text-sm" icon="solar:alt-arrow-right-linear"></iconify-icon>
+        </a>
+      </div>
+      <div class="flex overflow-x-auto px-4 gap-3 no-scrollbar" id="videos-container">
+        <!-- Dynamic content injected by JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="fixed bottom-0 w-full max-w-[414px] glass-effect border-t border-gray-100 px-4 py-3 flex justify-between items-center z-50 safe-bottom">
+    <a class="flex flex-col items-center gap-1 text-primary" href="discover.html">
+      <iconify-icon class="text-2xl" icon="solar:home-smile-angle-bold"></iconify-icon>
+      <span class="text-[10px] font-bold">发现</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-textAssist" href="copytrade.html">
+      <iconify-icon class="text-2xl" icon="solar:copy-bold"></iconify-icon>
+      <span class="text-[10px]">广场</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-textAssist" href="toolbox.html">
+      <iconify-icon class="text-2xl" icon="solar:box-bold"></iconify-icon>
+      <span class="text-[10px]">仓库</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-textAssist" href="profile.html">
+      <iconify-icon class="text-2xl" icon="solar:user-bold"></iconify-icon>
+      <span class="text-[10px]">我的</span>
+    </a>
+  </nav>
+
+  <!-- Floating AI Button -->
+  <div class="fixed right-4 bottom-24 z-[60] cursor-pointer group" id="fab">
+    <div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+      <span class="text-2xl">🐟</span>
+    </div>
+  </div>
+
+  <!-- AI Quick Question Panel -->
+  <div class="fixed inset-0 z-[100] hidden" id="ai-panel">
+    <div class="absolute inset-0 bg-black/40" onclick="toggleAI()"></div>
+    <div class="absolute bottom-0 w-full max-w-[414px] bg-white rounded-t-3xl p-6 shadow-2xl animate-slide-up">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-lg font-bold flex items-center gap-2">
+          <span class="text-2xl">🐟</span> 快捷问小金鲤
+        </h3>
+        <button class="text-textAssist" onclick="toggleAI()">
+          <iconify-icon class="text-2xl" icon="solar:close-circle-linear"></iconify-icon>
+        </button>
+      </div>
+      <div class="space-y-3 mb-6">
+        <button class="w-full text-left p-4 bg-bgMain rounded-xl text-sm hover:bg-primary/10 transition-colors" onclick="location.href='ai_assistant.html'">这份作业适合我吗？</button>
+        <button class="w-full text-left p-4 bg-bgMain rounded-xl text-sm hover:bg-primary/10 transition-colors" onclick="location.href='ai_assistant.html'">这个组合为什么这么配？</button>
+        <button class="w-full text-left p-4 bg-bgMain rounded-xl text-sm hover:bg-primary/10 transition-colors" onclick="location.href='ai_assistant.html'">它最大的风险是什么？</button>
+      </div>
+      <div class="flex gap-2">
+        <input class="flex-1 bg-bgMain rounded-full px-4 py-3 text-sm outline-none focus:ring-1 ring-primary" placeholder="输入你想问的问题..." type="text"/>
+        <button class="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg" onclick="location.href='ai_assistant.html'">
+          <iconify-icon class="text-xl" icon="solar:plain-bold"></iconify-icon>
+        </button>
+      </div>
+      <div class="text-center mt-4">
+        <a class="text-xs text-primary font-bold" href="ai_assistant.html">进入完整 AI 对话模式 &gt;</a>
+      </div>
+    </div>
+  </div>
+
 </div>
-<div class="relative">
-<iconify-icon class="text-2xl text-white" icon="solar:bell-bing-bold-duotone"></iconify-icon>
-<span class="absolute -top-1 -right-1 w-2 h-2 bg-up rounded-full border border-white"></span>
-</div>
-</header>
-<!-- 主内容区 -->
-<main class="flex-1 overflow-y-auto pb-24">
-<!-- 搜索入口 -->
-<div class="px-4 mt-4">
-<a class="flex items-center bg-white rounded-full px-4 py-2.5 shadow-sm border border-gray-100" href="ai_assistant.html">
-<iconify-icon class="text-textAssist mr-2 text-xl" icon="solar:magnifer-linear"></iconify-icon>
-<span class="text-textAssist flex-1 text-sm">搜索作业、高手、股票、基金</span>
-<iconify-icon class="text-primary text-xl" icon="solar:microphone-large-linear"></iconify-icon>
-</a>
-</div>
-<!-- 交易热点 -->
-<section class="mt-6">
-<div class="px-4 flex justify-between items-end mb-3">
-<h2 class="text-lg font-bold">交易热点</h2>
-<span class="text-xs text-textAssist">实时更新 09:59</span>
-</div>
-<div class="flex overflow-x-auto px-4 gap-3 no-scrollbar">
-<!-- 热点卡片 1 -->
-<div class="min-w-[200px] bg-gradient-to-br from-orange-50 to-white p-4 rounded-2xl border border-orange-100 shadow-sm">
-<div class="flex items-center gap-1 text-secondary mb-1">
-<iconify-icon class="text-sm" icon="solar:fire-bold"></iconify-icon>
-<span class="text-xs font-bold">AI算力板块</span>
-</div>
-<p class="text-sm font-bold mb-2">算力租赁需求激增，多只个股封板</p>
-<div class="flex gap-2">
-<span class="text-[10px] bg-white px-1.5 py-0.5 rounded border border-orange-200 text-secondary">#国产替代</span>
-<span class="text-[10px] bg-white px-1.5 py-0.5 rounded border border-orange-200 text-secondary">#英伟达概念</span>
-</div>
-</div>
-<!-- 热点卡片 2 -->
-<div class="min-w-[200px] bg-gradient-to-br from-red-50 to-white p-4 rounded-2xl border border-red-100 shadow-sm">
-<div class="flex items-center gap-1 text-up mb-1">
-<iconify-icon class="text-sm" icon="solar:graph-up-bold"></iconify-icon>
-<span class="text-xs font-bold">红利ETF</span>
-</div>
-<p class="text-sm font-bold mb-2">高股息资产受追捧，红利指数新高</p>
-<div class="flex gap-2">
-<span class="text-[10px] bg-white px-1.5 py-0.5 rounded border border-red-200 text-up">#避险情绪</span>
-<span class="text-[10px] bg-white px-1.5 py-0.5 rounded border border-red-200 text-up">#高分红</span>
-</div>
-</div>
-</div>
-</section>
-<!-- 最新动态流 -->
-<div class="px-4 mt-4">
-<div class="bg-white rounded-xl p-3 flex items-center gap-3 shadow-sm border border-gray-50">
-<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-<iconify-icon icon="solar:history-bold-duotone"></iconify-icon>
-</div>
-<div class="flex-1 text-xs truncate">
-<span class="font-bold">张大牛</span> 刚刚调仓了 <span class="text-up font-bold">宁德时代</span>，减持 5.2%
-                    </div>
-<span class="text-[10px] text-textAssist">2分钟前</span>
-</div>
-</div>
-<!-- 热门作业主题 -->
-<section class="mt-6">
-<div class="px-4 mb-3">
-<h2 class="text-lg font-bold">热门作业主题</h2>
-</div>
-<div class="grid grid-cols-2 gap-3 px-4">
-<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden">
-<div class="relative z-10">
-<h3 class="font-bold text-sm mb-1">高股息核心</h3>
-<div class="text-up font-bold text-lg">+18.4%</div>
-<div class="text-[10px] text-textAssist mt-1">2.4万人参与</div>
-</div>
-<div class="absolute -right-2 -bottom-2 opacity-10">
-<iconify-icon class="text-6xl" icon="solar:chart-square-bold"></iconify-icon>
-</div>
-</div>
-<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden">
-<div class="relative z-10">
-<h3 class="font-bold text-sm mb-1">消费复苏</h3>
-<div class="text-up font-bold text-lg">+12.1%</div>
-<div class="text-[10px] text-textAssist mt-1">1.8万人参与</div>
-</div>
-<div class="absolute -right-2 -bottom-2 opacity-10">
-<iconify-icon class="text-6xl" icon="solar:cart-large-4-bold"></iconify-icon>
-</div>
-</div>
-</div>
-</section>
-<!-- 我的作业情况 -->
-<section class="mt-6 px-4">
-<div class="bg-gradient-to-r from-[#1A1A2E] to-[#2D2D44] rounded-2xl p-5 text-white shadow-lg relative">
-<div class="flex justify-between items-start">
-<div>
-<div class="text-xs opacity-70 mb-1">我的作业总收益率</div>
-<div class="text-3xl font-bold text-primary">+13.5%</div>
-</div>
-<div class="bg-white/10 px-2 py-1 rounded text-[10px] border border-white/20">
-                            跑赢 88% 用户
-                        </div>
-</div>
-<div class="mt-4 flex gap-6">
-<div>
-<div class="text-[10px] opacity-60">持仓时长</div>
-<div class="text-sm font-medium">128 天</div>
-</div>
-<div>
-<div class="text-[10px] opacity-60">跟进高手</div>
-<div class="text-sm font-medium">4 位</div>
-</div>
-</div>
-<a class="absolute right-4 bottom-4 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white shadow-lg" href="profile.html">
-<iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
-</a>
-</div>
-</section>
-<!-- 探索区块 -->
-<section class="mt-6 px-4">
-<div class="flex gap-3">
-<!-- 金鲤小记 -->
-<div class="flex-1 bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-<h3 class="font-bold text-sm mb-3 flex items-center gap-1">
-<iconify-icon class="text-primary" icon="solar:calendar-mark-bold-duotone"></iconify-icon>
-                            金鲤小记
-                        </h3>
-<div class="grid grid-cols-5 gap-1">
-<div class="aspect-square bg-up/20 rounded-sm"></div>
-<div class="aspect-square bg-up/40 rounded-sm"></div>
-<div class="aspect-square bg-down/20 rounded-sm"></div>
-<div class="aspect-square bg-up/60 rounded-sm"></div>
-<div class="aspect-square bg-up/10 rounded-sm"></div>
-<div class="aspect-square bg-down/30 rounded-sm"></div>
-<div class="aspect-square bg-up/80 rounded-sm"></div>
-<div class="aspect-square bg-bgMain rounded-sm"></div>
-<div class="aspect-square bg-bgMain rounded-sm"></div>
-<div class="aspect-square bg-bgMain rounded-sm"></div>
-</div>
-<p class="text-[10px] text-textAssist mt-2 text-center">本月情绪：偏乐观</p>
-</div>
-<!-- 投资运势 -->
-<div class="flex-1 bg-gradient-to-br from-primary to-secondary p-4 rounded-2xl shadow-sm text-white">
-<h3 class="font-bold text-sm mb-2 flex items-center gap-1">
-<iconify-icon icon="solar:magic-stick-3-bold"></iconify-icon>
-                            投资运势
-                        </h3>
-<div class="text-center py-2">
-<div class="text-2xl font-bold mb-1">宜</div>
-<div class="text-lg">低吸加仓</div>
-<div class="text-[10px] opacity-80 mt-1">忌：盲目追高</div>
-</div>
-</div>
-</div>
-</section>
-</main>
-<!-- 底部导航 -->
-<nav class="fixed bottom-0 w-full max-w-[414px] glass-effect border-t border-gray-100 px-6 py-3 flex justify-between items-center z-50 safe-bottom">
-<a class="flex flex-col items-center gap-1 text-primary" href="discover.html">
-<iconify-icon class="text-2xl" icon="solar:home-smile-angle-bold"></iconify-icon>
-<span class="text-[10px] font-bold">发现</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-textAssist" href="copytrade.html">
-<iconify-icon class="text-2xl" icon="solar:copy-bold"></iconify-icon>
-<span class="text-[10px]">抄作业</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-textAssist" href="toolbox.html">
-<iconify-icon class="text-2xl" icon="solar:box-bold"></iconify-icon>
-<span class="text-[10px]">工具箱</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-textAssist" href="profile.html">
-<iconify-icon class="text-2xl" icon="solar:user-bold"></iconify-icon>
-<span class="text-[10px]">我的</span>
-</a>
-</nav>
-<!-- 全局浮窗 -->
-<div class="fixed right-4 bottom-24 z-[60] cursor-pointer group" id="fab">
-<div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg border-2 border-white animate-bounce">
-<span class="text-2xl">🐟</span>
-</div>
-</div>
-<!-- 快捷提问面板 (默认隐藏) -->
-<div class="fixed inset-0 z-[100] hidden" id="ai-panel">
-<div class="absolute inset-0 bg-black/40" onclick="toggleAI()"></div>
-<div class="absolute bottom-0 w-full max-w-[414px] bg-white rounded-t-3xl p-6 shadow-2xl animate-slide-up">
-<div class="flex justify-between items-center mb-6">
-<h3 class="text-lg font-bold flex items-center gap-2">
-<span class="text-2xl">🐟</span> 快捷问小金鲤
-                    </h3>
-<button class="text-textAssist" onclick="toggleAI()">
-<iconify-icon class="text-2xl" icon="solar:close-circle-linear"></iconify-icon>
-</button>
-</div>
-<div class="space-y-3 mb-6">
-<button class="w-full text-left p-4 bg-bgMain rounded-xl text-sm hover:bg-primary/10 transition-colors" onclick="location.href='ai_assistant.html'">今天市场有什么值得关注的热点？</button>
-<button class="w-full text-left p-4 bg-bgMain rounded-xl text-sm hover:bg-primary/10 transition-colors" onclick="location.href='ai_assistant.html'">帮我分析一下目前的红利策略</button>
-<button class="w-full text-left p-4 bg-bgMain rounded-xl text-sm hover:bg-primary/10 transition-colors" onclick="location.href='ai_assistant.html'">现在适合买入宁德时代吗？</button>
-</div>
-<div class="flex gap-2">
-<input class="flex-1 bg-bgMain rounded-full px-4 py-3 text-sm outline-none focus:ring-1 ring-primary" placeholder="输入你想问的问题..." type="text"/>
-<button class="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg" onclick="location.href='ai_assistant.html'">
-<iconify-icon class="text-xl" icon="solar:plain-bold"></iconify-icon>
-</button>
-</div>
-<div class="text-center mt-4">
-<a class="text-xs text-primary font-bold" href="ai_assistant.html">进入完整 AI 对话模式 &gt;</a>
-</div>
-</div>
-</div>
-</div>
+
 <script>
-        function toggleAI() {
-            const panel = document.getElementById('ai-panel');
-            panel.classList.toggle('hidden');
-        }
-        document.getElementById('fab').addEventListener('click', toggleAI);
-    </script>
-<style>
-        @keyframes slide-up {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
-        .animate-slide-up {
-            animation: slide-up 0.3s ease-out forwards;
-        }
-    </style>
+  // ========== DNA Config ==========
+  const dnaConfig = {
+    owl: {
+      name: '猫头鹰', emoji: '🦉', headline: '认真研究型',
+      preferredSort: 'aiClarity',
+      yi: '研究复盘', ji: '盲目跟风',
+      recommendText: '你的投资 DNA 偏猫头鹰，今天优先看逻辑清晰的作业'
+    },
+    cheetah: {
+      name: '猎豹', emoji: '🐆', headline: '行动派',
+      preferredSort: 'returnRate',
+      yi: '果断出手', ji: '犹豫不决',
+      recommendText: '你的投资 DNA 偏猎豹，今天优先看高收益机会'
+    },
+    turtle: {
+      name: '乌龟', emoji: '🐢', headline: '稳稳赚钱派',
+      preferredSort: 'drawdown',
+      yi: '稳健持仓', ji: '频繁操作',
+      recommendText: '你的投资 DNA 偏乌龟，今天优先看稳健赚钱的作业'
+    },
+    fox: {
+      name: '狐狸', emoji: '🦊', headline: '消息雷达',
+      preferredSort: 'heat',
+      yi: '关注资讯', ji: '信息过载',
+      recommendText: '你的投资 DNA 偏狐狸，今天优先看事件驱动的作业'
+    },
+    squirrel: {
+      name: '松鼠', emoji: '🐿️', headline: '准备型',
+      preferredSort: 'beginner',
+      yi: '小额试水', ji: '重仓冒险',
+      recommendText: '你的投资 DNA 偏松鼠，今天优先看入门友好的作业'
+    }
+  };
+
+  // ========== Rankings Data ==========
+  const rankings = [
+    {
+      name: '睿远均衡', avatar: 'RY',
+      returnRate: '+18.6%', maxDrawdown: '-18.4%', successRate: '63%',
+      dnaFit: ['turtle', 'owl'],
+      aiSummary: '用分散持仓降低波动，用消费和制造维持长期弹性。',
+      fitReason: '适合想稳一点、但又不想完全放弃收益弹性的用户。'
+    },
+    {
+      name: '章盟主', avatar: 'ZM',
+      returnRate: '+42.3%', maxDrawdown: '-36.2%', successRate: '48%',
+      dnaFit: ['cheetah', 'fox'],
+      aiSummary: '题材主线高换手，龙虎榜T+1跟进，适合短线纪律强者。',
+      fitReason: '适合对热点敏感、愿意快速行动的用户。'
+    },
+    {
+      name: '高毅资产', avatar: 'GY',
+      returnRate: '+12.8%', maxDrawdown: '-20.3%', successRate: '58%',
+      dnaFit: ['turtle', 'squirrel'],
+      aiSummary: '深度调研低估值标的，逆向布局等待周期修复。',
+      fitReason: '适合不想操心、相信专业机构长期能力的用户。'
+    }
+  ];
+
+  // ========== Video Data ==========
+  const videos = [
+    { title: '下半年消费板块怎么看？', author: '张大牛', views: '2.3万', duration: '5:32', gradient: 'from-amber-400 to-orange-500' },
+    { title: '新能源还能追吗？三个信号值得关注', author: '李策略', views: '1.8万', duration: '4:15', gradient: 'from-blue-400 to-indigo-500' },
+    { title: '红利策略的天花板在哪里', author: '王稳健', views: '3.1万', duration: '6:48', gradient: 'from-emerald-400 to-teal-500' }
+  ];
+
+  // ========== Read DNA from localStorage ==========
+  function getUserDNA() {
+    return localStorage.getItem('investmentDna') || null;
+  }
+
+  // ========== Render DNA Banner ==========
+  function renderDNABanner(dnaType) {
+    const section = document.getElementById('dna-section');
+    if (dnaType && dnaConfig[dnaType]) {
+      const dna = dnaConfig[dnaType];
+      section.innerHTML = `
+        <a href="dna_result.html" class="block bg-white rounded-2xl p-4 dna-card-glow">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/10 flex items-center justify-center text-2xl flex-shrink-0">
+              ${dna.emoji}
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="text-xs text-textAssist mb-0.5">我的投资 DNA</div>
+              <div class="font-bold text-base text-textMain">${dna.emoji} ${dna.name} · ${dna.headline}</div>
+            </div>
+            <iconify-icon class="text-textAssist text-lg flex-shrink-0" icon="solar:alt-arrow-right-linear"></iconify-icon>
+          </div>
+        </a>
+      `;
+    } else {
+      section.innerHTML = `
+        <a href="onboarding.html" class="block bg-gradient-to-r from-primary/10 via-white to-secondary/10 rounded-2xl p-4 border border-primary/20 dna-card-glow">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-xl flex-shrink-0">
+              <iconify-icon icon="solar:dna-bold-duotone"></iconify-icon>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-bold text-sm text-textMain mb-0.5">找到你的投资 DNA</div>
+              <div class="text-xs text-textSub">3 分钟测试，解锁个性化推荐</div>
+            </div>
+            <div class="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full flex-shrink-0">
+              去测试
+            </div>
+          </div>
+        </a>
+      `;
+    }
+  }
+
+  // ========== Render Recommend Hint ==========
+  function renderRecommendHint(dnaType) {
+    const section = document.getElementById('recommend-hint');
+    if (dnaType && dnaConfig[dnaType]) {
+      const dna = dnaConfig[dnaType];
+      section.innerHTML = `
+        <div class="flex items-center gap-1.5 px-1">
+          <iconify-icon class="text-primary text-sm" icon="solar:stars-minimalistic-bold"></iconify-icon>
+          <span class="text-xs text-textSub">${dna.recommendText}</span>
+        </div>
+      `;
+    } else {
+      section.innerHTML = '';
+    }
+  }
+
+  // ========== Render Daily Sign ==========
+  function renderDailySign(dnaType) {
+    const section = document.getElementById('daily-sign');
+    const dna = dnaType && dnaConfig[dnaType] ? dnaConfig[dnaType] : dnaConfig.turtle;
+    section.innerHTML = `
+      <div class="bg-gradient-to-r from-primary to-secondary rounded-2xl p-4 text-white shadow-md relative overflow-hidden">
+        <div class="absolute -right-4 -top-4 w-20 h-20 bg-white/10 rounded-full"></div>
+        <div class="absolute -right-2 -bottom-6 w-16 h-16 bg-white/5 rounded-full"></div>
+        <div class="relative z-10">
+          <div class="flex items-center gap-1.5 mb-3">
+            <iconify-icon class="text-sm" icon="solar:sparkles-bold"></iconify-icon>
+            <span class="text-xs font-bold opacity-90">今日投资日签</span>
+          </div>
+          <div class="flex gap-4">
+            <div class="flex-1 flex items-center gap-2.5">
+              <div class="yi-ji-badge bg-white/25 text-white">宜</div>
+              <span class="text-sm font-medium">${dna.yi}</span>
+            </div>
+            <div class="w-px bg-white/20"></div>
+            <div class="flex-1 flex items-center gap-2.5">
+              <div class="yi-ji-badge bg-black/15 text-white/90">忌</div>
+              <span class="text-sm font-medium">${dna.ji}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ========== Render Rankings ==========
+  function renderRankings(dnaType) {
+    const container = document.getElementById('rankings-container');
+
+    let sorted = [...rankings];
+    if (dnaType) {
+      sorted.sort((a, b) => {
+        const aMatch = a.dnaFit.includes(dnaType) ? 0 : 1;
+        const bMatch = b.dnaFit.includes(dnaType) ? 0 : 1;
+        return aMatch - bMatch;
+      });
+    }
+
+    container.innerHTML = sorted.map((item, idx) => {
+      const isFit = dnaType && item.dnaFit.includes(dnaType);
+      const avatarColors = [
+        'from-blue-400 to-indigo-500',
+        'from-rose-400 to-pink-500',
+        'from-emerald-400 to-teal-500'
+      ];
+      const colorClass = avatarColors[idx % avatarColors.length];
+
+      return `
+        <a href="portfolio.html" class="block bg-white rounded-2xl p-4 shadow-sm border border-gray-100 rank-card relative overflow-hidden">
+          ${isFit ? '<div class="absolute top-0 right-0 bg-primary text-white text-[10px] font-bold px-2.5 py-0.5 rounded-bl-xl rounded-tr-2xl">适合你</div>' : ''}
+          <div class="flex items-start gap-3">
+            <div class="w-11 h-11 rounded-xl bg-gradient-to-br ${colorClass} flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+              ${item.avatar}
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-bold text-sm text-textMain">${item.name}</span>
+                <span class="text-up font-bold text-lg">${item.returnRate}</span>
+              </div>
+              <div class="flex items-center gap-3 mb-2.5">
+                <span class="text-[11px] text-textAssist">最大回撤 <span class="text-down font-medium">${item.maxDrawdown}</span></span>
+                <span class="text-[11px] text-textAssist">胜率 <span class="text-textMain font-medium">${item.successRate}</span></span>
+              </div>
+              <div class="bg-bgMain rounded-lg p-2.5 mb-2">
+                <div class="flex items-start gap-1.5">
+                  <iconify-icon class="text-primary text-sm mt-0.5 flex-shrink-0" icon="solar:star-bold"></iconify-icon>
+                  <span class="text-xs text-textSub leading-relaxed">${item.aiSummary}</span>
+                </div>
+              </div>
+              <div class="flex items-start gap-1.5">
+                <iconify-icon class="text-secondary text-xs mt-0.5 flex-shrink-0" icon="solar:users-group-rounded-bold-duotone"></iconify-icon>
+                <span class="text-[11px] text-textAssist leading-relaxed">${item.fitReason}</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      `;
+    }).join('');
+  }
+
+  // ========== Render Videos ==========
+  function renderVideos() {
+    const container = document.getElementById('videos-container');
+    container.innerHTML = videos.map(v => `
+      <a href="ai_assistant.html" class="min-w-[220px] max-w-[220px] video-card">
+        <div class="relative rounded-2xl overflow-hidden mb-2">
+          <div class="w-full h-[130px] bg-gradient-to-br ${v.gradient} flex items-center justify-center">
+            <div class="w-10 h-10 bg-white/30 rounded-full flex items-center justify-center backdrop-blur-sm">
+              <iconify-icon class="text-white text-xl ml-0.5" icon="solar:play-bold"></iconify-icon>
+            </div>
+          </div>
+          <div class="absolute bottom-2 right-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded-md font-medium">
+            ${v.duration}
+          </div>
+        </div>
+        <h3 class="text-sm font-bold text-textMain leading-snug mb-1.5 line-clamp-2">${v.title}</h3>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <div class="w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center text-[9px] font-bold text-textSub">
+              ${v.author.charAt(0)}
+            </div>
+            <span class="text-[11px] text-textAssist">${v.author}</span>
+          </div>
+          <div class="flex items-center gap-0.5 text-textAssist">
+            <iconify-icon class="text-xs" icon="solar:eye-bold"></iconify-icon>
+            <span class="text-[10px]">${v.views}</span>
+          </div>
+        </div>
+      </a>
+    `).join('');
+  }
+
+  // ========== AI Panel Toggle ==========
+  function toggleAI() {
+    const panel = document.getElementById('ai-panel');
+    panel.classList.toggle('hidden');
+  }
+
+  // ========== Init ==========
+  document.addEventListener('DOMContentLoaded', function() {
+    const dnaType = getUserDNA();
+    renderDNABanner(dnaType);
+    renderRecommendHint(dnaType);
+    renderDailySign(dnaType);
+    renderRankings(dnaType);
+    renderVideos();
+
+    document.getElementById('fab').addEventListener('click', toggleAI);
+  });
+</script>
+
 </body>
 </html>

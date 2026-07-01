@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>小金鲤 - 投资 DNA 测试</title>
+  <script src="assets/vendor/tailwindcss.js"></script>
+  <script src="assets/vendor/iconify-icon.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FFB800',
+            secondary: '#FF6B00',
+            bgMain: '#F8F9FC',
+            up: '#FF4D4F',
+            down: '#52C41A',
+            textMain: '#1A1A2E',
+            textSub: '#666666',
+            textAssist: '#999999'
+          },
+          borderRadius: { 'xl': '12px', '2xl': '16px' }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+    .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+    .option-btn { transition: all 0.2s ease; }
+    .option-btn:active { transform: scale(0.97); }
+    .option-btn.selected { border-color: #FFB800; background: linear-gradient(135deg, #FFF8E1 0%, #FFFFFF 100%); box-shadow: 0 0 0 2px rgba(255,184,0,0.2); }
+    .progress-fill { transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    .question-card { animation: slideIn 0.35s ease-out; }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+    .btn-active { background: linear-gradient(135deg, #FFB800 0%, #FF6B00 100%); color: white; box-shadow: 0 4px 14px rgba(255,107,0,0.3); }
+    .btn-disabled { background: #E5E7EB; color: #9CA3AF; cursor: not-allowed; }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+<div class="max-w-[414px] mx-auto min-h-screen flex flex-col relative bg-bgMain shadow-xl">
+
+  <!-- Header -->
+  <div class="pt-12 pb-4 px-6 text-center">
+    <div class="flex items-center justify-center gap-2 mb-2">
+      <span class="text-3xl">🐟</span>
+      <span class="text-xl font-bold text-textMain">小金鲤</span>
+    </div>
+    <p class="text-lg font-semibold text-textMain">找到你的投资 DNA</p>
+    <p class="text-sm text-textAssist mt-1">只要 30 秒，没有标准答案</p>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="px-6 mb-4">
+    <div class="flex justify-between items-center mb-2">
+      <span id="progressText" class="text-xs font-medium text-textSub">第 1 / 5 题</span>
+      <span id="progressPercent" class="text-xs font-medium text-primary">20%</span>
+    </div>
+    <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div id="progressBar" class="progress-fill h-full rounded-full bg-gradient-to-r from-primary to-secondary" style="width: 20%"></div>
+    </div>
+  </div>
+
+  <!-- Question Area -->
+  <div id="questionContainer" class="flex-1 px-5 pb-32">
+    <!-- Questions rendered by JS -->
+  </div>
+
+  <!-- Floating AI Button -->
+  <div class="fixed right-4 bottom-24 z-[60] cursor-pointer" onclick="location.href='ai_assistant.html'">
+    <div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+      <span class="text-2xl">🐟</span>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-4 py-3 flex justify-between items-center z-50 safe-bottom">
+    <a class="flex flex-col items-center gap-1 text-primary" href="discover.html">
+      <iconify-icon class="text-2xl" icon="solar:home-smile-angle-bold"></iconify-icon>
+      <span class="text-[10px] font-bold">发现</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-textAssist" href="copytrade.html">
+      <iconify-icon class="text-2xl" icon="solar:copy-bold"></iconify-icon>
+      <span class="text-[10px]">广场</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-textAssist" href="toolbox.html">
+      <iconify-icon class="text-2xl" icon="solar:box-bold"></iconify-icon>
+      <span class="text-[10px]">仓库</span>
+    </a>
+    <a class="flex flex-col items-center gap-1 text-textAssist" href="profile.html">
+      <iconify-icon class="text-2xl" icon="solar:user-bold"></iconify-icon>
+      <span class="text-[10px]">我的</span>
+    </a>
+  </nav>
+
+</div>
+
+<script>
+const questions = [
+  {
+    text: '如果路边有人排了很长的队，你会？',
+    options: [
+      { label: 'A', text: '一定有好东西，我也想看看。', dna: 'cheetah' },
+      { label: 'B', text: '先看看大家为什么排队。', dna: 'fox' },
+      { label: 'C', text: '等人少一点再决定。', dna: 'turtle' },
+      { label: 'D', text: '别人排他们的，我有自己的选择。', dna: 'owl' }
+    ]
+  },
+  {
+    text: '如果朋友说："这个东西以后一定会涨价。"你第一反应是？',
+    options: [
+      { label: 'A', text: '真的吗？我现在就去看看。', dna: 'cheetah' },
+      { label: 'B', text: '为什么会涨？', dna: 'owl' },
+      { label: 'C', text: '我想再等等。', dna: 'turtle' },
+      { label: 'D', text: '网上有没有更多信息？', dna: 'fox' }
+    ]
+  },
+  {
+    text: '如果你攒了一笔钱，你更愿意？',
+    options: [
+      { label: 'A', text: '找机会赚得更多。', dna: 'cheetah' },
+      { label: 'B', text: '稳稳增值就好。', dna: 'turtle' },
+      { label: 'C', text: '先放着，不着急。', dna: 'squirrel' },
+      { label: 'D', text: '一部分稳一点，一部分试试看。', dna: 'owl' }
+    ]
+  },
+  {
+    text: '如果你买的东西第二天就降价了，你会？',
+    options: [
+      { label: 'A', text: '再买一点，更划算。', dna: 'cheetah' },
+      { label: 'B', text: '有点难受，但还能接受。', dna: 'turtle' },
+      { label: 'C', text: '以后买东西要再等等。', dna: 'squirrel' },
+      { label: 'D', text: '先看看为什么降价。', dna: 'owl' }
+    ]
+  },
+  {
+    text: '如果未来一年，你最希望投资带来什么？',
+    options: [
+      { label: 'A', text: '赚到一笔让我开心的钱。', dna: 'cheetah' },
+      { label: 'B', text: '比放银行更好一点就行。', dna: 'turtle' },
+      { label: 'C', text: '希望自己学会投资。', dna: 'squirrel' },
+      { label: 'D', text: '少踩坑，比赚钱更重要。', dna: 'owl' }
+    ]
+  }
+];
+
+let currentQ = 0;
+let selections = new Array(questions.length).fill(null);
+
+function renderQuestion(index) {
+  const q = questions[index];
+  const container = document.getElementById('questionContainer');
+  container.innerHTML = `
+    <div class="question-card bg-white rounded-2xl shadow-sm p-5 mt-2">
+      <p class="text-base font-semibold text-textMain leading-relaxed mb-5">${q.text}</p>
+      <div class="space-y-3">
+        ${q.options.map((opt, i) => `
+          <button
+            class="option-btn w-full text-left p-4 rounded-xl border-2 border-gray-100 bg-white hover:border-primary/40 transition-all ${selections[index] === i ? 'selected' : ''}"
+            onclick="selectOption(${index}, ${i})"
+          >
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold mr-3 ${selections[index] === i ? 'bg-primary text-white' : 'bg-gray-100 text-textSub'}">${opt.label}</span>
+            <span class="text-sm text-textMain leading-relaxed">${opt.text}</span>
+          </button>
+        `).join('')}
+      </div>
+    </div>
+    <div class="mt-6 px-1">
+      <button
+        id="nextBtn"
+        class="w-full py-4 rounded-xl text-base font-semibold transition-all ${selections[index] !== null ? 'btn-active' : 'btn-disabled'}"
+        onclick="goNext()"
+        ${selections[index] === null ? 'disabled' : ''}
+      >
+        ${index === questions.length - 1 ? '查看结果' : '下一题'}
+      </button>
+    </div>
+  `;
+}
+
+function selectOption(qIndex, optIndex) {
+  selections[qIndex] = optIndex;
+  renderQuestion(qIndex);
+}
+
+function goNext() {
+  if (selections[currentQ] === null) return;
+  if (currentQ < questions.length - 1) {
+    currentQ++;
+    updateProgress();
+    renderQuestion(currentQ);
+  } else {
+    showResult();
+  }
+}
+
+function updateProgress() {
+  const pct = Math.round(((currentQ + 1) / questions.length) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').textContent = '第 ' + (currentQ + 1) + ' / ' + questions.length + ' 题';
+  document.getElementById('progressPercent').textContent = pct + '%';
+}
+
+function showResult() {
+  var tally = { cheetah: 0, fox: 0, turtle: 0, owl: 0, squirrel: 0 };
+  var firstAppear = { cheetah: 99, fox: 99, turtle: 99, owl: 99, squirrel: 99 };
+
+  questions.forEach(function(q, qi) {
+    var chosen = q.options[selections[qi]];
+    var dna = chosen.dna;
+    tally[dna]++;
+    if (qi < firstAppear[dna]) firstAppear[dna] = qi;
+  });
+
+  var winner = null;
+  var maxVotes = 0;
+  var earliestQ = 99;
+
+  for (var dna in tally) {
+    var count = tally[dna];
+    if (count > maxVotes || (count === maxVotes && firstAppear[dna] < earliestQ)) {
+      winner = dna;
+      maxVotes = count;
+      earliestQ = firstAppear[dna];
+    }
+  }
+
+  localStorage.setItem('investmentDna', winner);
+  location.href = 'dna_result.html';
+}
+
+renderQuestion(0);
+</script>
+
+</body>
+</html>

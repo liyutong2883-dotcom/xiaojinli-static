@@ -160,25 +160,31 @@
 </button>
 </div>
 </main>
-<!-- 底部导航 (固定显示抄作业高亮) -->
-<nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-6 py-3 flex justify-between items-center z-50 safe-bottom">
+<!-- 底部导航 -->
+<nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-4 py-3 flex justify-between items-center z-50 safe-bottom">
 <a class="flex flex-col items-center gap-1 text-textAssist" href="discover.html">
 <iconify-icon class="text-2xl" icon="solar:home-smile-angle-linear"></iconify-icon>
 <span class="text-[10px]">发现</span>
 </a>
 <a class="flex flex-col items-center gap-1 text-primary" href="copytrade.html">
 <iconify-icon class="text-2xl" icon="solar:copy-bold"></iconify-icon>
-<span class="text-[10px] font-bold">抄作业</span>
+<span class="text-[10px] font-bold">广场</span>
 </a>
 <a class="flex flex-col items-center gap-1 text-textAssist" href="toolbox.html">
 <iconify-icon class="text-2xl" icon="solar:box-linear"></iconify-icon>
-<span class="text-[10px]">工具箱</span>
+<span class="text-[10px]">仓库</span>
 </a>
 <a class="flex flex-col items-center gap-1 text-textAssist" href="profile.html">
 <iconify-icon class="text-2xl" icon="solar:user-linear"></iconify-icon>
 <span class="text-[10px]">我的</span>
 </a>
 </nav>
+<!-- 全局浮窗 -->
+<div class="fixed right-4 bottom-24 z-[60] cursor-pointer" onclick="location.href='ai_assistant.html'">
+<div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+<span class="text-2xl">🐟</span>
+</div>
+</div>
 </div>
 <script>
         // 初始化 ECharts

@@ -17,7 +17,9 @@
                         bgMain: '#F8F9FC',
                         textMain: '#1A1A2E',
                         textSub: '#666666',
-                        textAssist: '#999999'
+                        textAssist: '#999999',
+                        up: '#FF4D4F',
+                        down: '#52C41A'
                     }
                 }
             }
@@ -55,27 +57,33 @@
 <iconify-icon class="text-[120px] text-white" icon="solar:fish-bold"></iconify-icon>
 </div>
 </section>
-<!-- 我的投资画像 -->
+<!-- 我的投资画像 (DNA) -->
 <section class="px-4 -mt-8 relative z-20">
 <div class="bg-white rounded-2xl p-5 shadow-lg border border-gray-50">
 <div class="flex justify-between items-center mb-4">
 <h2 class="text-sm font-bold">我的投资画像</h2>
-<span class="text-[10px] text-primary">修改画像 &gt;</span>
+<a class="text-[10px] text-primary" href="onboarding.html">修改画像 &gt;</a>
 </div>
-<div class="flex gap-2 mb-4">
-<span class="bg-green-50 text-green-600 px-3 py-1 rounded-full text-xs font-bold">稳健型</span>
-<span class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-bold">价值投资者</span>
-<span class="bg-orange-50 text-orange-600 px-3 py-1 rounded-full text-xs font-bold">红利爱好者</span>
+<!-- DNA 内容：由 JS 动态渲染 -->
+<div id="dna-display">
+<!-- 默认占位，JS 会替换 -->
 </div>
-<p class="text-xs text-textSub leading-relaxed">
-                        你倾向于寻找高分红、低估值的核心资产，对短期波动有较强的耐受力，属于典型的“长跑型选手”。
-                    </p>
 </div>
 </section>
 <!-- 功能列表 -->
 <section class="mt-6 px-4">
 <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-50">
-<a class="flex items-center justify-between p-4 active:bg-gray-50" href="#">
+<a class="flex items-center justify-between p-4 active:bg-gray-50" href="#" id="dna-menu-entry">
+<div class="flex items-center gap-3">
+<iconify-icon class="text-primary text-xl" icon="solar:brain-bold-duotone"></iconify-icon>
+<span class="text-sm">我的投资 DNA</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="text-xs text-textAssist" id="dna-menu-label">未测试</span>
+<iconify-icon class="text-textAssist" icon="solar:alt-arrow-right-linear"></iconify-icon>
+</div>
+</a>
+<a class="flex items-center justify-between p-4 border-t border-gray-50 active:bg-gray-50" href="#">
 <div class="flex items-center gap-3">
 <iconify-icon class="text-primary text-xl" icon="solar:notebook-bold-duotone"></iconify-icon>
 <span class="text-sm">我的作业本</span>
@@ -137,24 +145,74 @@
 </section>
 </main>
 <!-- 底部导航 -->
-<nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-6 py-3 flex justify-between items-center z-50 safe-bottom">
+<nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-4 py-3 flex justify-between items-center z-50 safe-bottom">
 <a class="flex flex-col items-center gap-1 text-textAssist" href="discover.html">
 <iconify-icon class="text-2xl" icon="solar:home-smile-angle-linear"></iconify-icon>
 <span class="text-[10px]">发现</span>
 </a>
 <a class="flex flex-col items-center gap-1 text-textAssist" href="copytrade.html">
-<iconify-icon class="text-2xl" icon="solar:copy-linear"></iconify-icon>
-<span class="text-[10px]">抄作业</span>
+<iconify-icon class="text-2xl" icon="solar:copy-bold"></iconify-icon>
+<span class="text-[10px]">广场</span>
 </a>
 <a class="flex flex-col items-center gap-1 text-textAssist" href="toolbox.html">
-<iconify-icon class="text-2xl" icon="solar:box-linear"></iconify-icon>
-<span class="text-[10px]">工具箱</span>
+<iconify-icon class="text-2xl" icon="solar:box-bold"></iconify-icon>
+<span class="text-[10px]">仓库</span>
 </a>
 <a class="flex flex-col items-center gap-1 text-primary" href="profile.html">
 <iconify-icon class="text-2xl" icon="solar:user-bold"></iconify-icon>
 <span class="text-[10px] font-bold">我的</span>
 </a>
 </nav>
+<!-- 全局浮窗 -->
+<div class="fixed right-4 bottom-24 z-[60] cursor-pointer" onclick="location.href='ai_assistant.html'">
+<div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+<span class="text-2xl">🐟</span>
 </div>
+</div>
+</div>
+<script>
+        const dnaConfig = {
+            owl:      { name: '猫头鹰', emoji: '🦉', headline: '认真研究型', description: '你习惯先理解原因再做决定，不容易被情绪带走。' },
+            cheetah:  { name: '猎豹',   emoji: '🐆', headline: '行动派',     description: '你决策速度快，对机会敏感，收益预期高。' },
+            turtle:   { name: '乌龟',   emoji: '🐢', headline: '稳稳赚钱派', description: '你不喜欢大起大落，更相信时间的力量。' },
+            fox:      { name: '狐狸',   emoji: '🦊', headline: '消息雷达',   description: '你喜欢先弄清楚信息再行动，对变化敏感。' },
+            squirrel: { name: '松鼠',   emoji: '🐿️', headline: '准备型',     description: '你偏谨慎，愿意从小开始学习。' }
+        };
+
+        (function renderDNA() {
+            const dna = localStorage.getItem('investmentDna');
+            const display = document.getElementById('dna-display');
+            const menuEntry = document.getElementById('dna-menu-entry');
+            const menuLabel = document.getElementById('dna-menu-label');
+
+            if (dna && dnaConfig[dna]) {
+                const info = dnaConfig[dna];
+                display.innerHTML = `
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="text-3xl">${info.emoji}</span>
+                        <div>
+                            <div class="font-bold text-base">${info.emoji} ${info.name} · ${info.headline}</div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-textSub leading-relaxed">${info.description}</p>
+                `;
+                menuEntry.href = 'dna_result.html';
+                menuLabel.textContent = info.name;
+                menuLabel.classList.add('text-primary', 'font-bold');
+                menuLabel.classList.remove('text-textAssist');
+            } else {
+                display.innerHTML = `
+                    <a href="onboarding.html" class="flex items-center gap-2 text-primary text-sm font-bold">
+                        <iconify-icon icon="solar:star-bold" class="text-lg"></iconify-icon>
+                        <span>还没有投资 DNA，去做测试 →</span>
+                    </a>
+                `;
+                menuEntry.href = 'onboarding.html';
+                menuLabel.textContent = '去测试';
+                menuLabel.classList.add('text-primary');
+                menuLabel.classList.remove('text-textAssist');
+            }
+        })();
+    </script>
 </body>
 </html>

@@ -730,50 +730,31 @@
       +   '</a>'
       + '</div>';
 
-    // Build discuss mode content - dimension-grouped tags
-    var primaryDims = ['decision', 'action', 'risk', 'emotion'];
-    var secondaryDims = ['returns', 'learning', 'info', 'goals', 'horizon', 'growth'];
-    var animalKey = dnaType;
+    // Build discuss mode content - comment section with tag bubbles
+    var avatarEmojis = ['👧', '👦', '', '', '👧', ''];
+    var avatarBgs = ['bg-pink-100', 'bg-blue-100', '', '', 'bg-purple-100', ''];
+    var likes = [8130, 4121, 6014, 0, 5816, 5309];
 
-    function buildDimensionGroup(dimKey) {
-      var dim = dnaTagSystem.dimensions[dimKey];
-      var catKey = dna.dimensionMap[dimKey];
-      var cat = dim.categories[catKey];
-      var isGrowthDim = (dimKey === 'growth');
-      var tagsHTML = '';
-      cat.tags.forEach(function(tag) {
-        var isHighlight = isGrowthDim && (tag.text === cat.label || isGrowthDim);
-        var tagClass = isHighlight
-          ? 'tag-bubble bg-primary/10 border-primary/30 text-primary'
-          : 'tag-bubble';
-        tagsHTML += '<div class="' + tagClass + '">'
-          + '<span class="text-xs">' + tag.emoji + '</span>'
-          + '<span class="text-xs">' + tag.text + '</span>'
+    var tagsHTML = '';
+    dna.tags.forEach(function(tag, i) {
+      if (likes[i] === 0) {
+        tagsHTML += '<div class="tag-bubble bg-primary/5 border-primary/20 text-primary font-medium">'
+          + '<iconify-icon class="text-sm" icon="solar:add-circle-bold"></iconify-icon>'
+          + '<span class="text-xs">我也想说说...</span>'
           + '</div>';
-      });
-      return '<div class="mb-3">'
-        + '<div class="flex items-center gap-1.5 mb-2">'
-        +   '<span class="text-sm">' + dim.emoji + '</span>'
-        +   '<span class="text-xs font-bold text-textMain">' + dim.label + '</span>'
-        +   '<span class="text-[10px] text-textAssist ml-1">· ' + cat.label + '</span>'
-        + '</div>'
-        + '<div class="flex flex-wrap gap-1.5">'
-        +   tagsHTML
-        + '</div>'
-        + '</div>';
-    }
-
-    var primaryGroupsHTML = '';
-    primaryDims.forEach(function(dimKey) {
-      if (dna.dimensionMap && dna.dimensionMap[dimKey]) {
-        primaryGroupsHTML += buildDimensionGroup(dimKey);
-      }
-    });
-
-    var secondaryGroupsHTML = '';
-    secondaryDims.forEach(function(dimKey) {
-      if (dna.dimensionMap && dna.dimensionMap[dimKey]) {
-        secondaryGroupsHTML += buildDimensionGroup(dimKey);
+      } else {
+        var avatarHTML = '';
+        if (avatarEmojis[i]) {
+          avatarHTML = '<div class="w-5 h-5 rounded-full ' + avatarBgs[i] + ' flex items-center justify-center text-[8px] flex-shrink-0">' + avatarEmojis[i] + '</div>';
+        }
+        tagsHTML += '<div class="tag-bubble">'
+          + avatarHTML
+          + '<span class="text-xs">' + tag + '</span>'
+          + '<span class="flex items-center gap-0.5 text-textAssist text-[10px] ml-1">'
+          +   '<iconify-icon class="text-xs text-primary" icon="solar:like-bold"></iconify-icon>'
+          +   likes[i]
+          + '</span>'
+          + '</div>';
       }
     });
 
@@ -787,17 +768,9 @@
       +       '<iconify-icon class="text-xs" icon="solar:alt-arrow-right-linear"></iconify-icon>'
       +     '</div>'
       +   '</div>'
-      +   '<div id="dna-discuss-dimensions">'
-      +     primaryGroupsHTML
+      +   '<div class="flex flex-wrap gap-2 mb-4">'
+      +     tagsHTML
       +   '</div>'
-      +   '<div id="dna-discuss-more" class="hidden">'
-      +     secondaryGroupsHTML
-      +   '</div>'
-      +   (secondaryGroupsHTML ? '<div class="text-center mb-3">'
-      +     '<button id="dna-expand-btn" class="text-xs text-primary font-bold px-4 py-1.5 rounded-full bg-primary/5 border border-primary/15" onclick="toggleDnaDimensions()">'
-      +       '展开更多维度'
-      +     '</button>'
-      +   '</div>' : '')
       +   '<div class="border-t border-gray-100 pt-3 mb-3">'
       +     '<div class="text-xs font-bold text-textMain mb-2">与其他类型的关系</div>'
       +     '<div class="flex gap-3">'
@@ -830,19 +803,6 @@
       +     discussHTML
       +   '</div>'
       + '</div>';
-  }
-
-  // ========== Toggle DNA Dimensions (expand/collapse) ==========
-  function toggleDnaDimensions() {
-    var moreDiv = document.getElementById('dna-discuss-more');
-    var btn = document.getElementById('dna-expand-btn');
-    if (moreDiv.classList.contains('hidden')) {
-      moreDiv.classList.remove('hidden');
-      btn.textContent = '收起更多维度';
-    } else {
-      moreDiv.classList.add('hidden');
-      btn.textContent = '展开更多维度';
-    }
   }
 
   // ========== Switch DNA Mode ==========

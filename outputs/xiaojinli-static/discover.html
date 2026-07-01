@@ -663,21 +663,21 @@
       returnRate: '+18.6%', maxDrawdown: '-18.4%', successRate: '63%',
       dnaFit: ['turtle', 'owl'],
       aiSummary: '用分散持仓降低波动，用消费和制造维持长期弹性。',
-      fitReason: '适合想稳一点、但又不想完全放弃收益弹性的用户。'
+      fitReason: '画像：稳健均衡型 · 偏好分散配置、长期持有'
     },
     {
       name: '章盟主', avatar: 'ZM',
       returnRate: '+42.3%', maxDrawdown: '-36.2%', successRate: '48%',
       dnaFit: ['cheetah', 'fox'],
       aiSummary: '题材主线高换手，龙虎榜T+1跟进，适合短线纪律强者。',
-      fitReason: '适合对热点敏感、愿意快速行动的用户。'
+      fitReason: '画像：激进趋势型 · 偏好热点追踪、快速决策'
     },
     {
       name: '高毅资产', avatar: 'GY',
       returnRate: '+12.8%', maxDrawdown: '-20.3%', successRate: '58%',
       dnaFit: ['turtle', 'squirrel'],
       aiSummary: '深度调研低估值标的，逆向布局等待周期修复。',
-      fitReason: '适合不想操心、相信专业机构长期能力的用户。'
+      fitReason: '画像：稳健委托型 · 偏好专业管理、低估值逆向'
     }
   ];
 
@@ -706,73 +706,39 @@
   // ========== Current DNA mode state ==========
   let currentDnaMode = 'solo';
 
-  // ========== Render Daily Widgets (swapped: 小记 left, 日签 right) ==========
+  // ========== Render Daily Widgets (日签 + DNA画像标签) ==========
   function renderDailyWidgets(dnaType) {
     const container = document.getElementById('daily-widgets');
     const dna = dnaType && dnaConfig[dnaType] ? dnaConfig[dnaType] : dnaConfig.turtle;
 
-    // Build mini calendar
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth();
-    const today = now.getDate();
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const noteDays = [5, 12, 20, 25];
-
-    const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
-    let calendarHTML = '';
-    weekDays.forEach(function(d) {
-      calendarHTML += '<div class="text-[8px] text-textAssist text-center">' + d + '</div>';
-    });
-    for (var e = 0; e < firstDay; e++) {
-      calendarHTML += '<div></div>';
-    }
-    for (var day = 1; day <= daysInMonth; day++) {
-      var isToday = day === today;
-      var hasNote = noteDays.includes(day);
-      calendarHTML += '<div class="relative flex items-center justify-center" style="height:18px;">';
-      if (isToday) {
-        calendarHTML += '<span class="text-[9px] bg-primary/80 text-white w-4 h-4 rounded-full flex items-center justify-center font-bold">' + day + '</span>';
-      } else {
-        calendarHTML += '<span class="text-[9px] text-textAssist">' + day + '</span>';
-        if (hasNote) {
-          calendarHTML += '<div class="calendar-dot"></div>';
-        }
-      }
-      calendarHTML += '</div>';
+    // Build DNA tags as bubbles
+    var tagsHTML = '';
+    if (dna.tags && dna.tags.length) {
+      dna.tags.forEach(function(tag) {
+        tagsHTML += '<span class="inline-block bg-white/70 border border-primary/15 text-[10px] text-textSub font-medium px-2 py-0.5 rounded-full">' + tag + '</span>';
+      });
     }
 
     container.innerHTML = ''
-      + '<div class="grid grid-cols-2 gap-2">'
-      // Left: 金鲤小记 (calendar) — clickable
-      + '<div class="bg-white/70 rounded-xl px-2.5 py-2 border border-gray-100 cursor-pointer active:scale-[0.98] transition-transform" onclick="location.href=\'daily_note.html\'">'
-      +   '<div class="flex items-center justify-between mb-0.5">'
-      +     '<span class="text-[10px] font-medium text-textSub">金鲤小记</span>'
-      +     '<span class="text-[9px] text-textAssist">' + (month + 1) + '月</span>'
+      + '<div class="rounded-xl px-4 py-3 border border-primary/20 cursor-pointer active:scale-[0.98] transition-transform bg-gradient-to-br from-primary/10 via-amber-50 to-secondary/10 relative overflow-hidden" onclick="location.href=\'daily_sign.html\'">'
+      +   '<div class="absolute -right-3 -top-3 text-[50px] opacity-10">' + dna.emoji + '</div>'
+      +   '<div class="flex items-center gap-1.5 mb-2 relative z-10">'
+      +     '<iconify-icon class="text-primary text-base" icon="solar:bookmark-bold-duotone"></iconify-icon>'
+      +     '<span class="text-xs font-bold text-textMain">今日日签</span>'
       +   '</div>'
-      +   '<div class="grid grid-cols-7 gap-y-0">'
-      +     calendarHTML
-      +   '</div>'
-      + '</div>'
-      // Right: 今日日签 — visually striking with gradient, clickable
-      + '<div class="rounded-xl px-3 py-2.5 border border-primary/20 cursor-pointer active:scale-[0.98] transition-transform bg-gradient-to-br from-primary/10 via-amber-50 to-secondary/10 relative overflow-hidden" onclick="location.href=\'daily_sign.html\'">'
-      +   '<div class="absolute -right-2 -top-2 text-[40px] opacity-15">' + dna.emoji + '</div>'
-      +   '<div class="flex items-center gap-1 mb-1.5 relative z-10">'
-      +     '<iconify-icon class="text-primary text-sm" icon="solar:bookmark-bold-duotone"></iconify-icon>'
-      +     '<span class="text-[10px] font-bold text-textMain">今日日签</span>'
-      +   '</div>'
-      +   '<div class="relative z-10 space-y-1">'
-      +     '<div class="flex items-center gap-1.5">'
-      +       '<span class="text-[9px] bg-primary/20 text-primary font-bold px-1.5 py-0.5 rounded">宜</span>'
-      +       '<span class="text-xs font-bold text-textMain">' + dna.yi + '</span>'
+      +   '<div class="relative z-10 space-y-1.5 mb-3">'
+      +     '<div class="flex items-center gap-2">'
+      +       '<span class="text-[10px] bg-primary/20 text-primary font-bold px-1.5 py-0.5 rounded">宜</span>'
+      +       '<span class="text-sm font-bold text-textMain">' + dna.yi + '</span>'
       +     '</div>'
-      +     '<div class="flex items-center gap-1.5">'
-      +       '<span class="text-[9px] bg-gray-200 text-textAssist font-bold px-1.5 py-0.5 rounded">忌</span>'
+      +     '<div class="flex items-center gap-2">'
+      +       '<span class="text-[10px] bg-gray-200 text-textAssist font-bold px-1.5 py-0.5 rounded">忌</span>'
       +       '<span class="text-xs text-textSub">' + dna.ji + '</span>'
       +     '</div>'
       +   '</div>'
-      + '</div>'
+      +   '<div class="relative z-10 flex flex-wrap gap-1.5">'
+      +     tagsHTML
+      +   '</div>'
       + '</div>';
   }
 
@@ -905,10 +871,6 @@
       +       '</div>'
       +     '</div>'
       +   '</div>'
-      +   '<a href="copytrade.html" class="block bg-gradient-to-r from-primary/10 to-secondary/5 rounded-xl p-3 text-center border border-primary/15">'
-      +     '<span class="text-xs font-bold text-textMain">看看朋友们感兴趣的作业本</span>'
-      +     '<span class="text-xs text-primary font-bold ml-1">点击查看 &gt;</span>'
-      +   '</a>'
       + '</div>';
 
     section.innerHTML = ''
@@ -975,7 +937,10 @@
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between mb-1">
                 <span class="font-bold text-sm text-textMain">${item.name}</span>
-                <span class="text-up font-bold text-lg">${item.returnRate}</span>
+                <div class="text-right">
+                  <span class="text-[9px] text-textAssist block leading-none">今日收益率</span>
+                  <span class="text-up font-bold text-lg">${item.returnRate}</span>
+                </div>
               </div>
               <div class="flex items-center gap-3 mb-2.5">
                 <span class="text-[11px] text-textAssist">最大回撤 <span class="text-down font-medium">${item.maxDrawdown}</span></span>
@@ -988,7 +953,7 @@
                 </div>
               </div>
               <div class="flex items-start gap-1.5">
-                <iconify-icon class="text-secondary text-xs mt-0.5 flex-shrink-0" icon="solar:users-group-rounded-bold-duotone"></iconify-icon>
+                <iconify-icon class="text-secondary text-xs mt-0.5 flex-shrink-0" icon="solar:dna-bold-duotone"></iconify-icon>
                 <span class="text-[11px] text-textAssist leading-relaxed">${item.fitReason}</span>
               </div>
             </div>

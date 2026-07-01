@@ -141,8 +141,8 @@ test("discover page has redesigned content with ranking and DNA banner", async (
   assert.match(html, /DNA|画像|投资性格/, "should reference DNA/profile section");
   // 日签宜/忌
   assert.match(html, /宜|忌/, "should have 宜/忌 daily sign");
-  // 金鲤小记日历
-  assert.match(html, /金鲤小记/, "should have 金鲤小记 calendar widget");
+  // 日签结合DNA画像标签
+  assert.match(html, /今日日签/, "should have daily sign with DNA tags");
   // 我的分析/投小圈两种模式
   assert.match(html, /我的分析/, "should have 我的分析 tab");
   assert.match(html, /投小圈/, "should have 投小圈 tab");

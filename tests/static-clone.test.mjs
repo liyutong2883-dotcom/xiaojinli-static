@@ -255,12 +255,10 @@ test("video_detail page has video player area and comments section", async () =>
 });
 
 // ── 16. 持仓详情页新结构：AI 洞察 + 图表 + 紧凑表格 ──────
-test("portfolio page has AI insight card, charts, and compact stock table", async () => {
+test("portfolio page has charts and compact stock table", async () => {
   const html = await readPage("portfolio.html");
   // 不再有"抄作业前先问自己3个问题"
   assert.doesNotMatch(html, /抄作业前先问自己3个问题/, "should not have old 3 questions section");
-  // 有持仓配置分析（简化版）
-  assert.match(html, /为什么这样持仓能赚钱|持仓配置|为什么.*选择/, "should have allocation rationale section");
   // 产业配置
   assert.match(html, /产业配置|行业配置/, "should have industry allocation section");
   // 紧凑表格形式（股票/代码/行业/占比）

@@ -29,7 +29,8 @@
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
         .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
         .tag-active { background-color: #FFB800; color: white; border-color: #FFB800; }
-        .idea-filter-active { background-color: #1A1A2E; color: white; border: none; }
+        .idea-tab-active { background-color: white; color: #1A1A2E; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        .square-filter-active { background-color: #1A1A2E; color: white; }
     </style>
 </head>
 <body class="bg-bgMain text-textMain">
@@ -131,132 +132,356 @@
 </div>
 </section>
 
-<!-- Section 3: 灵感 -->
+<!-- Section 3: 灵感 (三合一) -->
 <section class="pb-6">
-<!-- 灵感 Hero -->
+<!-- 灵感 Header -->
 <div class="px-4 pt-5 pb-3">
-<span class="text-[10px] text-textAssist tracking-widest">投资灵感</span>
-<h2 class="text-xl font-bold text-textMain leading-snug mt-1">筛选出好标的，<br>你可能刚好缺一缕灵感。</h2>
-<p class="text-xs text-textSub mt-2 leading-relaxed">每套灵感都会定期选出股票或基金，并跟踪胜率、涨跌幅、最大回撤，以及背后的机构作业是否还在变强。</p>
+<div class="flex items-center gap-2 mb-1">
+<iconify-icon class="text-primary text-xl" icon="solar:lightbulb-bold-duotone"></iconify-icon>
+<h2 class="text-lg font-bold">灵感</h2>
 </div>
-<!-- 筛选标签 -->
-<div class="px-4 mb-3 flex gap-2" id="idea-filter-tabs">
-<button class="idea-filter-active text-xs px-3 py-1.5 rounded-full font-bold" onclick="filterIdeas(this,'fit')">适合我</button>
-<button class="bg-white text-textSub text-xs px-3 py-1.5 rounded-full border border-gray-100" onclick="filterIdeas(this,'all')">全部</button>
-<button class="bg-white text-textSub text-xs px-3 py-1.5 rounded-full border border-gray-100" onclick="filterIdeas(this,'stock')">股票</button>
-<button class="bg-white text-textSub text-xs px-3 py-1.5 rounded-full border border-gray-100" onclick="filterIdeas(this,'fund')">基金</button>
+<p class="text-xs text-textSub">一套策略 → 一份股票清单，跟踪胜率与回撤。</p>
 </div>
-<!-- 灵感卡片列表 -->
-<div class="px-4 space-y-3" id="idea-list">
 
-<!-- 灵感卡片 1 -->
-<button class="w-full bg-white rounded-2xl shadow-sm border border-gray-50 p-4 text-left" onclick="location.href='stock_detail.html'">
-<div class="flex items-center justify-between mb-2">
-<span class="text-[10px] font-bold text-white bg-secondary px-2 py-0.5 rounded">股票</span>
-<span class="text-[10px] text-textAssist">今天 15:40</span>
+<!-- 灵感 Tab 导航 -->
+<div class="px-4 mb-3 flex gap-0 bg-bgMain rounded-xl p-1 mx-0" id="idea-tabs" style="margin-left:16px;margin-right:16px;">
+<button class="idea-tab-active flex-1 text-xs py-2 rounded-lg font-bold transition-all" onclick="switchIdeaTab(this,'panel-mine')">我的灵感</button>
+<button class="flex-1 text-xs py-2 rounded-lg text-textSub transition-all" onclick="switchIdeaTab(this,'panel-custom')">自定义灵感</button>
+<button class="flex-1 text-xs py-2 rounded-lg text-textSub transition-all" onclick="switchIdeaTab(this,'panel-square')">灵感广场</button>
 </div>
-<h3 class="font-bold text-sm text-textMain mb-1">外资上调评级 + 股价突破20日线</h3>
-<p class="text-[11px] text-textSub mb-3">创建者 @阿森的观察池 · 适合 狐狸 / 猫头鹰</p>
-<div class="grid grid-cols-3 gap-x-3 gap-y-2">
-<div><span class="text-[9px] text-textAssist block">平均涨幅</span><strong class="text-xs font-bold text-up">+6.4%</strong></div>
-<div><span class="text-[9px] text-textAssist block">调仓胜率</span><strong class="text-xs font-bold">68%</strong></div>
-<div><span class="text-[9px] text-textAssist block">今日标的</span><strong class="text-xs font-bold">12</strong></div>
-<div><span class="text-[9px] text-textAssist block">最大回撤</span><strong class="text-xs font-bold text-down">-6.8%</strong></div>
-<div><span class="text-[9px] text-textAssist block">关注</span><strong class="text-xs font-bold">2,316</strong></div>
-<div><span class="text-[9px] text-textAssist block">适合</span><strong class="text-xs font-bold text-secondary">狐狸</strong></div>
+
+<!-- ===== Panel 1: 我的灵感条件 ===== -->
+<div id="panel-mine">
+<!-- 当前灵感标题 -->
+<div class="px-4 mb-3">
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-50">
+<div class="flex items-center justify-between mb-1">
+<h3 class="font-bold text-sm">机构作业跟踪灵感</h3>
+<span class="text-[10px] text-textAssist bg-bgMain px-2 py-0.5 rounded-full">已关注 12 天</span>
+</div>
+<p class="text-[11px] text-textSub mb-3">跟踪外资投行、游资席位和私募的最新调仓动作，筛选出条件匹配的标的。</p>
+<!-- 条件面板 -->
+<div class="space-y-3">
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="text-[11px] text-textSub font-medium">评级上调数量</label>
+<span class="text-[11px] font-bold text-primary insp-cond-val" data-unit="家">≥1家</span>
+</div>
+<input class="w-full h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="0" max="5" value="1" oninput="this.parentNode.querySelector('.insp-cond-val').innerText='≥'+this.value+this.parentNode.querySelector('.insp-cond-val').dataset.unit"/>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="text-[11px] text-textSub font-medium">目标价中位数上调</label>
+<span class="text-[11px] font-bold text-primary insp-cond-val" data-unit="%">≥5%</span>
+</div>
+<input class="w-full h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="0" max="20" value="5" oninput="this.parentNode.querySelector('.insp-cond-val').innerText='≥'+this.value+this.parentNode.querySelector('.insp-cond-val').dataset.unit"/>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="text-[11px] text-textSub font-medium">北向净增持</label>
+<span class="text-[11px] font-bold text-primary insp-cond-val" data-unit="日">≥3日</span>
+</div>
+<input class="w-full h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="0" max="10" value="3" oninput="this.parentNode.querySelector('.insp-cond-val').innerText='≥'+this.value+this.parentNode.querySelector('.insp-cond-val').dataset.unit"/>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="text-[11px] text-textSub font-medium">PE 分位</label>
+<span class="text-[11px] font-bold text-primary insp-cond-val" data-unit="%">≤80%</span>
+</div>
+<input class="w-full h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="0" max="100" value="80" oninput="this.parentNode.querySelector('.insp-cond-val').innerText='≤'+this.value+this.parentNode.querySelector('.insp-cond-val').dataset.unit"/>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="text-[11px] text-textSub font-medium">成交额/20日均值</label>
+<span class="text-[11px] font-bold text-primary insp-cond-val" data-unit="倍">≥1.3倍</span>
+</div>
+<input class="w-full h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="1" max="3" step="0.1" value="1.3" oninput="this.parentNode.querySelector('.insp-cond-val').innerText='≥'+parseFloat(this.value).toFixed(1)+this.parentNode.querySelector('.insp-cond-val').dataset.unit"/>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="text-[11px] text-textSub font-medium">同板块上涨占比</label>
+<span class="text-[11px] font-bold text-primary insp-cond-val" data-unit="%">≥60%</span>
+</div>
+<input class="w-full h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="0" max="100" value="60" oninput="this.parentNode.querySelector('.insp-cond-val').innerText='≥'+this.value+this.parentNode.querySelector('.insp-cond-val').dataset.unit"/>
+</div>
+</div>
+<!-- 操作按钮 -->
+<div class="flex gap-2 mt-4">
+<button class="flex-1 bg-primary text-white font-bold py-2.5 rounded-xl text-xs active:scale-95 transition-transform">保存条件</button>
+<button class="flex-1 bg-textMain text-white font-bold py-2.5 rounded-xl text-xs active:scale-95 transition-transform" onclick="runInspFilter()">重新运行</button>
+</div>
+</div>
+</div>
+
+<!-- 当前选出结果 -->
+<div class="px-4 mt-3">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-sm font-bold flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-up inline-block"></span>
+当前选出结果
+</h3>
+<span class="text-[10px] text-textAssist">更新于 15:40</span>
+</div>
+<div class="space-y-2" id="insp-stock-results">
+<button class="w-full bg-white rounded-xl p-3 shadow-sm border border-gray-50 flex items-center justify-between text-left active:scale-[0.98] transition-transform" onclick="location.href='stock_detail.html'">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center text-xs font-bold text-secondary">中</div>
+<div>
+<div class="text-sm font-bold">中际旭创</div>
+<div class="text-[10px] text-textAssist">300308 · 光模块</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-sm font-bold text-up">+6.12%</div>
+<div class="text-[10px] text-textAssist">评级上调 3 家</div>
 </div>
 </button>
-
-<!-- 灵感卡片 2 -->
-<button class="w-full bg-white rounded-2xl shadow-sm border border-gray-50 p-4 text-left" onclick="location.href='stock_detail.html'">
-<div class="flex items-center justify-between mb-2">
-<span class="text-[10px] font-bold text-white bg-secondary px-2 py-0.5 rounded">股票</span>
-<span class="text-[10px] text-textAssist">今天 14:55</span>
+<button class="w-full bg-white rounded-xl p-3 shadow-sm border border-gray-50 flex items-center justify-between text-left active:scale-[0.98] transition-transform" onclick="location.href='stock_detail.html'">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center text-xs font-bold text-secondary">北</div>
+<div>
+<div class="text-sm font-bold">北方华创</div>
+<div class="text-[10px] text-textAssist">002371 · 半导体设备</div>
 </div>
-<h3 class="font-bold text-sm text-textMain mb-1">游资首板回流 + 成交额放大</h3>
-<p class="text-[11px] text-textSub mb-3">创建者 @短线纪律员 · 适合 猎豹</p>
-<div class="grid grid-cols-3 gap-x-3 gap-y-2">
-<div><span class="text-[9px] text-textAssist block">平均涨幅</span><strong class="text-xs font-bold text-up">+8.1%</strong></div>
-<div><span class="text-[9px] text-textAssist block">调仓胜率</span><strong class="text-xs font-bold">57%</strong></div>
-<div><span class="text-[9px] text-textAssist block">今日标的</span><strong class="text-xs font-bold">9</strong></div>
-<div><span class="text-[9px] text-textAssist block">最大回撤</span><strong class="text-xs font-bold text-down">-11.2%</strong></div>
-<div><span class="text-[9px] text-textAssist block">关注</span><strong class="text-xs font-bold">1,084</strong></div>
-<div><span class="text-[9px] text-textAssist block">适合</span><strong class="text-xs font-bold text-secondary">猎豹</strong></div>
+</div>
+<div class="text-right">
+<div class="text-sm font-bold text-up">+5.82%</div>
+<div class="text-[10px] text-textAssist">北向净增持 5 日</div>
 </div>
 </button>
-
-<!-- 灵感卡片 3 -->
-<button class="w-full bg-white rounded-2xl shadow-sm border border-gray-50 p-4 text-left" onclick="location.href='stock_detail.html'">
-<div class="flex items-center justify-between mb-2">
-<span class="text-[10px] font-bold text-white bg-primary px-2 py-0.5 rounded">基金</span>
-<span class="text-[10px] text-textAssist">昨天 17:10</span>
+<button class="w-full bg-white rounded-xl p-3 shadow-sm border border-gray-50 flex items-center justify-between text-left active:scale-[0.98] transition-transform" onclick="location.href='stock_detail.html'">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">通</div>
+<div>
+<div class="text-sm font-bold">通信ETF</div>
+<div class="text-[10px] text-textAssist">515880 · 场内ETF</div>
 </div>
-<h3 class="font-bold text-sm text-textMain mb-1">红利低波 + 月度再平衡</h3>
-<p class="text-[11px] text-textSub mb-3">创建者 @慢慢来组合 · 适合 乌龟 / 松鼠</p>
-<div class="grid grid-cols-3 gap-x-3 gap-y-2">
-<div><span class="text-[9px] text-textAssist block">平均涨幅</span><strong class="text-xs font-bold text-up">+2.3%</strong></div>
-<div><span class="text-[9px] text-textAssist block">调仓胜率</span><strong class="text-xs font-bold">72%</strong></div>
-<div><span class="text-[9px] text-textAssist block">今日标的</span><strong class="text-xs font-bold">7</strong></div>
-<div><span class="text-[9px] text-textAssist block">最大回撤</span><strong class="text-xs font-bold text-down">-2.9%</strong></div>
-<div><span class="text-[9px] text-textAssist block">关注</span><strong class="text-xs font-bold">3,908</strong></div>
-<div><span class="text-[9px] text-textAssist block">适合</span><strong class="text-xs font-bold text-secondary">乌龟</strong></div>
+</div>
+<div class="text-right">
+<div class="text-sm font-bold text-up">+2.48%</div>
+<div class="text-[10px] text-textAssist">板块上涨占比 78%</div>
 </div>
 </button>
+</div>
+</div>
+</div>
 
-<!-- 灵感卡片 4 -->
-<button class="w-full bg-white rounded-2xl shadow-sm border border-gray-50 p-4 text-left" onclick="location.href='stock_detail.html'">
-<div class="flex items-center justify-between mb-2">
-<span class="text-[10px] font-bold text-white bg-secondary px-2 py-0.5 rounded">股票</span>
-<span class="text-[10px] text-textAssist">今天 13:26</span>
+<!-- ===== Panel 2: 自定义灵感 ===== -->
+<div id="panel-custom" class="hidden">
+<div class="px-4">
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-50">
+<div class="flex items-center gap-2 mb-3">
+<div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+<span class="text-white text-sm">AI</span>
 </div>
-<h3 class="font-bold text-sm text-textMain mb-1">私募调研升温 + 估值回落</h3>
-<p class="text-[11px] text-textSub mb-3">创建者 @财报显微镜 · 适合 猫头鹰</p>
-<div class="grid grid-cols-3 gap-x-3 gap-y-2">
-<div><span class="text-[9px] text-textAssist block">平均涨幅</span><strong class="text-xs font-bold text-up">+3.9%</strong></div>
-<div><span class="text-[9px] text-textAssist block">调仓胜率</span><strong class="text-xs font-bold">64%</strong></div>
-<div><span class="text-[9px] text-textAssist block">今日标的</span><strong class="text-xs font-bold">8</strong></div>
-<div><span class="text-[9px] text-textAssist block">最大回撤</span><strong class="text-xs font-bold text-down">-5.1%</strong></div>
-<div><span class="text-[9px] text-textAssist block">关注</span><strong class="text-xs font-bold">1,562</strong></div>
-<div><span class="text-[9px] text-textAssist block">适合</span><strong class="text-xs font-bold text-secondary">猫头鹰</strong></div>
+<div>
+<h3 class="font-bold text-sm">用一句话描述你的投资想法</h3>
+<p class="text-[10px] text-textAssist">小金鲤会帮你生成一套选股策略</p>
 </div>
+</div>
+<textarea id="custom-idea-input" class="w-full bg-bgMain rounded-xl p-3 text-xs leading-relaxed border-none outline-none resize-none" rows="3" placeholder="例如：我有2万元，想6个月赚15%，不能亏太多，帮我设计一个投资灵感。"></textarea>
+<button class="w-full bg-gradient-to-r from-primary to-secondary text-white font-bold py-3 rounded-xl text-xs mt-3 active:scale-95 transition-transform shadow-lg shadow-primary/20" onclick="generateCustomIdea()">
+生成灵感
 </button>
+</div>
 
-<!-- 灵感卡片 5 -->
-<button class="w-full bg-white rounded-2xl shadow-sm border border-gray-50 p-4 text-left" onclick="location.href='stock_detail.html'">
+<!-- AI 生成结果 (默认隐藏) -->
+<div class="hidden mt-4" id="custom-idea-result">
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-primary/20">
+<div class="flex items-center gap-2 mb-3">
+<div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+<iconify-icon class="text-primary text-sm" icon="solar:sparkles-bold-duotone"></iconify-icon>
+</div>
+<h3 class="font-bold text-sm">AI 生成灵感：稳健成长组合</h3>
+</div>
+<div class="bg-bgMain rounded-xl p-3 mb-3">
+<p class="text-[11px] text-textSub leading-relaxed mb-2">根据你的目标（收益 15%、低风险、6 个月），建议采用"核心 + 卫星"配置策略：核心仓位 70% 配置宽基 ETF 获取市场平均收益，卫星仓位 30% 配置高景气行业 ETF 博取超额收益。</p>
+<div class="flex flex-wrap gap-1.5">
+<span class="text-[10px] bg-red-50 text-up px-2 py-0.5 rounded-full border border-red-100">最大回撤 ≤10%</span>
+<span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full border border-blue-100">ETF 优先</span>
+<span class="text-[10px] bg-orange-50 text-secondary px-2 py-0.5 rounded-full border border-orange-100">主题仓 ≤30%</span>
+</div>
+</div>
+<!-- 建议配置 -->
+<div class="space-y-2 mb-3">
+<div class="flex items-center justify-between p-2.5 bg-bgMain rounded-lg">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">核</div>
+<div>
+<div class="text-xs font-bold">沪深300 ETF</div>
+<div class="text-[10px] text-textAssist">核心仓 · 建议占比 40%</div>
+</div>
+</div>
+<span class="text-[10px] text-textAssist">510300</span>
+</div>
+<div class="flex items-center justify-between p-2.5 bg-bgMain rounded-lg">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">核</div>
+<div>
+<div class="text-xs font-bold">中证500 ETF</div>
+<div class="text-[10px] text-textAssist">核心仓 · 建议占比 30%</div>
+</div>
+</div>
+<span class="text-[10px] text-textAssist">510500</span>
+</div>
+<div class="flex items-center justify-between p-2.5 bg-bgMain rounded-lg">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-secondary/10 flex items-center justify-center text-[10px] font-bold text-secondary">卫</div>
+<div>
+<div class="text-xs font-bold">通信ETF</div>
+<div class="text-[10px] text-textAssist">卫星仓 · 建议占比 15%</div>
+</div>
+</div>
+<span class="text-[10px] text-textAssist">515880</span>
+</div>
+<div class="flex items-center justify-between p-2.5 bg-bgMain rounded-lg">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-secondary/10 flex items-center justify-center text-[10px] font-bold text-secondary">卫</div>
+<div>
+<div class="text-xs font-bold">半导体ETF</div>
+<div class="text-[10px] text-textAssist">卫星仓 · 建议占比 15%</div>
+</div>
+</div>
+<span class="text-[10px] text-textAssist">512480</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-white font-bold py-2.5 rounded-xl text-xs active:scale-95 transition-transform">生成并关注</button>
+<button class="flex-1 bg-bgMain text-textSub font-bold py-2.5 rounded-xl text-xs active:scale-95 transition-transform border border-gray-100">修改条件</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ===== Panel 3: 灵感广场 ===== -->
+<div id="panel-square" class="hidden">
+<div class="px-4">
+<!-- 广场筛选 -->
+<div class="flex gap-2 mb-3">
+<button class="square-filter-active text-[10px] px-2.5 py-1 rounded-full font-bold" onclick="filterSquare(this)">全部</button>
+<button class="bg-white text-textSub text-[10px] px-2.5 py-1 rounded-full border border-gray-100" onclick="filterSquare(this)">股票</button>
+<button class="bg-white text-textSub text-[10px] px-2.5 py-1 rounded-full border border-gray-100" onclick="filterSquare(this)">基金</button>
+<button class="bg-white text-textSub text-[10px] px-2.5 py-1 rounded-full border border-gray-100" onclick="filterSquare(this)">公开灵感</button>
+</div>
+
+<div class="space-y-3">
+<!-- 广场卡片 1 -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+<div class="p-4">
 <div class="flex items-center justify-between mb-2">
-<span class="text-[10px] font-bold text-white bg-primary px-2 py-0.5 rounded">基金</span>
-<span class="text-[10px] text-textAssist">今天 12:08</span>
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-[10px] font-bold text-secondary">趋</div>
+<span class="text-[11px] font-bold">@趋势鲤鱼</span>
+<span class="text-[10px] text-textAssist">· 今天 14:30</span>
 </div>
-<h3 class="font-bold text-sm text-textMain mb-1">ETF放量突破 + 回撤可控</h3>
-<p class="text-[11px] text-textSub mb-3">创建者 @ETF捕手 · 适合 松鼠 / 狐狸</p>
-<div class="grid grid-cols-3 gap-x-3 gap-y-2">
-<div><span class="text-[9px] text-textAssist block">平均涨幅</span><strong class="text-xs font-bold text-up">+4.2%</strong></div>
-<div><span class="text-[9px] text-textAssist block">调仓胜率</span><strong class="text-xs font-bold">62%</strong></div>
-<div><span class="text-[9px] text-textAssist block">今日标的</span><strong class="text-xs font-bold">6</strong></div>
-<div><span class="text-[9px] text-textAssist block">最大回撤</span><strong class="text-xs font-bold text-down">-4.4%</strong></div>
-<div><span class="text-[9px] text-textAssist block">关注</span><strong class="text-xs font-bold">2,071</strong></div>
-<div><span class="text-[9px] text-textAssist block">适合</span><strong class="text-xs font-bold text-secondary">松鼠</strong></div>
+<span class="text-[10px] text-down bg-down/10 px-2 py-0.5 rounded-full font-bold">胜率 72%</span>
 </div>
-</button>
+<h3 class="font-bold text-sm mb-1">北向连续净买 + 行业低位</h3>
+<p class="text-[11px] text-textSub mb-3">跟踪陆股通资金连续 3 日以上净买入的行业，在行业估值处于近 3 年 30% 分位以下时关注。</p>
+<!-- 当前股单 -->
+<div class="bg-bgMain rounded-xl p-3 mb-3">
+<div class="text-[10px] text-textAssist font-medium mb-2">当前选出标的</div>
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<span class="text-xs font-medium">中际旭创 <span class="text-textAssist text-[10px]">300308</span></span>
+<span class="text-xs font-bold text-up">+6.12%</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-xs font-medium">阳光电源 <span class="text-textAssist text-[10px]">300274</span></span>
+<span class="text-xs font-bold text-up">+4.76%</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-xs font-medium">通信ETF <span class="text-textAssist text-[10px]">515880</span></span>
+<span class="text-xs font-bold text-up">+2.48%</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex gap-3">
+<span class="text-[10px] text-textAssist">均涨 <strong class="text-up">+4.8%</strong></span>
+<span class="text-[10px] text-textAssist">关注 <strong>1,284</strong></span>
+<span class="text-[10px] text-textAssist">回撤 <strong class="text-down">-3.2%</strong></span>
+</div>
+<button class="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-lg active:scale-95 transition-transform">关注</button>
+</div>
+</div>
+</div>
 
-<!-- 灵感卡片 6 -->
-<button class="w-full bg-white rounded-2xl shadow-sm border border-gray-50 p-4 text-left" onclick="location.href='stock_detail.html'">
+<!-- 广场卡片 2 (打赏解锁) -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+<div class="p-4">
 <div class="flex items-center justify-between mb-2">
-<span class="text-[10px] font-bold text-white bg-secondary px-2 py-0.5 rounded">股票</span>
-<span class="text-[10px] text-textAssist">今天 11:36</span>
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-pink-100 flex items-center justify-center text-[10px] font-bold text-pink-500">稳</div>
+<span class="text-[11px] font-bold">@稳稳姐</span>
+<span class="text-[10px] text-textAssist">· 昨天 17:20</span>
 </div>
-<h3 class="font-bold text-sm text-textMain mb-1">业绩预告上修 + 毛利率改善</h3>
-<p class="text-[11px] text-textSub mb-3">创建者 @利润率猎人 · 适合 猫头鹰</p>
-<div class="grid grid-cols-3 gap-x-3 gap-y-2">
-<div><span class="text-[9px] text-textAssist block">平均涨幅</span><strong class="text-xs font-bold text-up">+5.6%</strong></div>
-<div><span class="text-[9px] text-textAssist block">调仓胜率</span><strong class="text-xs font-bold">66%</strong></div>
-<div><span class="text-[9px] text-textAssist block">今日标的</span><strong class="text-xs font-bold">10</strong></div>
-<div><span class="text-[9px] text-textAssist block">最大回撤</span><strong class="text-xs font-bold text-down">-7.0%</strong></div>
-<div><span class="text-[9px] text-textAssist block">关注</span><strong class="text-xs font-bold">1,730</strong></div>
-<div><span class="text-[9px] text-textAssist block">适合</span><strong class="text-xs font-bold text-secondary">猫头鹰</strong></div>
+<span class="text-[10px] text-down bg-down/10 px-2 py-0.5 rounded-full font-bold">胜率 76%</span>
 </div>
-</button>
+<h3 class="font-bold text-sm mb-1">高股息低波动 + 月度再平衡</h3>
+<p class="text-[11px] text-textSub mb-3">筛选股息率高于 4%、波动率低于同类平均的基金，每月调仓一次，适合稳健型投资者长期持有。</p>
+<!-- 条件锁定 -->
+<div class="bg-bgMain rounded-xl p-3 mb-3 text-center">
+<div class="text-[10px] text-textAssist mb-2">当前选出标的（3 只）</div>
+<div class="flex items-center justify-center gap-2 mb-2">
+<iconify-icon class="text-primary text-lg" icon="solar:lock-bold-duotone"></iconify-icon>
+<span class="text-xs text-textSub">条件需打赏解锁</span>
+</div>
+<div class="flex items-center justify-center gap-1">
+<span class="text-[10px] bg-bgMain text-textAssist px-2 py-0.5 rounded border border-gray-100">股息率 ≥4%</span>
+<span class="text-[10px] bg-bgMain text-textAssist px-2 py-0.5 rounded border border-gray-100">波动率 ≤ 同类均值</span>
+<span class="text-[10px] bg-bgMain text-textAssist px-2 py-0.5 rounded border border-gray-100">规模 ≥20亿</span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex gap-3">
+<span class="text-[10px] text-textAssist">均涨 <strong class="text-up">+2.1%</strong></span>
+<span class="text-[10px] text-textAssist">关注 <strong>3,412</strong></span>
+<span class="text-[10px] text-textAssist">回撤 <strong class="text-down">-1.8%</strong></span>
+</div>
+<button class="bg-secondary text-white text-[10px] font-bold px-3 py-1.5 rounded-lg active:scale-95 transition-transform">打赏查看</button>
+</div>
+</div>
+</div>
 
+<!-- 广场卡片 3 -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+<div class="p-4">
+<div class="flex items-center justify-between mb-2">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-[10px] font-bold text-blue-500">短</div>
+<span class="text-[11px] font-bold">@短线小算盘</span>
+<span class="text-[10px] text-textAssist">· 今天 10:55</span>
+</div>
+<span class="text-[10px] text-up bg-up/10 px-2 py-0.5 rounded-full font-bold">胜率 57%</span>
+</div>
+<h3 class="font-bold text-sm mb-1">游资首板回流 + 成交额放大</h3>
+<p class="text-[11px] text-textSub mb-3">寻找题材刚启动、成交额快速放大的短线机会，关注首板后第二天的回流确认信号。</p>
+<!-- 公开灵感 - 条件可见 -->
+<div class="bg-bgMain rounded-xl p-3 mb-3">
+<div class="text-[10px] text-textAssist font-medium mb-2">筛选条件（公开灵感）</div>
+<div class="flex flex-wrap gap-1.5 mb-2">
+<span class="text-[10px] bg-white text-textSub px-2 py-0.5 rounded border border-gray-100">涨停结构：近3日首板</span>
+<span class="text-[10px] bg-white text-textSub px-2 py-0.5 rounded border border-gray-100">成交额 ≥ 20日均额 1.5x</span>
+<span class="text-[10px] bg-white text-textSub px-2 py-0.5 rounded border border-gray-100">换手率 5%-18%</span>
+</div>
+<div class="text-[10px] text-textAssist">当前选出：新易盛、拓荆科技、鸣志电器、上能电气</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex gap-3">
+<span class="text-[10px] text-textAssist">均涨 <strong class="text-up">+8.1%</strong></span>
+<span class="text-[10px] text-textAssist">关注 <strong>1,084</strong></span>
+<span class="text-[10px] text-textAssist">回撤 <strong class="text-down">-11.2%</strong></span>
+</div>
+<button class="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-lg active:scale-95 transition-transform">关注</button>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </section>
 
@@ -473,13 +698,49 @@
             }
         }
 
-        // 灵感筛选标签切换（仅视觉反馈）
-        function filterIdeas(btn, mode) {
-            var tabs = document.querySelectorAll('#idea-filter-tabs button');
+        // 灵感 Tab 切换
+        function switchIdeaTab(btn, panelId) {
+            var tabs = document.querySelectorAll('#idea-tabs button');
             tabs.forEach(function(b) {
-                b.className = 'bg-white text-textSub text-xs px-3 py-1.5 rounded-full border border-gray-100';
+                b.className = 'flex-1 text-xs py-2 rounded-lg text-textSub transition-all';
             });
-            btn.className = 'idea-filter-active text-xs px-3 py-1.5 rounded-full font-bold';
+            btn.className = 'idea-tab-active flex-1 text-xs py-2 rounded-lg font-bold transition-all';
+            ['panel-mine','panel-custom','panel-square'].forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+            var target = document.getElementById(panelId);
+            if (target) target.classList.remove('hidden');
+        }
+
+        // 自定义灵感 - 显示 AI 生成结果
+        function generateCustomIdea() {
+            var result = document.getElementById('custom-idea-result');
+            if (result) {
+                result.classList.remove('hidden');
+                result.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // 灵感广场筛选
+        function filterSquare(btn) {
+            var tabs = btn.parentNode.querySelectorAll('button');
+            tabs.forEach(function(b) {
+                b.className = 'bg-white text-textSub text-[10px] px-2.5 py-1 rounded-full border border-gray-100';
+            });
+            btn.className = 'square-filter-active text-[10px] px-2.5 py-1 rounded-full font-bold';
+        }
+
+        // 重新运行筛选（模拟）
+        function runInspFilter() {
+            var results = document.getElementById('insp-stock-results');
+            if (results) {
+                results.style.opacity = '0.3';
+                setTimeout(function() {
+                    results.style.opacity = '1';
+                    results.scrollIntoView({ behavior: 'smooth' });
+                }, 600);
+            }
         }
 
         // Format number with commas

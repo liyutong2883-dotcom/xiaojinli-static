@@ -184,11 +184,12 @@ test("toolbox page repurposed as 仓库 with AI stock picker, ideas, and calcula
   const html = await readPage("toolbox.html");
   // AI 选股器
   assert.match(html, /AI\s*选股/, "should have AI stock picker section");
-  // 灵感区块
-  assert.match(html, /筛选出好标的/, "should have inspiration hero");
-  assert.match(html, /适合我/, "should have filter tabs");
-  assert.match(html, /调仓胜率/, "should show idea card metrics");
-  assert.match(html, /外资上调评级/, "should have idea card titles");
+  // 灵感区块 (三合一)
+  assert.match(html, /我的灵感/, "should have my inspiration tab");
+  assert.match(html, /自定义灵感/, "should have custom inspiration tab");
+  assert.match(html, /灵感广场/, "should have inspiration marketplace tab");
+  assert.match(html, /评级上调数量/, "should have editable conditions");
+  assert.match(html, /北向连续净买/, "should have marketplace inspiration cards");
   // 投资计算器
   assert.match(html, /投资计算器/, "should have calculator section");
   assert.match(html, /复利计算器/, "should have compound interest calculator");

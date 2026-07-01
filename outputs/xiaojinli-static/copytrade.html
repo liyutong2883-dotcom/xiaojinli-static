@@ -191,9 +191,6 @@
                     <!-- Hero Section: 核心指标 -->
                     <div class="px-4 pt-4 pb-3 relative">
                         ${index < 3 ? `<div class="absolute top-3 left-3 w-6 h-6 ${index === 0 ? 'bg-yellow-400' : index === 1 ? 'bg-gray-300' : 'bg-orange-400'} rounded-full flex items-center justify-center text-[10px] text-white font-bold border-2 border-white">${index + 1}</div>` : ''}
-                        <button onclick="event.stopPropagation(); toggleFollow(this)" class="absolute top-3 right-3 text-[10px] px-3 py-1 rounded-full border flex-shrink-0 ${item.followed ? 'bg-gray-100 text-textAssist border-gray-100' : 'border-primary text-primary'}">
-                            ${item.followed ? '已关注' : '+ 关注'}
-                        </button>
                         
                         <!-- 主体信息：头像 + 名称 + 胜率 -->
                         <div class="flex items-center gap-3 mb-3 mt-1">
@@ -204,10 +201,13 @@
                                 <div class="font-bold text-base text-textMain truncate">${item.name}</div>
                                 <div class="text-[10px] text-textAssist mt-0.5">${item.sampleSize} · ${item.disclosureLag}</div>
                             </div>
-                            <div class="text-right flex-shrink-0">
+                            <div class="text-right flex-shrink-0 mr-2">
                                 <div class="text-3xl font-black text-up leading-none">${item.successRate}</div>
                                 <div class="text-[9px] text-textAssist mt-1">胜率</div>
                             </div>
+                            <button onclick="event.stopPropagation(); toggleFollow(this)" class="text-[10px] px-3 py-1.5 rounded-full border flex-shrink-0 ${item.followed ? 'bg-gray-100 text-textAssist border-gray-100' : 'border-primary text-primary font-medium'}">
+                                ${item.followed ? '已关注' : '+ 关注'}
+                            </button>
                         </div>
                         
                         <!-- 次要指标：回撤 + 风险 -->

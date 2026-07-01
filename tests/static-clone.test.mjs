@@ -139,12 +139,11 @@ test("discover page has redesigned content with ranking and DNA banner", async (
   assert.match(html, /今天谁赚了大钱/, "should have ranking section");
   // DNA 画像 banner
   assert.match(html, /DNA|画像|投资性格/, "should reference DNA/profile section");
-  // 日签宜/忌
-  assert.match(html, /宜|忌/, "should have 宜/忌 daily sign");
-  // 日签结合DNA画像标签
-  assert.match(html, /今日日签/, "should have daily sign with DNA tags");
-  // 我的分析/投小圈两种模式
-  assert.match(html, /我的分析/, "should have 我的分析 tab");
+  // 日签宜/忌（放大显示）
+  assert.match(html, /宜/, "should have 宜 in daily sign");
+  assert.match(html, /忌/, "should have 忌 in daily sign");
+  // 我的今日/投小圈两种模式
+  assert.match(html, /我的今日/, "should have 我的今日 tab");
   assert.match(html, /投小圈/, "should have 投小圈 tab");
   assert.match(html, /switchDnaMode/, "should have mode switching function");
   // 大咖投研

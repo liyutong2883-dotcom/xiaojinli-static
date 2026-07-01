@@ -121,7 +121,7 @@
   /* 弹幕气泡 - 错落排列，带头像 */
   .dm-row {
     display: flex;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
   .dm-row.dm-left  { justify-content: flex-start; }
   .dm-row.dm-right { justify-content: flex-end; }
@@ -130,54 +130,60 @@
   .dm-bubble {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     background: white;
-    border-radius: 24px;
-    padding: 8px 16px 8px 8px;
+    border-radius: 20px;
+    padding: 6px 12px 6px 6px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     cursor: pointer;
     transition: all 0.15s;
-    max-width: 85%;
+    max-width: 80%;
   }
   .dm-bubble:active { transform: scale(0.97); }
 
   .dm-avatar {
-    width: 32px; height: 32px;
+    width: 26px; height: 26px;
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
+    font-size: 12px;
     flex-shrink: 0;
   }
 
   .dm-text {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     color: #5C3D1A;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
   }
 
   .dm-likes {
-    display: flex; align-items: center; gap: 3px;
-    font-size: 12px; color: #C4956A; font-weight: 500;
-    margin-left: 4px;
+    display: flex; align-items: center; gap: 2px;
+    font-size: 11px; color: #C4956A; font-weight: 500;
+    flex-shrink: 0;
   }
 
   .dm-say {
     display: inline-flex; align-items: center; gap: 6px;
-    background: white; border-radius: 24px;
-    padding: 8px 16px;
-    font-size: 14px; color: #999;
+    background: white; border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 12px; color: #999;
     box-shadow: 0 1px 4px rgba(0,0,0,0.04);
   }
   .dm-say-icon {
-    width: 24px; height: 24px; border-radius: 50%;
+    width: 20px; height: 20px; border-radius: 50%;
     background: #FFD666; display: flex; align-items: center; justify-content: center;
   }
 
   .dm-sparkle {
-    text-align: center; font-size: 18px; color: #FFD666;
-    letter-spacing: 4px; margin-top: 4px;
+    text-align: center; font-size: 16px; color: #FFD666;
+    letter-spacing: 4px; margin-top: 2px;
   }
+
+  /* 两个 tab 内容等高 */
+  .dna-tab-content { min-height: 280px; }
 
   .calendar-dot {
     width: 4px;
@@ -911,10 +917,10 @@
       +     '<div class="dna-mode-tab active" id="tab-solo" onclick="switchDnaMode(\'solo\')">我的分析</div>'
       +     '<div class="dna-mode-tab" id="tab-discuss" onclick="switchDnaMode(\'discuss\')">投小圈</div>'
       +   '</div>'
-      +   '<div id="dna-solo-content">'
+      +   '<div id="dna-solo-content" class="dna-tab-content">'
       +     soloHTML
       +   '</div>'
-      +   '<div id="dna-discuss-content" class="hidden">'
+      +   '<div id="dna-discuss-content" class="hidden dna-tab-content">'
       +     discussHTML
       +   '</div>'
       + '</div>';

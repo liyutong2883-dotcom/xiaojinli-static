@@ -254,19 +254,43 @@
     }
   ];
 
-  // ========== AI Agent Comments Data ==========
+  // ========== AI Agent Comments Data (with AI replies) ==========
   const aiCommentsData = {
     '张大牛': [
-      { user: '小鱼儿', avatar: '👧', text: '@张大牛.ai 消费板块下半年还能布局吗？', likes: 328 },
-      { user: '老陈', avatar: '👦', text: '@张大牛.ai 白酒还值得持有吗？', likes: 215 }
+      {
+        user: '小鱼儿', avatar: '👧', avatarBg: 'bg-pink-100',
+        text: '@张大牛.ai 消费板块下半年还能布局吗？', likes: 328,
+        aiReply: '消费板块当前估值处于历史30%分位，下半年随着促消费政策落地和中秋国庆旺季，龙头标的具备配置价值。建议关注估值合理、现金流稳定的细分龙头，分批建仓更稳妥。'
+      },
+      {
+        user: '老陈', avatar: '👦', avatarBg: 'bg-blue-100',
+        text: '@张大牛.ai 白酒还值得持有吗？', likes: 215,
+        aiReply: '白酒板块分化明显，高端白酒库存去化顺利，但次高端仍面临压力。如果你持有的是龙头标的，建议继续持有；如果是二三线品牌，可以趁反弹适当减仓。'
+      }
     ],
     '李策略': [
-      { user: '阿杰', avatar: '👦', text: '@李策略.ai 三个信号具体指什么？', likes: 456 },
-      { user: '月月', avatar: '👧', text: '@李策略.ai 新能源现在上车晚不晚？', likes: 189 }
+      {
+        user: '阿杰', avatar: '👦', avatarBg: 'bg-blue-100',
+        text: '@李策略.ai 三个信号具体指什么？', likes: 456,
+        aiReply: '三个关键信号：① 新能源渗透率突破40%后的增速拐点；② 上游锂矿价格企稳回升；③ 政策端对储能和充电桩的新补贴落地。目前信号①已出现，②③仍在观察中。'
+      },
+      {
+        user: '月月', avatar: '👧', avatarBg: 'bg-pink-100',
+        text: '@李策略.ai 新能源现在上车晚不晚？', likes: 189,
+        aiReply: '新能源长期逻辑没变，但短期需要精选方向。光伏和锂电处于产能出清阶段，可以关注；储能和充电桩是增量赛道，确定性更高。建议定投而非一把梭。'
+      }
     ],
     '王稳健': [
-      { user: '大壮', avatar: '👦', text: '@王稳健.ai 红利策略适合新手吗？', likes: 521 },
-      { user: '豆豆', avatar: '👧', text: '@王稳健.ai 天花板到了是不是该卖？', likes: 167 }
+      {
+        user: '大壮', avatar: '👦', avatarBg: 'bg-blue-100',
+        text: '@王稳健.ai 红利策略适合新手吗？', likes: 521,
+        aiReply: '红利策略非常适合新手！它波动小、分红稳定，本质是"边赚钱边学习"。选择红利ETF或高股息基金，每月定投，长期收益往往跑赢大部分主动基金。'
+      },
+      {
+        user: '豆豆', avatar: '👧', avatarBg: 'bg-pink-100',
+        text: '@王稳健.ai 天花板到了是不是该卖？', likes: 167,
+        aiReply: '"天花板"需要区分是估值天花板还是基本面天花板。如果是估值到了历史高位但基本面依然健康，可以减仓但不必清仓；如果是行业逻辑变了，那就果断卖出。'
+      }
     ]
   };
 
@@ -292,10 +316,15 @@
   function renderComments() {
     const params = getUrlParams();
     const container = document.getElementById('comments-list');
+    const aiComments = aiCommentsData[params.author] || [];
     
-    // Render regular comments
-    let html = comments.map(function(c) {
-      return ''
+    // Build combined list: regular comments with AI threads interleaved
+    var html = '';
+    var aiIndex = 0;
+    
+    comments.forEach(function(c, idx) {
+      // Regular comment
+      html += ''
         + '<div class="flex gap-2.5">'
         +   '<div class="w-8 h-8 rounded-full ' + c.avatarBg + ' flex items-center justify-center text-sm flex-shrink-0">' + c.avatar + '</div>'
         +   '<div class="flex-1 min-w-0">'
@@ -316,38 +345,70 @@
         +     '</div>'
         +   '</div>'
         + '</div>';
-    }).join('');
-    
-    // Render AI Agent Comments section
-    const aiComments = aiCommentsData[params.author] || [];
-    if (aiComments.length > 0) {
-      html += '<div class="mt-6 pt-4 border-t border-dashed border-gray-200">';
-      html += '<div class="flex items-center gap-2 mb-3">';
-      html += '<iconify-icon class="text-primary text-lg" icon="solar:robot-bold"></iconify-icon>';
-      html += '<h4 class="font-bold text-sm text-textMain">AI 分身互动区</h4>';
-      html += '<span class="text-[10px] text-textAssist bg-primary/10 px-2 py-0.5 rounded-full">@' + params.author + '.ai</span>';
-      html += '</div>';
       
-      aiComments.forEach(function(ac) {
+      // After every 2 regular comments, insert an AI thread
+      if ((idx + 1) % 2 === 0 && aiIndex < aiComments.length) {
+        var ac = aiComments[aiIndex];
         html += ''
-          + '<div class="bg-gradient-to-r from-primary/5 to-transparent rounded-xl p-3 mb-2 border border-primary/10">'
-          +   '<div class="flex items-start gap-2">'
-          +     '<div class="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-xs flex-shrink-0">' + ac.avatar + '</div>'
+          + '<div class="ml-10 pl-3 border-l-2 border-primary/20">'
+          // User question
+          +   '<div class="flex gap-2">'
+          +     '<div class="w-7 h-7 rounded-full ' + ac.avatarBg + ' flex items-center justify-center text-xs flex-shrink-0">' + ac.avatar + '</div>'
           +     '<div class="flex-1 min-w-0">'
           +       '<p class="text-sm text-textSub leading-relaxed">' + ac.text + '</p>'
-          +       '<div class="flex items-center gap-2 mt-1.5">'
+          +       '<div class="flex items-center gap-2 mt-1">'
           +         '<button class="flex items-center gap-1 text-textAssist hover:text-primary transition-colors">'
           +           '<iconify-icon class="text-xs" icon="solar:like-linear"></iconify-icon>'
           +           '<span class="text-[10px]">' + ac.likes + '</span>'
           +         '</button>'
-          +         '<span class="text-[10px] text-textAssist">点击提问</span>'
           +       '</div>'
           +     '</div>'
           +   '</div>'
+          // AI reply
+          +   '<div class="flex gap-2 mt-2 bg-gradient-to-r from-primary/5 to-transparent rounded-lg p-2.5">'
+          +     '<div class="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-xs flex-shrink-0">🤖</div>'
+          +     '<div class="flex-1 min-w-0">'
+          +       '<div class="flex items-center gap-1 mb-1">'
+          +         '<span class="text-[10px] font-bold text-primary">' + params.author + '.ai</span>'
+          +         '<span class="text-[9px] text-textAssist bg-primary/10 px-1.5 py-0.5 rounded">AI 回复</span>'
+          +       '</div>'
+          +       '<p class="text-xs text-textSub leading-relaxed">' + ac.aiReply + '</p>'
+          +     '</div>'
+          +   '</div>'
           + '</div>';
-      });
-      
-      html += '</div>';
+        aiIndex++;
+      }
+    });
+    
+    // If there are remaining AI comments, append them at the end
+    while (aiIndex < aiComments.length) {
+      var ac = aiComments[aiIndex];
+      html += ''
+        + '<div class="ml-10 pl-3 border-l-2 border-primary/20">'
+        +   '<div class="flex gap-2">'
+        +     '<div class="w-7 h-7 rounded-full ' + ac.avatarBg + ' flex items-center justify-center text-xs flex-shrink-0">' + ac.avatar + '</div>'
+        +     '<div class="flex-1 min-w-0">'
+        +       '<p class="text-sm text-textSub leading-relaxed">' + ac.text + '</p>'
+        +       '<div class="flex items-center gap-2 mt-1">'
+        +         '<button class="flex items-center gap-1 text-textAssist hover:text-primary transition-colors">'
+        +           '<iconify-icon class="text-xs" icon="solar:like-linear"></iconify-icon>'
+        +           '<span class="text-[10px]">' + ac.likes + '</span>'
+        +         '</button>'
+        +       '</div>'
+        +     '</div>'
+        +   '</div>'
+        +   '<div class="flex gap-2 mt-2 bg-gradient-to-r from-primary/5 to-transparent rounded-lg p-2.5">'
+        +     '<div class="w-7 h-7 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-xs flex-shrink-0">🤖</div>'
+        +     '<div class="flex-1 min-w-0">'
+        +       '<div class="flex items-center gap-1 mb-1">'
+        +         '<span class="text-[10px] font-bold text-primary">' + params.author + '.ai</span>'
+        +         '<span class="text-[9px] text-textAssist bg-primary/10 px-1.5 py-0.5 rounded">AI 回复</span>'
+        +       '</div>'
+        +       '<p class="text-xs text-textSub leading-relaxed">' + ac.aiReply + '</p>'
+        +     '</div>'
+        +   '</div>'
+        + '</div>';
+      aiIndex++;
     }
     
     container.innerHTML = html;

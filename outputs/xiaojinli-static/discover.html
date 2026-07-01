@@ -449,6 +449,7 @@
   const dnaConfig = {
     owl: {
       name: '猫头鹰', emoji: '🦉', headline: '认真研究型',
+      investorType: '价值投资者', percent: '8.2%',
       preferredSort: 'aiClarity',
       yi: '研究复盘', ji: '盲目跟风',
       recommendText: '你的投资 DNA 偏猫头鹰，今天优先看逻辑清晰的作业',
@@ -469,6 +470,7 @@
     },
     cheetah: {
       name: '猎豹', emoji: '🐆', headline: '行动派',
+      investorType: '趋势交易者', percent: '12.5%',
       preferredSort: 'returnRate',
       yi: '果断出手', ji: '犹豫不决',
       recommendText: '你的投资 DNA 偏猎豹，今天优先看高收益机会',
@@ -489,6 +491,7 @@
     },
     turtle: {
       name: '乌龟', emoji: '🐢', headline: '稳稳赚钱派',
+      investorType: '稳健理财者', percent: '23.1%',
       preferredSort: 'drawdown',
       yi: '稳健持仓', ji: '频繁操作',
       recommendText: '你的投资 DNA 偏乌龟，今天优先看稳健赚钱的作业',
@@ -509,6 +512,7 @@
     },
     fox: {
       name: '狐狸', emoji: '🦊', headline: '消息雷达',
+      investorType: '事件驱动者', percent: '15.7%',
       preferredSort: 'heat',
       yi: '关注资讯', ji: '信息过载',
       recommendText: '你的投资 DNA 偏狐狸，今天优先看事件驱动的作业',
@@ -529,6 +533,7 @@
     },
     squirrel: {
       name: '松鼠', emoji: '🐿️', headline: '准备型',
+      investorType: '成长型新手', percent: '40.5%',
       preferredSort: 'beginner',
       yi: '小额试水', ji: '重仓冒险',
       recommendText: '你的投资 DNA 偏松鼠，今天优先看入门友好的作业',
@@ -720,7 +725,7 @@
       + '<div class="bg-white rounded-2xl p-4 dna-card-glow">'
       +   '<div class="text-center mb-2">'
       +     '<div class="text-3xl mb-1">' + dna.emoji + '</div>'
-      +     '<div class="font-bold text-base text-textMain">' + dna.name + '型投资者</div>'
+      +     '<div class="font-bold text-base text-textMain">' + dna.emoji + ' 小' + dna.name + '｜' + dna.investorType + '｜全国仅有' + dna.percent + '</div>'
       +   '</div>'
       +   '<div class="text-center text-xs text-textSub mb-4 leading-relaxed px-2">' + dna.subtitle + '</div>'
       +   '<div class="grid grid-cols-2 gap-2 mb-4">'
@@ -782,24 +787,10 @@
       +   '</div>'
       // Merged returns strip — compact, inline with the card
       +   '<div class="flex items-center gap-2 bg-bgMain rounded-xl px-3 py-2 mb-3">'
-      +     '<span class="text-[10px] text-textAssist flex-shrink-0">同类今日</span>'
-      +     '<div class="flex gap-2 overflow-x-auto flex-1" style="-webkit-overflow-scrolling:touch">'
-      +       '<div class="flex-shrink-0 flex items-center gap-1.5">'
-      +         '<div class="w-5 h-5 rounded-full bg-pink-100 flex items-center justify-center text-[8px]">👧</div>'
-      +         '<div><div class="text-[9px] text-textSub leading-none">小鱼儿</div><div class="text-[11px] font-bold text-up leading-tight">+8.6%</div></div>'
-      +       '</div>'
-      +       '<div class="flex-shrink-0 flex items-center gap-1.5">'
-      +         '<div class="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center text-[8px]">👦</div>'
-      +         '<div><div class="text-[9px] text-textSub leading-none">阿杰</div><div class="text-[11px] font-bold text-up leading-tight">+3.2%</div></div>'
-      +       '</div>'
-      +       '<div class="flex-shrink-0 flex items-center gap-1.5">'
-      +         '<div class="w-5 h-5 rounded-full bg-purple-100 flex items-center justify-center text-[8px]">👧</div>'
-      +         '<div><div class="text-[9px] text-textSub leading-none">月月</div><div class="text-[11px] font-bold text-down leading-tight">-1.5%</div></div>'
-      +       '</div>'
-      +       '<div class="flex-shrink-0 flex items-center gap-1.5">'
-      +         '<div class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center text-[8px]">👦</div>'
-      +         '<div><div class="text-[9px] text-textSub leading-none">大壮</div><div class="text-[11px] font-bold text-up leading-tight">+12.1%</div></div>'
-      +       '</div>'
+      +     '<span class="text-[10px] text-textAssist flex-shrink-0">今天' + dna.emoji + '加关注最多</span>'
+      +     '<div class="flex items-center gap-2 flex-1">'
+      +       '<span class="text-xs font-bold text-textMain">银行 ETF</span>'
+      +       '<span class="text-xs font-bold text-up">+7.8%</span>'
       +     '</div>'
       +   '</div>'
       +   '<div class="border-t border-gray-100 pt-3 mb-3">'
@@ -824,8 +815,8 @@
     section.innerHTML = ''
       + '<div class="px-4">'
       +   '<div class="flex items-center justify-center gap-2 mb-3">'
-      +     '<div class="dna-mode-tab active" id="tab-solo" onclick="switchDnaMode(\'solo\')">独处模式</div>'
-      +     '<div class="dna-mode-tab" id="tab-discuss" onclick="switchDnaMode(\'discuss\')">讨论模式</div>'
+      +     '<div class="dna-mode-tab active" id="tab-solo" onclick="switchDnaMode(\'solo\')">我的分析</div>'
+      +     '<div class="dna-mode-tab" id="tab-discuss" onclick="switchDnaMode(\'discuss\')">投小圈</div>'
       +   '</div>'
       +   '<div id="dna-solo-content">'
       +     soloHTML

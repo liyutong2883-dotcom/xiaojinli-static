@@ -143,9 +143,9 @@ test("discover page has redesigned content with ranking and DNA banner", async (
   assert.match(html, /宜|忌/, "should have 宜/忌 daily sign");
   // 金鲤小记日历
   assert.match(html, /金鲤小记/, "should have 金鲤小记 calendar widget");
-  // 独处/讨论两种模式
-  assert.match(html, /独处模式/, "should have 独处模式 tab");
-  assert.match(html, /讨论模式/, "should have 讨论模式 tab");
+  // 我的分析/投小圈两种模式
+  assert.match(html, /我的分析/, "should have 我的分析 tab");
+  assert.match(html, /投小圈/, "should have 投小圈 tab");
   assert.match(html, /switchDnaMode/, "should have mode switching function");
   // 大咖投研
   assert.match(html, /大咖投研/, "should have expert research section");

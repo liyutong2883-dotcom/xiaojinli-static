@@ -254,6 +254,22 @@
     }
   ];
 
+  // ========== AI Agent Comments Data ==========
+  const aiCommentsData = {
+    '张大牛': [
+      { user: '小鱼儿', avatar: '👧', text: '@张大牛.ai 消费板块下半年还能布局吗？', likes: 328 },
+      { user: '老陈', avatar: '👦', text: '@张大牛.ai 白酒还值得持有吗？', likes: 215 }
+    ],
+    '李策略': [
+      { user: '阿杰', avatar: '👦', text: '@李策略.ai 三个信号具体指什么？', likes: 456 },
+      { user: '月月', avatar: '👧', text: '@李策略.ai 新能源现在上车晚不晚？', likes: 189 }
+    ],
+    '王稳健': [
+      { user: '大壮', avatar: '👦', text: '@王稳健.ai 红利策略适合新手吗？', likes: 521 },
+      { user: '豆豆', avatar: '👧', text: '@王稳健.ai 天花板到了是不是该卖？', likes: 167 }
+    ]
+  };
+
   // ========== Render Video Info ==========
   function renderVideoInfo() {
     const params = getUrlParams();
@@ -274,8 +290,11 @@
 
   // ========== Render Comments ==========
   function renderComments() {
+    const params = getUrlParams();
     const container = document.getElementById('comments-list');
-    container.innerHTML = comments.map(function(c) {
+    
+    // Render regular comments
+    let html = comments.map(function(c) {
       return ''
         + '<div class="flex gap-2.5">'
         +   '<div class="w-8 h-8 rounded-full ' + c.avatarBg + ' flex items-center justify-center text-sm flex-shrink-0">' + c.avatar + '</div>'
@@ -298,6 +317,40 @@
         +   '</div>'
         + '</div>';
     }).join('');
+    
+    // Render AI Agent Comments section
+    const aiComments = aiCommentsData[params.author] || [];
+    if (aiComments.length > 0) {
+      html += '<div class="mt-6 pt-4 border-t border-dashed border-gray-200">';
+      html += '<div class="flex items-center gap-2 mb-3">';
+      html += '<iconify-icon class="text-primary text-lg" icon="solar:robot-bold"></iconify-icon>';
+      html += '<h4 class="font-bold text-sm text-textMain">AI 分身互动区</h4>';
+      html += '<span class="text-[10px] text-textAssist bg-primary/10 px-2 py-0.5 rounded-full">@' + params.author + '.ai</span>';
+      html += '</div>';
+      
+      aiComments.forEach(function(ac) {
+        html += ''
+          + '<div class="bg-gradient-to-r from-primary/5 to-transparent rounded-xl p-3 mb-2 border border-primary/10">'
+          +   '<div class="flex items-start gap-2">'
+          +     '<div class="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center text-xs flex-shrink-0">' + ac.avatar + '</div>'
+          +     '<div class="flex-1 min-w-0">'
+          +       '<p class="text-sm text-textSub leading-relaxed">' + ac.text + '</p>'
+          +       '<div class="flex items-center gap-2 mt-1.5">'
+          +         '<button class="flex items-center gap-1 text-textAssist hover:text-primary transition-colors">'
+          +           '<iconify-icon class="text-xs" icon="solar:like-linear"></iconify-icon>'
+          +           '<span class="text-[10px]">' + ac.likes + '</span>'
+          +         '</button>'
+          +         '<span class="text-[10px] text-textAssist">点击提问</span>'
+          +       '</div>'
+          +     '</div>'
+          +   '</div>'
+          + '</div>';
+      });
+      
+      html += '</div>';
+    }
+    
+    container.innerHTML = html;
   }
 
   // ========== AI Panel Toggle ==========

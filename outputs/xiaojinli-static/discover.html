@@ -908,42 +908,12 @@
     }).join('');
   }
 
-  // ========== Video AI Comments Data ==========
-  const videoComments = {
-    '张大牛': [
-      { user: '小鱼儿', avatar: '👧', text: '@张大牛.ai 消费板块下半年还能布局吗？', likes: 328 },
-      { user: '老陈', avatar: '👦', text: '@张大牛.ai 白酒还值得持有吗？', likes: 215 }
-    ],
-    '李策略': [
-      { user: '阿杰', avatar: '👦', text: '@李策略.ai 三个信号具体指什么？', likes: 456 },
-      { user: '月月', avatar: '👧', text: '@李策略.ai 新能源现在上车晚不晚？', likes: 189 }
-    ],
-    '王稳健': [
-      { user: '大壮', avatar: '👦', text: '@王稳健.ai 红利策略适合新手吗？', likes: 521 },
-      { user: '豆豆', avatar: '👧', text: '@王稳健.ai 天花板到了是不是该卖？', likes: 167 }
-    ]
-  };
-
   // ========== Render Videos ==========
   function renderVideos() {
     const container = document.getElementById('videos-container');
     container.innerHTML = videos.map(v => {
       const encodedTitle = encodeURIComponent(v.title);
       const encodedAuthor = encodeURIComponent(v.author);
-      const comments = videoComments[v.author] || [];
-      const commentsHTML = comments.map(c =>
-        '<div class="flex items-start gap-1.5 mt-1.5">'
-        + '<div class="w-4 h-4 rounded-full bg-gray-100 flex items-center justify-center text-[7px] flex-shrink-0">' + c.avatar + '</div>'
-        + '<div class="flex-1 min-w-0">'
-        + '<span class="text-[9px] text-primary font-medium">' + c.user + '</span>'
-        + '<span class="text-[9px] text-textSub ml-0.5 break-all">' + c.text + '</span>'
-        + '<div class="flex items-center gap-0.5 mt-0.5">'
-        + '<iconify-icon class="text-[8px] text-textAssist" icon="solar:like-linear"></iconify-icon>'
-        + '<span class="text-[8px] text-textAssist">' + c.likes + '</span>'
-        + '</div>'
-        + '</div>'
-        + '</div>'
-      ).join('');
 
       return `
       <div class="min-w-[220px] max-w-[220px]">
@@ -973,9 +943,6 @@
             </div>
           </div>
         </a>
-        <div class="bg-white rounded-xl p-2 mt-1.5 border border-gray-50">
-          ${commentsHTML}
-        </div>
       </div>
     `;
     }).join('');

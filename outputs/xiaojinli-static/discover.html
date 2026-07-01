@@ -238,11 +238,6 @@
       </div>
     </section>
 
-    <!-- 4.5 Daily Sign + Calendar (compact, de-emphasized) -->
-    <div class="px-4 mt-5" id="daily-widgets">
-      <!-- Dynamic content injected by JS -->
-    </div>
-
     <!-- 5. Expert Research -->
     <section class="mt-6 animate-fade-in delay-4">
       <div class="px-4 flex justify-between items-end mb-3">
@@ -706,42 +701,6 @@
   // ========== Current DNA mode state ==========
   let currentDnaMode = 'solo';
 
-  // ========== Render Daily Widgets (日签 + DNA画像标签) ==========
-  function renderDailyWidgets(dnaType) {
-    const container = document.getElementById('daily-widgets');
-    const dna = dnaType && dnaConfig[dnaType] ? dnaConfig[dnaType] : dnaConfig.turtle;
-
-    // Build DNA tags as bubbles
-    var tagsHTML = '';
-    if (dna.tags && dna.tags.length) {
-      dna.tags.forEach(function(tag) {
-        tagsHTML += '<span class="inline-block bg-white/70 border border-primary/15 text-[10px] text-textSub font-medium px-2 py-0.5 rounded-full">' + tag + '</span>';
-      });
-    }
-
-    container.innerHTML = ''
-      + '<div class="rounded-xl px-4 py-3 border border-primary/20 cursor-pointer active:scale-[0.98] transition-transform bg-gradient-to-br from-primary/10 via-amber-50 to-secondary/10 relative overflow-hidden" onclick="location.href=\'daily_sign.html\'">'
-      +   '<div class="absolute -right-3 -top-3 text-[50px] opacity-10">' + dna.emoji + '</div>'
-      +   '<div class="flex items-center gap-1.5 mb-2 relative z-10">'
-      +     '<iconify-icon class="text-primary text-base" icon="solar:bookmark-bold-duotone"></iconify-icon>'
-      +     '<span class="text-xs font-bold text-textMain">今日日签</span>'
-      +   '</div>'
-      +   '<div class="relative z-10 space-y-1.5 mb-3">'
-      +     '<div class="flex items-center gap-2">'
-      +       '<span class="text-[10px] bg-primary/20 text-primary font-bold px-1.5 py-0.5 rounded">宜</span>'
-      +       '<span class="text-sm font-bold text-textMain">' + dna.yi + '</span>'
-      +     '</div>'
-      +     '<div class="flex items-center gap-2">'
-      +       '<span class="text-[10px] bg-gray-200 text-textAssist font-bold px-1.5 py-0.5 rounded">忌</span>'
-      +       '<span class="text-xs text-textSub">' + dna.ji + '</span>'
-      +     '</div>'
-      +   '</div>'
-      +   '<div class="relative z-10 flex flex-wrap gap-1.5">'
-      +     tagsHTML
-      +   '</div>'
-      + '</div>';
-  }
-
   // ========== Render DNA Profile Section ==========
   function renderDNAProfile(dnaType) {
     var section = document.getElementById('dna-profile-section');
@@ -789,6 +748,14 @@
       });
     }
 
+    // Build DNA tags as compact bubbles
+    var tagsHTML = '';
+    if (dna.tags && dna.tags.length) {
+      dna.tags.forEach(function(tag) {
+        tagsHTML += '<span class="inline-block bg-white/80 border border-primary/10 text-[10px] text-textSub font-medium px-2 py-0.5 rounded-full">' + tag + '</span>';
+      });
+    }
+
     var soloHTML = ''
       + '<div class="bg-white rounded-2xl p-4 dna-card-glow">'
       +   '<div class="text-center mb-2">'
@@ -798,6 +765,26 @@
       +   '<div class="text-center text-xs text-textSub mb-4 leading-relaxed px-2">' + dna.subtitle + '</div>'
       +   '<div class="grid grid-cols-2 gap-2 mb-4">'
       +     traitsHTML
+      +   '</div>'
+      // 日签融合区
+      +   '<div class="bg-gradient-to-r from-primary/5 via-amber-50/60 to-secondary/5 rounded-xl px-3 py-2.5 mb-4 border border-primary/10">'
+      +     '<div class="flex items-center gap-1.5 mb-2">'
+      +       '<iconify-icon class="text-primary text-sm" icon="solar:bookmark-bold-duotone"></iconify-icon>'
+      +       '<span class="text-xs font-bold text-textMain">今日日签</span>'
+      +     '</div>'
+      +     '<div class="flex items-center gap-3 mb-2">'
+      +       '<div class="flex items-center gap-1.5">'
+      +         '<span class="text-[10px] bg-primary/20 text-primary font-bold px-1.5 py-0.5 rounded">宜</span>'
+      +         '<span class="text-xs font-bold text-textMain">' + dna.yi + '</span>'
+      +       '</div>'
+      +       '<div class="flex items-center gap-1.5">'
+      +         '<span class="text-[10px] bg-gray-200 text-textAssist font-bold px-1.5 py-0.5 rounded">忌</span>'
+      +         '<span class="text-xs text-textSub">' + dna.ji + '</span>'
+      +       '</div>'
+      +     '</div>'
+      +     '<div class="flex flex-wrap gap-1.5">'
+      +       tagsHTML
+      +     '</div>'
       +   '</div>'
       +   '<a href="ai_assistant.html" class="block bg-gradient-to-r from-primary/10 to-secondary/5 rounded-xl p-3 border border-primary/15">'
       +     '<div class="flex items-center justify-between">'
@@ -1012,7 +999,6 @@
   // ========== Init ==========
   document.addEventListener('DOMContentLoaded', function() {
     const dnaType = getUserDNA();
-    renderDailyWidgets(dnaType);
     renderDNAProfile(dnaType);
     renderRankings(dnaType);
     renderVideos();

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>小金鲤 - 仓库</title>
+<title>小金鲤 - 灵感</title>
 <script src="assets/vendor/tailwindcss.js"></script>
 <script src="assets/vendor/iconify-icon.min.js"></script>
 <script>
@@ -39,99 +39,11 @@
 <header class="sticky top-0 z-50 bg-primary px-4 py-3 flex justify-between items-center shadow-md">
 <div class="flex items-center gap-1 font-bold text-white text-lg">
 <span class="text-2xl">🐟</span>
-<span>小金鲤仓库</span>
+<span>小金鲤灵感</span>
 </div>
 <iconify-icon class="text-2xl text-white" icon="solar:settings-bold"></iconify-icon>
 </header>
 <main class="flex-1 overflow-y-auto pb-24">
-<!-- Section 1: AI 选股器 -->
-<section class="p-4">
-<div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-50">
-<div class="flex items-center gap-2 mb-4">
-<iconify-icon class="text-primary text-2xl" icon="solar:magic-stick-3-bold-duotone"></iconify-icon>
-<h2 class="text-lg font-bold">AI 选股器</h2>
-</div>
-<!-- 交易风格 -->
-<div class="mb-4">
-<label class="text-xs text-textSub block mb-2">交易风格</label>
-<div class="flex flex-wrap gap-2">
-<button class="tag-active px-3 py-1.5 rounded-lg text-xs border border-gray-100" onclick="toggleTag(this)">价值投资</button>
-<button class="bg-bgMain px-3 py-1.5 rounded-lg text-xs border border-gray-100" onclick="toggleTag(this)">成长投资</button>
-<button class="bg-bgMain px-3 py-1.5 rounded-lg text-xs border border-gray-100" onclick="toggleTag(this)">短线交易</button>
-<button class="bg-bgMain px-3 py-1.5 rounded-lg text-xs border border-gray-100" onclick="toggleTag(this)">量化策略</button>
-</div>
-</div>
-<!-- 筛选条件 -->
-<div class="space-y-4">
-<div>
-<div class="flex justify-between items-center mb-2">
-<label class="text-xs text-textSub">股息率 (高于)</label>
-<span class="text-xs font-bold text-primary" id="div-val">3%</span>
-</div>
-<input class="w-full h-1.5 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary" max="10" min="0" oninput="document.getElementById('div-val').innerText = this.value + '%'" type="range" value="3"/>
-</div>
-<div class="grid grid-cols-2 gap-4">
-<div>
-<label class="text-xs text-textSub block mb-2">市盈率 PE</label>
-<select class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none">
-<option>0 - 15 (低估)</option>
-<option>15 - 30 (合理)</option>
-<option>30以上</option>
-</select>
-</div>
-<div>
-<label class="text-xs text-textSub block mb-2">连续分红</label>
-<select class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none">
-<option>3年以上</option>
-<option selected="">5年以上</option>
-<option>10年以上</option>
-</select>
-</div>
-</div>
-<div>
-<label class="text-xs text-textSub block mb-2">行业选择</label>
-<div class="flex flex-wrap gap-2">
-<span class="bg-primary/10 text-primary px-2 py-1 rounded text-[10px] flex items-center gap-1">银行 <iconify-icon icon="solar:close-circle-bold"></iconify-icon></span>
-<span class="bg-primary/10 text-primary px-2 py-1 rounded text-[10px] flex items-center gap-1">煤炭 <iconify-icon icon="solar:close-circle-bold"></iconify-icon></span>
-<span class="bg-bgMain text-textAssist px-2 py-1 rounded text-[10px] border border-gray-100">+ 添加行业</span>
-</div>
-</div>
-</div>
-<button class="w-full bg-primary text-white font-bold py-3 rounded-xl mt-6 shadow-lg shadow-primary/20 active:scale-95 transition-transform" onclick="showResults()">
-                        执行 AI 选股
-                    </button>
-<!-- 模拟结果 (默认隐藏) -->
-<div class="hidden mt-6 pt-6 border-t border-dashed border-gray-100 space-y-3" id="results">
-<div class="flex items-center justify-between p-3 bg-bgMain rounded-xl" onclick="location.href='stock_detail.html'">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-xs font-bold text-primary">1</div>
-<div>
-<div class="text-sm font-bold">工商银行</div>
-<div class="text-[10px] text-textAssist">601398.SH</div>
-</div>
-</div>
-<div class="text-right">
-<div class="text-sm font-bold text-up">股息 5.8%</div>
-<div class="text-[10px] text-textAssist">匹配度 98%</div>
-</div>
-</div>
-<div class="flex items-center justify-between p-3 bg-bgMain rounded-xl" onclick="location.href='stock_detail.html'">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-xs font-bold text-primary">2</div>
-<div>
-<div class="text-sm font-bold">中国神华</div>
-<div class="text-[10px] text-textAssist">601088.SH</div>
-</div>
-</div>
-<div class="text-right">
-<div class="text-sm font-bold text-up">股息 7.2%</div>
-<div class="text-[10px] text-textAssist">匹配度 95%</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-
 <!-- Section 3: 灵感 (三合一) -->
 <section class="pb-6">
 <!-- 灵感 Header -->
@@ -648,8 +560,8 @@
 <span class="text-[10px]">广场</span>
 </a>
 <a class="flex flex-col items-center gap-1 text-primary" href="toolbox.html">
-<iconify-icon class="text-2xl" icon="solar:box-bold"></iconify-icon>
-<span class="text-[10px] font-bold">仓库</span>
+<iconify-icon class="text-2xl" icon="solar:lightbulb-bold"></iconify-icon>
+<span class="text-[10px] font-bold">灵感</span>
 </a>
 <a class="flex flex-col items-center gap-1 text-textAssist" href="profile.html">
 <iconify-icon class="text-2xl" icon="solar:user-bold"></iconify-icon>

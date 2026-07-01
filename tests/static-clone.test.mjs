@@ -41,8 +41,8 @@ test("bottom nav uses new 4-tab structure with correct labels", async () => {
     for (const target of navTargets) {
       assert.match(html, new RegExp(`href=["']${target}`), `${page} should link to ${target}`);
     }
-    // 不再使用"工具箱"标签
-    assert.match(html, /仓库/, `${page} should show 仓库 label`);
+    // 不再使用"仓库"标签，已改名为"灵感"
+    assert.match(html, /灵感/, `${page} should show 灵感 label`);
     assert.doesNotMatch(html, /工具箱/, `${page} should not contain old 工具箱 label`);
   }
 });
@@ -59,7 +59,6 @@ test("navigation does not link back to remote workspace", async () => {
 // ── 4. 核心交互函数保留 ──────────────────────────────────
 test("core interaction functions remain available", async () => {
   const copytrade = await readPage("copytrade.html");
-  assert.match(copytrade, /function switchTab\(type\)/);
   assert.match(copytrade, /function toggleFollow\(btn\)/);
 
   const toolbox = await readPage("toolbox.html");
@@ -157,13 +156,13 @@ test("discover page has redesigned content with ranking and DNA banner", async (
   assert.match(html, /dimensionMap/, "should have dimensionMap for each animal");
 });
 
-// ── 9. 广场页保留三 tab + DNA 推荐字段 ───────────────────
-test("copytrade page keeps 3 tabs and DNA recommendation fields", async () => {
+// ── 9. 广场页：数据来源作为标签 + DNA 推荐字段 ───────────────────
+test("copytrade page has source tags and DNA recommendation fields", async () => {
   const html = await readPage("copytrade.html");
-  // 三个 tab：👀大牛 / 👀游资 / 👀私募
-  assert.match(html, /👀大牛/, "should have 👀大牛 tab");
-  assert.match(html, /👀游资/, "should have 👀游资 tab");
-  assert.match(html, /👀私募/, "should have 👀私募 tab");
+  // 数据来源作为标签（大牛/游资/私募）
+  assert.match(html, /'大牛'/, "should have 大牛 tag in data");
+  assert.match(html, /'游资'/, "should have 游资 tag in data");
+  assert.match(html, /'私募'/, "should have 私募 tag in data");
   // DNA 推荐字段
   assert.match(html, /dnaFit/, "should have dnaFit in mock data");
   assert.match(html, /fitReason/, "should have fitReason recommendation text");
@@ -178,11 +177,9 @@ test("copytrade page keeps 3 tabs and DNA recommendation fields", async () => {
   assert.match(html, /不构成投资建议/);
 });
 
-// ── 10. 仓库页包含 AI 选股 + 灵感 + 投资计算器 ────────────────────
-test("toolbox page repurposed as 仓库 with AI stock picker, ideas, and calculator", async () => {
+// ── 10. 灵感页包含灵感卡片 + 投资计算器 ────────────────────
+test("toolbox page repurposed as 灵感 with ideas and calculator", async () => {
   const html = await readPage("toolbox.html");
-  // AI 选股器
-  assert.match(html, /AI\s*选股/, "should have AI stock picker section");
   // 灵感区块 (三合一)
   assert.match(html, /我的灵感/, "should have my inspiration tab");
   assert.match(html, /自定义灵感/, "should have custom inspiration tab");

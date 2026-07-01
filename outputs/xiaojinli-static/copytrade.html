@@ -45,12 +45,6 @@
 <iconify-icon class="text-2xl text-white" icon="solar:magnifer-linear"></iconify-icon>
 </div>
 </header>
-<!-- 一级 Tab 切换 -->
-<div class="bg-white flex px-4 border-b border-gray-100 sticky top-[52px] z-40">
-<button class="flex-1 py-3 text-sm tab-active" id="tab-bull" onclick="switchTab('bull')">👀大牛</button>
-<button class="flex-1 py-3 text-sm text-textSub" id="tab-hot" onclick="switchTab('hot')">👀游资</button>
-<button class="flex-1 py-3 text-sm text-textSub" id="tab-private" onclick="switchTab('private')">👀私募</button>
-</div>
 <!-- 榜单规则说明 -->
 <div class="px-4 py-2 bg-orange-50 flex justify-between items-center">
 <span class="text-[10px] text-secondary flex items-center gap-1">
@@ -70,7 +64,7 @@
 </div>
 <!-- 加载更多示意 -->
 <div class="py-6 text-center text-xs text-textAssist">
-                已加载全部大牛数据
+                已加载全部数据
             </div>
 </main>
 <!-- 底部导航 -->
@@ -84,8 +78,8 @@
 <span class="text-[10px] font-bold">广场</span>
 </a>
 <a class="flex flex-col items-center gap-1 text-textAssist" href="toolbox.html">
-<iconify-icon class="text-2xl" icon="solar:box-bold"></iconify-icon>
-<span class="text-[10px]">仓库</span>
+<iconify-icon class="text-2xl" icon="solar:lightbulb-bold"></iconify-icon>
+<span class="text-[10px]">灵感</span>
 </a>
 <a class="flex flex-col items-center gap-1 text-textAssist" href="profile.html">
 <iconify-icon class="text-2xl" icon="solar:user-bold"></iconify-icon>
@@ -132,37 +126,22 @@
             }
         })();
 
-        const mockData = {
-            bull: [
-                { id: 1, name: '睿远均衡', avatar: 'RY', successRate: '63%', maxDrawdown: '-18.4%', riskLevel: '中低波动', fit: '适合长线资金', sampleSize: '42次调仓', disclosureLag: '季报滞后45天', tags: ['价值成长', '分散持仓'], followed: true, dnaFit: ['turtle', 'owl'], dnaDimensions: {decision:'rational', action:'cautious', returns:'longterm', risk:'balanced'}, fitReason: '为什么推荐给你：适合想稳一点、但又不想完全放弃收益弹性的用户。' },
-                { id: 2, name: '易方达蓝筹', avatar: 'EF', successRate: '59%', maxDrawdown: '-21.7%', riskLevel: '中等波动', fit: '适合核心资产配置', sampleSize: '38次调仓', disclosureLag: '季报滞后45天', tags: ['消费医药', '大盘成长'], followed: false, dnaFit: ['cheetah', 'fox'], dnaDimensions: {decision:'intuitive', action:'rhythmic', returns:'aggressive', risk:'balanced'}, fitReason: '为什么推荐给你：消费龙头集中持仓，适合看好内需复苏、能承受短期波动的用户。' },
-                { id: 3, name: '兴证全球', avatar: 'XQ', successRate: '61%', maxDrawdown: '-19.6%', riskLevel: '中低波动', fit: '适合均衡跟随', sampleSize: '44次调仓', disclosureLag: '季报滞后45天', tags: ['均衡配置', '制造科技'], followed: false, dnaFit: ['turtle', 'squirrel'], dnaDimensions: {decision:'rational', action:'rhythmic', returns:'stable', risk:'balanced'}, fitReason: '为什么推荐给你：行业分散、风格均衡，适合刚入门、不想押注单一赛道的用户。' },
-                { id: 4, name: '中欧医疗', avatar: 'ZO', successRate: '52%', maxDrawdown: '-32.8%', riskLevel: '高波动', fit: '适合高风险偏好', sampleSize: '36次调仓', disclosureLag: '季报滞后45天', tags: ['医疗创新', '行业集中'], followed: true, dnaFit: ['cheetah', 'fox'], dnaDimensions: {decision:'intuitive', action:'active', returns:'aggressive', risk:'aggressive'}, fitReason: '为什么推荐给你：高弹性医疗赛道，适合对行业有判断、能承受大回撤的用户。' },
-                { id: 5, name: '富国长期', avatar: 'FG', successRate: '57%', maxDrawdown: '-23.5%', riskLevel: '中等波动', fit: '适合全市场配置', sampleSize: '40次调仓', disclosureLag: '季报滞后45天', tags: ['老牌主动', '全市场'], followed: false, dnaFit: ['owl', 'squirrel'], dnaDimensions: {decision:'rational', action:'cautious', returns:'longterm', risk:'balanced'}, fitReason: '为什么推荐给你：全市场选股、长期持有逻辑清晰，适合喜欢理解"为什么买"再跟的用户。' }
-            ],
-            hot: [
-                { id: 1, name: '章盟主', avatar: 'ZM', successRate: '48%', maxDrawdown: '-36.2%', riskLevel: '高波动', fit: '适合短线纪律强', sampleSize: '126次上榜', disclosureLag: '龙虎榜T+1', tags: ['题材主线', '高换手'], followed: false, dnaFit: ['fox', 'cheetah'], dnaDimensions: {decision:'intuitive', action:'active', returns:'aggressive', risk:'aggressive'}, fitReason: '为什么推荐给你：题材主线敏感度高，适合对消息面反应快、有纪律的用户。' },
-                { id: 2, name: '方新侠', avatar: 'FX', successRate: '46%', maxDrawdown: '-34.9%', riskLevel: '高波动', fit: '适合趋势交易', sampleSize: '98次上榜', disclosureLag: '龙虎榜T+1', tags: ['趋势主升', '容量票'], followed: true, dnaFit: ['cheetah', 'fox'], dnaDimensions: {decision:'intuitive', action:'active', returns:'aggressive', risk:'aggressive'}, fitReason: '为什么推荐给你：趋势主升浪选手，适合决策快、敢追涨的用户。' },
-                { id: 3, name: '作手新一', avatar: 'ZX', successRate: '44%', maxDrawdown: '-38.7%', riskLevel: '极高波动', fit: '适合题材跟踪', sampleSize: '112次上榜', disclosureLag: '龙虎榜T+1', tags: ['接力博弈', '情绪周期'], followed: false, dnaFit: ['fox'], dnaDimensions: {decision:'following', action:'active', returns:'aggressive', risk:'aggressive'}, fitReason: '为什么推荐给你：情绪周期博弈，适合信息灵通、对题材有判断的用户。' }
-            ],
-            private: [
-                { id: 1, name: '高毅资产', avatar: 'GY', successRate: '58%', maxDrawdown: '-20.3%', riskLevel: '中等波动', fit: '适合低估值配置', sampleSize: '31次披露', disclosureLag: '定报滞后60天', tags: ['深度调研', '低估值'], followed: true, dnaFit: ['turtle', 'owl'], dnaDimensions: {decision:'rational', action:'cautious', returns:'longterm', risk:'conservative'}, fitReason: '为什么推荐给你：深度调研+低估值逻辑，适合相信"买得便宜"的用户。' },
-                { id: 2, name: '景林资产', avatar: 'JL', successRate: '55%', maxDrawdown: '-24.1%', riskLevel: '中高波动', fit: '适合全球消费配置', sampleSize: '29次披露', disclosureLag: '定报滞后60天', tags: ['消费科技', '全球视角'], followed: false, dnaFit: ['cheetah', 'owl'], dnaDimensions: {decision:'rational', action:'rhythmic', returns:'aggressive', risk:'balanced'}, fitReason: '为什么推荐给你：全球视角配置消费科技，适合想分散地域风险的用户。' },
-                { id: 3, name: '淡水泉', avatar: 'DS', successRate: '53%', maxDrawdown: '-22.6%', riskLevel: '中等波动', fit: '适合逆向配置', sampleSize: '27次披露', disclosureLag: '定报滞后60天', tags: ['逆向投资', '周期修复'], followed: false, dnaFit: ['fox', 'turtle'], dnaDimensions: {decision:'following', action:'cautious', returns:'longterm', risk:'balanced'}, fitReason: '为什么推荐给你：逆向布局周期修复，适合能忍受短期浮亏、等风来的用户。' }
-            ]
-        };
-
-        function switchTab(type) {
-            // 更新 UI 状态
-            document.querySelectorAll('button[id^="tab-"]').forEach(btn => {
-                btn.classList.remove('tab-active');
-                btn.classList.add('text-textSub');
-            });
-            document.getElementById(`tab-${type}`).classList.add('tab-active');
-            document.getElementById(`tab-${type}`).classList.remove('text-textSub');
-
-            renderList(type);
-        }
+        const mockData = [
+                // 大牛
+                { id: 1, name: '睿远均衡', avatar: 'RY', successRate: '63%', maxDrawdown: '-18.4%', riskLevel: '中低波动', fit: '适合长线资金', sampleSize: '42次调仓', disclosureLag: '季报滞后45天', tags: ['大牛', '价值成长', '分散持仓'], followed: true, dnaFit: ['turtle', 'owl'], dnaDimensions: {decision:'rational', action:'cautious', returns:'longterm', risk:'balanced'}, fitReason: '为什么推荐给你：适合想稳一点、但又不想完全放弃收益弹性的用户。' },
+                { id: 2, name: '易方达蓝筹', avatar: 'EF', successRate: '59%', maxDrawdown: '-21.7%', riskLevel: '中等波动', fit: '适合核心资产配置', sampleSize: '38次调仓', disclosureLag: '季报滞后45天', tags: ['大牛', '消费医药', '大盘成长'], followed: false, dnaFit: ['cheetah', 'fox'], dnaDimensions: {decision:'intuitive', action:'rhythmic', returns:'aggressive', risk:'balanced'}, fitReason: '为什么推荐给你：消费龙头集中持仓，适合看好内需复苏、能承受短期波动的用户。' },
+                { id: 3, name: '兴证全球', avatar: 'XQ', successRate: '61%', maxDrawdown: '-19.6%', riskLevel: '中低波动', fit: '适合均衡跟随', sampleSize: '44次调仓', disclosureLag: '季报滞后45天', tags: ['大牛', '均衡配置', '制造科技'], followed: false, dnaFit: ['turtle', 'squirrel'], dnaDimensions: {decision:'rational', action:'rhythmic', returns:'stable', risk:'balanced'}, fitReason: '为什么推荐给你：行业分散、风格均衡，适合刚入门、不想押注单一赛道的用户。' },
+                { id: 4, name: '中欧医疗', avatar: 'ZO', successRate: '52%', maxDrawdown: '-32.8%', riskLevel: '高波动', fit: '适合高风险偏好', sampleSize: '36次调仓', disclosureLag: '季报滞后45天', tags: ['大牛', '医疗创新', '行业集中'], followed: true, dnaFit: ['cheetah', 'fox'], dnaDimensions: {decision:'intuitive', action:'active', returns:'aggressive', risk:'aggressive'}, fitReason: '为什么推荐给你：高弹性医疗赛道，适合对行业有判断、能承受大回撤的用户。' },
+                { id: 5, name: '富国长期', avatar: 'FG', successRate: '57%', maxDrawdown: '-23.5%', riskLevel: '中等波动', fit: '适合全市场配置', sampleSize: '40次调仓', disclosureLag: '季报滞后45天', tags: ['大牛', '老牌主动', '全市场'], followed: false, dnaFit: ['owl', 'squirrel'], dnaDimensions: {decision:'rational', action:'cautious', returns:'longterm', risk:'balanced'}, fitReason: '为什么推荐给你：全市场选股、长期持有逻辑清晰，适合喜欢理解"为什么买"再跟的用户。' },
+                // 游资
+                { id: 6, name: '章盟主', avatar: 'ZM', successRate: '48%', maxDrawdown: '-36.2%', riskLevel: '高波动', fit: '适合短线纪律强', sampleSize: '126次上榜', disclosureLag: '龙虎榜T+1', tags: ['游资', '题材主线', '高换手'], followed: false, dnaFit: ['fox', 'cheetah'], dnaDimensions: {decision:'intuitive', action:'active', returns:'aggressive', risk:'aggressive'}, fitReason: '为什么推荐给你：题材主线敏感度高，适合对消息面反应快、有纪律的用户。' },
+                { id: 7, name: '方新侠', avatar: 'FX', successRate: '46%', maxDrawdown: '-34.9%', riskLevel: '高波动', fit: '适合趋势交易', sampleSize: '98次上榜', disclosureLag: '龙虎榜T+1', tags: ['游资', '趋势主升', '容量票'], followed: true, dnaFit: ['cheetah', 'fox'], dnaDimensions: {decision:'intuitive', action:'active', returns:'aggressive', risk:'aggressive'}, fitReason: '为什么推荐给你：趋势主升浪选手，适合决策快、敢追涨的用户。' },
+                { id: 8, name: '作手新一', avatar: 'ZX', successRate: '44%', maxDrawdown: '-38.7%', riskLevel: '极高波动', fit: '适合题材跟踪', sampleSize: '112次上榜', disclosureLag: '龙虎榜T+1', tags: ['游资', '接力博弈', '情绪周期'], followed: false, dnaFit: ['fox'], dnaDimensions: {decision:'following', action:'active', returns:'aggressive', risk:'aggressive'}, fitReason: '为什么推荐给你：情绪周期博弈，适合信息灵通、对题材有判断的用户。' },
+                // 私募
+                { id: 9, name: '高毅资产', avatar: 'GY', successRate: '58%', maxDrawdown: '-20.3%', riskLevel: '中等波动', fit: '适合低估值配置', sampleSize: '31次披露', disclosureLag: '定报滞后60天', tags: ['私募', '深度调研', '低估值'], followed: true, dnaFit: ['turtle', 'owl'], dnaDimensions: {decision:'rational', action:'cautious', returns:'longterm', risk:'conservative'}, fitReason: '为什么推荐给你：深度调研+低估值逻辑，适合相信"买得便宜"的用户。' },
+                { id: 10, name: '景林资产', avatar: 'JL', successRate: '55%', maxDrawdown: '-24.1%', riskLevel: '中高波动', fit: '适合全球消费配置', sampleSize: '29次披露', disclosureLag: '定报滞后60天', tags: ['私募', '消费科技', '全球视角'], followed: false, dnaFit: ['cheetah', 'owl'], dnaDimensions: {decision:'rational', action:'rhythmic', returns:'aggressive', risk:'balanced'}, fitReason: '为什么推荐给你：全球视角配置消费科技，适合想分散地域风险的用户。' },
+                { id: 11, name: '淡水泉', avatar: 'DS', successRate: '53%', maxDrawdown: '-22.6%', riskLevel: '中等波动', fit: '适合逆向配置', sampleSize: '27次披露', disclosureLag: '定报滞后60天', tags: ['私募', '逆向投资', '周期修复'], followed: false, dnaFit: ['fox', 'turtle'], dnaDimensions: {decision:'following', action:'cautious', returns:'longterm', risk:'balanced'}, fitReason: '为什么推荐给你：逆向布局周期修复，适合能忍受短期浮亏、等风来的用户。' }
+            ];
 
         function getDimensionMatches(itemDims) {
             var raw = localStorage.getItem('investmentDna');
@@ -183,9 +162,9 @@
             return matches;
         }
 
-        function renderList(type) {
+        function renderList() {
             const container = document.getElementById('list-container');
-            const data = mockData[type];
+            const data = mockData;
             container.innerHTML = data.map((item, index) => `
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-50 active:bg-gray-50 transition-colors overflow-hidden" onclick="location.href='portfolio.html?id=${item.id}'">
                     <!-- Hero Section: 核心指标 -->
@@ -250,8 +229,7 @@
                     </div>` : ''}
                     
                     <!-- Footer CTA -->
-                    <div class="px-4 pb-4 flex items-center justify-between border-t border-dashed border-gray-100 pt-3">
-                        <div class="text-[11px] text-textSub">适合：<span class="font-bold text-textMain">${item.fit}</span></div>
+                    <div class="px-4 pb-4 flex items-center justify-end border-t border-dashed border-gray-100 pt-3">
                         <div class="text-[11px] text-primary flex items-center gap-1 font-bold">
                             查看持仓
                             <iconify-icon icon="solar:alt-arrow-right-linear" class="text-base"></iconify-icon>
@@ -274,7 +252,7 @@
         }
 
         // 初始渲染
-        switchTab('bull');
+        renderList();
     </script>
 </body>
 </html>

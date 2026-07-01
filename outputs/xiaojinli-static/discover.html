@@ -149,14 +149,7 @@
   <!-- Main Content -->
   <main class="flex-1 pb-24">
 
-    <!-- 2. Daily Sign + Calendar (side by side) -->
-    <div class="px-4 mt-4 animate-fade-in delay-1">
-      <div class="grid grid-cols-2 gap-3" id="daily-widgets">
-        <!-- Dynamic content injected by JS -->
-      </div>
-    </div>
-
-    <!-- 3. DNA Profile Section (moved before rankings) -->
+    <!-- 2. DNA Profile Section (moved before rankings) -->
     <section class="mt-4 animate-fade-in delay-2" id="dna-profile-section">
       <!-- Dynamic content injected by JS -->
     </section>
@@ -177,6 +170,11 @@
         <!-- Dynamic content injected by JS -->
       </div>
     </section>
+
+    <!-- 4.5 Daily Sign + Calendar (compact, de-emphasized) -->
+    <div class="px-4 mt-5" id="daily-widgets">
+      <!-- Dynamic content injected by JS -->
+    </div>
 
     <!-- 5. Expert Research -->
     <section class="mt-6 animate-fade-in delay-4">
@@ -375,7 +373,7 @@
   // ========== Current DNA mode state ==========
   let currentDnaMode = 'solo';
 
-  // ========== Render Daily Widgets (Sign + Calendar side by side) ==========
+  // ========== Render Daily Widgets (compact, de-emphasized) ==========
   function renderDailyWidgets(dnaType) {
     const container = document.getElementById('daily-widgets');
     const dna = dnaType && dnaConfig[dnaType] ? dnaConfig[dnaType] : dnaConfig.turtle;
@@ -385,29 +383,26 @@
     const year = now.getFullYear();
     const month = now.getMonth();
     const today = now.getDate();
-    const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+    const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const noteDays = [5, 12, 20, 25]; // days with note dots (excluding today)
+    const noteDays = [5, 12, 20, 25];
 
     const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
     let calendarHTML = '';
-    // Weekday headers
     weekDays.forEach(function(d) {
-      calendarHTML += '<div class="text-[9px] text-textAssist text-center font-medium">' + d + '</div>';
+      calendarHTML += '<div class="text-[8px] text-textAssist text-center">' + d + '</div>';
     });
-    // Empty cells before first day
     for (var e = 0; e < firstDay; e++) {
       calendarHTML += '<div></div>';
     }
-    // Day cells
     for (var day = 1; day <= daysInMonth; day++) {
       var isToday = day === today;
       var hasNote = noteDays.includes(day);
-      calendarHTML += '<div class="relative flex items-center justify-center" style="height:22px;">';
+      calendarHTML += '<div class="relative flex items-center justify-center" style="height:18px;">';
       if (isToday) {
-        calendarHTML += '<span class="text-[10px] bg-primary text-white w-5 h-5 rounded-full flex items-center justify-center font-bold">' + day + '</span>';
+        calendarHTML += '<span class="text-[9px] bg-primary/80 text-white w-4 h-4 rounded-full flex items-center justify-center font-bold">' + day + '</span>';
       } else {
-        calendarHTML += '<span class="text-[10px] text-textSub">' + day + '</span>';
+        calendarHTML += '<span class="text-[9px] text-textAssist">' + day + '</span>';
         if (hasNote) {
           calendarHTML += '<div class="calendar-dot"></div>';
         }
@@ -416,35 +411,26 @@
     }
 
     container.innerHTML = ''
-      + '<div class="bg-gradient-to-br from-primary to-secondary rounded-2xl p-3 text-white shadow-md relative overflow-hidden flex flex-col">'
-      +   '<div class="absolute -right-3 -top-3 w-14 h-14 bg-white/10 rounded-full"></div>'
-      +   '<div class="relative z-10 flex-1 flex flex-col justify-between">'
-      +     '<div class="flex items-center gap-1 mb-1.5">'
-      +       '<iconify-icon class="text-xs" icon="solar:sparkles-bold"></iconify-icon>'
-      +       '<span class="text-[10px] font-bold opacity-90">投资日签</span>'
-      +     '</div>'
-      +     '<div class="text-lg mb-1">' + dna.emoji + '</div>'
-      +     '<div class="space-y-1">'
-      +       '<div class="flex items-center gap-1.5">'
-      +         '<div class="yi-ji-badge bg-white/25 text-white">宜</div>'
-      +         '<span class="text-[11px] font-medium leading-tight">' + dna.yi + '</span>'
-      +       '</div>'
-      +       '<div class="flex items-center gap-1.5">'
-      +         '<div class="yi-ji-badge bg-black/15 text-white/90">忌</div>'
-      +         '<span class="text-[11px] font-medium leading-tight">' + dna.ji + '</span>'
-      +       '</div>'
-      +     '</div>'
+      + '<div class="grid grid-cols-2 gap-2">'
+      + '<div class="bg-white/70 rounded-xl px-3 py-2 border border-gray-100">'
+      +   '<div class="flex items-center gap-1 mb-1">'
+      +     '<span class="text-[10px]">' + dna.emoji + '</span>'
+      +     '<span class="text-[10px] font-medium text-textSub">今日宜忌</span>'
+      +   '</div>'
+      +   '<div class="flex items-center gap-2">'
+      +     '<span class="text-[10px] text-primary font-medium">宜 ' + dna.yi + '</span>'
+      +     '<span class="text-[10px] text-textAssist">忌 ' + dna.ji + '</span>'
       +   '</div>'
       + '</div>'
-      + '<div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100 flex flex-col">'
-      +   '<div class="flex items-center gap-1 mb-1">'
-      +     '<span class="text-xs">📝</span>'
-      +     '<span class="text-[10px] font-bold text-textMain">金鲤小记</span>'
+      + '<div class="bg-white/70 rounded-xl px-2.5 py-2 border border-gray-100">'
+      +   '<div class="flex items-center justify-between mb-0.5">'
+      +     '<span class="text-[10px] font-medium text-textSub">金鲤小记</span>'
+      +     '<span class="text-[9px] text-textAssist">' + (month + 1) + '月</span>'
       +   '</div>'
-      +   '<div class="text-[10px] text-textAssist mb-1">' + year + '年' + (month + 1) + '月</div>'
-      +   '<div class="grid grid-cols-7 gap-y-0.5 flex-1">'
+      +   '<div class="grid grid-cols-7 gap-y-0">'
       +     calendarHTML
       +   '</div>'
+      + '</div>'
       + '</div>';
   }
 

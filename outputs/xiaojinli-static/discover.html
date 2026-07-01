@@ -118,25 +118,66 @@
     transform: scale(0.96);
   }
 
-  /* 弹幕风格气泡 - 大小颜色交错 */
+  /* 弹幕气泡 - 错落排列，带头像 */
+  .dm-row {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  .dm-row.dm-left  { justify-content: flex-start; }
+  .dm-row.dm-right { justify-content: flex-end; }
+  .dm-row.dm-center{ justify-content: center; }
+
   .dm-bubble {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    border-radius: 18px;
-    padding: 5px 11px;
+    gap: 8px;
+    background: white;
+    border-radius: 24px;
+    padding: 8px 16px 8px 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     cursor: pointer;
     transition: all 0.15s;
-    border: 1px solid transparent;
+    max-width: 85%;
   }
-  .dm-bubble:active { transform: scale(0.95); }
-  .dm-bubble.dm-s  { font-size: 11px; padding: 4px 9px; }
-  .dm-bubble.dm-m  { font-size: 13px; }
-  .dm-bubble.dm-l  { font-size: 14px; font-weight: 600; padding: 6px 14px; }
-  .dm-bubble.dm-white  { background: white; border-color: #eee; color: #1A1A2E; }
-  .dm-bubble.dm-warm   { background: #FFF8E8; border-color: #FFE8A3; color: #B8860B; }
-  .dm-bubble.dm-primary{ background: rgba(255,184,0,0.08); border-color: rgba(255,184,0,0.2); color: #B8860B; }
-  .dm-bubble.dm-gray   { background: #F5F5F7; border-color: #E8E8EC; color: #666; }
+  .dm-bubble:active { transform: scale(0.97); }
+
+  .dm-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .dm-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #5C3D1A;
+    white-space: nowrap;
+  }
+
+  .dm-likes {
+    display: flex; align-items: center; gap: 3px;
+    font-size: 12px; color: #C4956A; font-weight: 500;
+    margin-left: 4px;
+  }
+
+  .dm-say {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: white; border-radius: 24px;
+    padding: 8px 16px;
+    font-size: 14px; color: #999;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .dm-say-icon {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: #FFD666; display: flex; align-items: center; justify-content: center;
+  }
+
+  .dm-sparkle {
+    text-align: center; font-size: 18px; color: #FFD666;
+    letter-spacing: 4px; margin-top: 4px;
+  }
 
   .calendar-dot {
     width: 4px;
@@ -799,26 +840,34 @@
       +   '</a>'
       + '</div>';
 
-    // Build discuss mode content - danmaku-style bubbles
-    var sizes = ['dm-m', 'dm-l', 'dm-s', 'dm-m', 'dm-s'];
-    var colors = ['dm-white', 'dm-warm', 'dm-primary', 'dm-gray', 'dm-white'];
+    // Build discuss mode content - scattered danmaku bubbles with avatars
+    var positions = ['dm-left', 'dm-right', 'dm-center', 'dm-left', 'dm-right'];
+    var avatarBgs = ['bg-pink-100', 'bg-blue-100', 'bg-amber-100', 'bg-green-100', 'bg-purple-100'];
     var bubblesHTML = '';
     var posts = dna.posts || [];
     posts.forEach(function(post, i) {
-      bubblesHTML += '<div class="dm-bubble ' + sizes[i % sizes.length] + ' ' + colors[i % colors.length] + '">'
-        + '<span>' + post.text + '</span>'
-        + '<iconify-icon class="text-xs opacity-40" icon="solar:like-bold"></iconify-icon>'
+      bubblesHTML += '<div class="dm-row ' + positions[i % positions.length] + '">'
+        + '<div class="dm-bubble">'
+        +   '<div class="dm-avatar ' + (post.avatarBg || avatarBgs[i % avatarBgs.length]) + '">' + (post.avatar || '👤') + '</div>'
+        +   '<span class="dm-text">' + post.text + '</span>'
+        +   '<span class="dm-likes"><iconify-icon class="text-sm" icon="solar:like-bold"></iconify-icon>' + post.likes + '</span>'
+        + '</div>'
         + '</div>';
     });
-    bubblesHTML += '<div class="dm-bubble dm-m dm-primary">'
-      + '<iconify-icon class="text-sm" icon="solar:add-circle-bold"></iconify-icon>'
-      + '<span>我也想说说...</span>'
+    // "我也想说" bubble
+    bubblesHTML += '<div class="dm-row dm-left">'
+      + '<div class="dm-say">'
+      +   '<div class="dm-say-icon"><iconify-icon class="text-sm text-white" icon="solar:add-circle-bold"></iconify-icon></div>'
+      +   '<span>我也想说说...</span>'
+      + '</div>'
       + '</div>';
+    // Sparkle decoration
+    bubblesHTML += '<div class="dm-sparkle">✦  ✦</div>';
 
     var discussHTML = ''
-      + '<div class="bg-white rounded-2xl p-4 dna-card-glow">'
-      +   '<div class="flex items-center justify-between mb-3">'
-      +     '<div class="font-bold text-sm text-textMain">小' + dna.name + '们的日常</div>'
+      + '<div class="rounded-2xl p-4 dna-card-glow" style="background:linear-gradient(180deg,#FFF9EC 0%,#FFF5E0 100%);">'
+      +   '<div class="flex items-center justify-between mb-4">'
+      +     '<div class="font-bold text-sm" style="color:#5C3D1A">小' + dna.name + '们的日常</div>'
       +     '<div class="flex items-center gap-1 bg-primary/10 text-primary text-[10px] font-bold px-2.5 py-1 rounded-full">'
       +       '<iconify-icon class="text-xs" icon="solar:users-group-rounded-bold-duotone"></iconify-icon>'
       +       '<span>9121鲤友</span>'
@@ -826,7 +875,7 @@
       +     '</div>'
       +   '</div>'
       // Bubbles
-      +   '<div class="flex flex-wrap gap-2 mb-3">'
+      +   '<div class="mb-3">'
       +     bubblesHTML
       +   '</div>'
       // Merged returns strip — compact, inline with the card

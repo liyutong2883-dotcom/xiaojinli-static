@@ -179,17 +179,11 @@ test("copytrade page keeps 3 tabs and DNA recommendation fields", async () => {
   assert.match(html, /不构成投资建议/);
 });
 
-// ── 10. 仓库页包含 AI 选股 + 验证作业 ────────────────────
-test("toolbox page repurposed as 仓库 with AI stock picker and homework verification", async () => {
+// ── 10. 仓库页包含 AI 选股 + 投资计算器 ────────────────────
+test("toolbox page repurposed as 仓库 with AI stock picker and calculator", async () => {
   const html = await readPage("toolbox.html");
   // AI 选股器
   assert.match(html, /AI\s*选股/, "should have AI stock picker section");
-  // 验证我的作业
-  assert.match(html, /验证.*作业/, "should have homework verification section");
-  // 已抄作业示例
-  assert.match(html, /睿远均衡|易方达|高毅/, "should show copied homework examples");
-  // 小金鲤诊断
-  assert.match(html, /诊断|匹配度/, "should show diagnosis/match score");
   // 投资计算器
   assert.match(html, /投资计算器/, "should have calculator section");
   assert.match(html, /复利计算器/, "should have compound interest calculator");

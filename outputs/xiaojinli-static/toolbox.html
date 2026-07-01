@@ -29,6 +29,7 @@
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
         .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
         .tag-active { background-color: #FFB800; color: white; border-color: #FFB800; }
+        .idea-filter-active { background-color: #1A1A2E; color: white; border: none; }
     </style>
 </head>
 <body class="bg-bgMain text-textMain">
@@ -130,73 +131,132 @@
 </div>
 </section>
 
-<!-- Section 3: 灵感（进阶选股器） -->
-<section class="px-4 pb-6">
-<div class="mb-4">
-<h2 class="text-lg font-bold flex items-center gap-2">
-<iconify-icon class="text-primary text-xl" icon="solar:lightbulb-bold-duotone"></iconify-icon>
-灵感
-</h2>
-<p class="text-xs text-textAssist mt-1">更进阶的选股线索，来自大牛、游资和私募</p>
+<!-- Section 3: 灵感 -->
+<section class="pb-6">
+<!-- 灵感 Hero -->
+<div class="px-4 pt-5 pb-3">
+<span class="text-[10px] text-textAssist tracking-widest">投资灵感</span>
+<h2 class="text-xl font-bold text-textMain leading-snug mt-1">筛选出好标的，<br>你可能刚好缺一缕灵感。</h2>
+<p class="text-xs text-textSub mt-2 leading-relaxed">每套灵感都会定期选出股票或基金，并跟踪胜率、涨跌幅、最大回撤，以及背后的机构作业是否还在变强。</p>
 </div>
+<!-- 筛选标签 -->
+<div class="px-4 mb-3 flex gap-2" id="idea-filter-tabs">
+<button class="idea-filter-active text-xs px-3 py-1.5 rounded-full font-bold" onclick="filterIdeas(this,'fit')">适合我</button>
+<button class="bg-white text-textSub text-xs px-3 py-1.5 rounded-full border border-gray-100" onclick="filterIdeas(this,'all')">全部</button>
+<button class="bg-white text-textSub text-xs px-3 py-1.5 rounded-full border border-gray-100" onclick="filterIdeas(this,'stock')">股票</button>
+<button class="bg-white text-textSub text-xs px-3 py-1.5 rounded-full border border-gray-100" onclick="filterIdeas(this,'fund')">基金</button>
+</div>
+<!-- 灵感卡片列表 -->
+<div class="px-4 space-y-3" id="idea-list">
 
-<div class="space-y-4" id="inspiration-list">
-<!-- 大牛持仓 -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
-<div class="p-4">
+<!-- 灵感卡片 1 -->
+<button class="w-full bg-white rounded-2xl shadow-sm border border-gray-50 p-4 text-left" onclick="location.href='stock_detail.html'">
 <div class="flex items-center justify-between mb-2">
-<span class="text-xs font-bold text-secondary">大牛持仓</span>
-<span class="text-sm font-bold text-up">近20日胜率 72%</span>
+<span class="text-[10px] font-bold text-white bg-secondary px-2 py-0.5 rounded">股票</span>
+<span class="text-[10px] text-textAssist">今天 15:40</span>
 </div>
-<h3 class="font-bold text-base text-textMain mb-1.5">AI硬件高弹性追踪</h3>
-<p class="text-xs text-textSub mb-3">当前股单：中际旭创、新易盛、通信ETF、工业富联。</p>
-<div class="flex items-center gap-2 mb-3">
-<span class="text-[10px] text-textAssist bg-bgMain px-2.5 py-1 rounded-full border border-gray-100">灵感广场</span>
-<span class="text-[10px] text-secondary bg-secondary/5 px-2.5 py-1 rounded-full border border-secondary/20">加入观察前先看回撤</span>
+<h3 class="font-bold text-sm text-textMain mb-1">外资上调评级 + 股价突破20日线</h3>
+<p class="text-[11px] text-textSub mb-3">创建者 @阿森的观察池 · 适合 狐狸 / 猫头鹰</p>
+<div class="grid grid-cols-3 gap-x-3 gap-y-2">
+<div><span class="text-[9px] text-textAssist block">平均涨幅</span><strong class="text-xs font-bold text-up">+6.4%</strong></div>
+<div><span class="text-[9px] text-textAssist block">调仓胜率</span><strong class="text-xs font-bold">68%</strong></div>
+<div><span class="text-[9px] text-textAssist block">今日标的</span><strong class="text-xs font-bold">12</strong></div>
+<div><span class="text-[9px] text-textAssist block">最大回撤</span><strong class="text-xs font-bold text-down">-6.8%</strong></div>
+<div><span class="text-[9px] text-textAssist block">关注</span><strong class="text-xs font-bold">2,316</strong></div>
+<div><span class="text-[9px] text-textAssist block">适合</span><strong class="text-xs font-bold text-secondary">狐狸</strong></div>
 </div>
-<button class="bg-secondary text-white font-bold text-sm px-5 py-2.5 rounded-xl active:scale-95 transition-transform" onclick="location.href='stock_detail.html'">
-查看股单详情
 </button>
-</div>
-</div>
 
-<!-- 游资动向 -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
-<div class="p-4">
+<!-- 灵感卡片 2 -->
+<button class="w-full bg-white rounded-2xl shadow-sm border border-gray-50 p-4 text-left" onclick="location.href='stock_detail.html'">
 <div class="flex items-center justify-between mb-2">
-<span class="text-xs font-bold text-secondary">游资动向</span>
-<span class="text-sm font-bold text-up">近5日胜率 54%</span>
+<span class="text-[10px] font-bold text-white bg-secondary px-2 py-0.5 rounded">股票</span>
+<span class="text-[10px] text-textAssist">今天 14:55</span>
 </div>
-<h3 class="font-bold text-base text-textMain mb-1.5">游资首板回流观察</h3>
-<p class="text-xs text-textSub mb-3">当前股单：新易盛、拓荆科技、鸣志电器、上能电气。</p>
-<div class="flex items-center gap-2 mb-3">
-<span class="text-[10px] text-textAssist bg-bgMain px-2.5 py-1 rounded-full border border-gray-100">灵感广场</span>
-<span class="text-[10px] text-secondary bg-secondary/5 px-2.5 py-1 rounded-full border border-secondary/20">加入观察前先看回撤</span>
+<h3 class="font-bold text-sm text-textMain mb-1">游资首板回流 + 成交额放大</h3>
+<p class="text-[11px] text-textSub mb-3">创建者 @短线纪律员 · 适合 猎豹</p>
+<div class="grid grid-cols-3 gap-x-3 gap-y-2">
+<div><span class="text-[9px] text-textAssist block">平均涨幅</span><strong class="text-xs font-bold text-up">+8.1%</strong></div>
+<div><span class="text-[9px] text-textAssist block">调仓胜率</span><strong class="text-xs font-bold">57%</strong></div>
+<div><span class="text-[9px] text-textAssist block">今日标的</span><strong class="text-xs font-bold">9</strong></div>
+<div><span class="text-[9px] text-textAssist block">最大回撤</span><strong class="text-xs font-bold text-down">-11.2%</strong></div>
+<div><span class="text-[9px] text-textAssist block">关注</span><strong class="text-xs font-bold">1,084</strong></div>
+<div><span class="text-[9px] text-textAssist block">适合</span><strong class="text-xs font-bold text-secondary">猎豹</strong></div>
 </div>
-<button class="bg-secondary text-white font-bold text-sm px-5 py-2.5 rounded-xl active:scale-95 transition-transform" onclick="location.href='stock_detail.html'">
-查看股单详情
 </button>
-</div>
-</div>
 
-<!-- 私募持仓 -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
-<div class="p-4">
+<!-- 灵感卡片 3 -->
+<button class="w-full bg-white rounded-2xl shadow-sm border border-gray-50 p-4 text-left" onclick="location.href='stock_detail.html'">
 <div class="flex items-center justify-between mb-2">
-<span class="text-xs font-bold text-secondary">私募持仓</span>
-<span class="text-sm font-bold text-up">近30日胜率 58%</span>
+<span class="text-[10px] font-bold text-white bg-primary px-2 py-0.5 rounded">基金</span>
+<span class="text-[10px] text-textAssist">昨天 17:10</span>
 </div>
-<h3 class="font-bold text-base text-textMain mb-1.5">低估值私募调仓线索</h3>
-<p class="text-xs text-textSub mb-3">当前股单：北方华创、海康威视、宁沪高速、伟星新材。</p>
-<div class="flex items-center gap-2 mb-3">
-<span class="text-[10px] text-textAssist bg-bgMain px-2.5 py-1 rounded-full border border-gray-100">灵感广场</span>
-<span class="text-[10px] text-secondary bg-secondary/5 px-2.5 py-1 rounded-full border border-secondary/20">加入观察前先看回撤</span>
+<h3 class="font-bold text-sm text-textMain mb-1">红利低波 + 月度再平衡</h3>
+<p class="text-[11px] text-textSub mb-3">创建者 @慢慢来组合 · 适合 乌龟 / 松鼠</p>
+<div class="grid grid-cols-3 gap-x-3 gap-y-2">
+<div><span class="text-[9px] text-textAssist block">平均涨幅</span><strong class="text-xs font-bold text-up">+2.3%</strong></div>
+<div><span class="text-[9px] text-textAssist block">调仓胜率</span><strong class="text-xs font-bold">72%</strong></div>
+<div><span class="text-[9px] text-textAssist block">今日标的</span><strong class="text-xs font-bold">7</strong></div>
+<div><span class="text-[9px] text-textAssist block">最大回撤</span><strong class="text-xs font-bold text-down">-2.9%</strong></div>
+<div><span class="text-[9px] text-textAssist block">关注</span><strong class="text-xs font-bold">3,908</strong></div>
+<div><span class="text-[9px] text-textAssist block">适合</span><strong class="text-xs font-bold text-secondary">乌龟</strong></div>
 </div>
-<button class="bg-secondary text-white font-bold text-sm px-5 py-2.5 rounded-xl active:scale-95 transition-transform" onclick="location.href='stock_detail.html'">
-查看股单详情
 </button>
+
+<!-- 灵感卡片 4 -->
+<button class="w-full bg-white rounded-2xl shadow-sm border border-gray-50 p-4 text-left" onclick="location.href='stock_detail.html'">
+<div class="flex items-center justify-between mb-2">
+<span class="text-[10px] font-bold text-white bg-secondary px-2 py-0.5 rounded">股票</span>
+<span class="text-[10px] text-textAssist">今天 13:26</span>
 </div>
+<h3 class="font-bold text-sm text-textMain mb-1">私募调研升温 + 估值回落</h3>
+<p class="text-[11px] text-textSub mb-3">创建者 @财报显微镜 · 适合 猫头鹰</p>
+<div class="grid grid-cols-3 gap-x-3 gap-y-2">
+<div><span class="text-[9px] text-textAssist block">平均涨幅</span><strong class="text-xs font-bold text-up">+3.9%</strong></div>
+<div><span class="text-[9px] text-textAssist block">调仓胜率</span><strong class="text-xs font-bold">64%</strong></div>
+<div><span class="text-[9px] text-textAssist block">今日标的</span><strong class="text-xs font-bold">8</strong></div>
+<div><span class="text-[9px] text-textAssist block">最大回撤</span><strong class="text-xs font-bold text-down">-5.1%</strong></div>
+<div><span class="text-[9px] text-textAssist block">关注</span><strong class="text-xs font-bold">1,562</strong></div>
+<div><span class="text-[9px] text-textAssist block">适合</span><strong class="text-xs font-bold text-secondary">猫头鹰</strong></div>
 </div>
+</button>
+
+<!-- 灵感卡片 5 -->
+<button class="w-full bg-white rounded-2xl shadow-sm border border-gray-50 p-4 text-left" onclick="location.href='stock_detail.html'">
+<div class="flex items-center justify-between mb-2">
+<span class="text-[10px] font-bold text-white bg-primary px-2 py-0.5 rounded">基金</span>
+<span class="text-[10px] text-textAssist">今天 12:08</span>
+</div>
+<h3 class="font-bold text-sm text-textMain mb-1">ETF放量突破 + 回撤可控</h3>
+<p class="text-[11px] text-textSub mb-3">创建者 @ETF捕手 · 适合 松鼠 / 狐狸</p>
+<div class="grid grid-cols-3 gap-x-3 gap-y-2">
+<div><span class="text-[9px] text-textAssist block">平均涨幅</span><strong class="text-xs font-bold text-up">+4.2%</strong></div>
+<div><span class="text-[9px] text-textAssist block">调仓胜率</span><strong class="text-xs font-bold">62%</strong></div>
+<div><span class="text-[9px] text-textAssist block">今日标的</span><strong class="text-xs font-bold">6</strong></div>
+<div><span class="text-[9px] text-textAssist block">最大回撤</span><strong class="text-xs font-bold text-down">-4.4%</strong></div>
+<div><span class="text-[9px] text-textAssist block">关注</span><strong class="text-xs font-bold">2,071</strong></div>
+<div><span class="text-[9px] text-textAssist block">适合</span><strong class="text-xs font-bold text-secondary">松鼠</strong></div>
+</div>
+</button>
+
+<!-- 灵感卡片 6 -->
+<button class="w-full bg-white rounded-2xl shadow-sm border border-gray-50 p-4 text-left" onclick="location.href='stock_detail.html'">
+<div class="flex items-center justify-between mb-2">
+<span class="text-[10px] font-bold text-white bg-secondary px-2 py-0.5 rounded">股票</span>
+<span class="text-[10px] text-textAssist">今天 11:36</span>
+</div>
+<h3 class="font-bold text-sm text-textMain mb-1">业绩预告上修 + 毛利率改善</h3>
+<p class="text-[11px] text-textSub mb-3">创建者 @利润率猎人 · 适合 猫头鹰</p>
+<div class="grid grid-cols-3 gap-x-3 gap-y-2">
+<div><span class="text-[9px] text-textAssist block">平均涨幅</span><strong class="text-xs font-bold text-up">+5.6%</strong></div>
+<div><span class="text-[9px] text-textAssist block">调仓胜率</span><strong class="text-xs font-bold">66%</strong></div>
+<div><span class="text-[9px] text-textAssist block">今日标的</span><strong class="text-xs font-bold">10</strong></div>
+<div><span class="text-[9px] text-textAssist block">最大回撤</span><strong class="text-xs font-bold text-down">-7.0%</strong></div>
+<div><span class="text-[9px] text-textAssist block">关注</span><strong class="text-xs font-bold">1,730</strong></div>
+<div><span class="text-[9px] text-textAssist block">适合</span><strong class="text-xs font-bold text-secondary">猫头鹰</strong></div>
+</div>
+</button>
+
 </div>
 </section>
 
@@ -411,6 +471,15 @@
             if (arrow) {
                 arrow.style.transform = el.classList.contains('hidden') ? '' : 'rotate(180deg)';
             }
+        }
+
+        // 灵感筛选标签切换（仅视觉反馈）
+        function filterIdeas(btn, mode) {
+            var tabs = document.querySelectorAll('#idea-filter-tabs button');
+            tabs.forEach(function(b) {
+                b.className = 'bg-white text-textSub text-xs px-3 py-1.5 rounded-full border border-gray-100';
+            });
+            btn.className = 'idea-filter-active text-xs px-3 py-1.5 rounded-full font-bold';
         }
 
         // Format number with commas

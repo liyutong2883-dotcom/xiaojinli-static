@@ -29,6 +29,12 @@
 <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
         .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+        @keyframes slide-up {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-slide-up { animation: slide-up 0.3s ease-out forwards; }
+        .modal-backdrop { transition: opacity 0.3s ease; }
     </style>
 </head>
 <body class="bg-bgMain text-textMain">
@@ -146,15 +152,15 @@
 </section>
 <!-- 底部研究入口 -->
 <div class="mt-6 px-4 grid grid-cols-3 gap-2">
-<button class="flex flex-col items-center gap-1 bg-white py-3 rounded-xl shadow-sm border border-gray-50">
+<button class="flex flex-col items-center gap-1 bg-white py-3 rounded-xl shadow-sm border border-gray-50 active:bg-gray-50" onclick="openModal('modal-valuation')">
 <iconify-icon class="text-primary text-xl" icon="solar:chart-2-bold-duotone"></iconify-icon>
 <span class="text-[10px]">估值助手</span>
 </button>
-<button class="flex flex-col items-center gap-1 bg-white py-3 rounded-xl shadow-sm border border-gray-50">
+<button class="flex flex-col items-center gap-1 bg-white py-3 rounded-xl shadow-sm border border-gray-50 active:bg-gray-50" onclick="openModal('modal-finance')">
 <iconify-icon class="text-primary text-xl" icon="solar:notebook-bold-duotone"></iconify-icon>
 <span class="text-[10px]">财报速读</span>
 </button>
-<button class="flex flex-col items-center gap-1 bg-white py-3 rounded-xl shadow-sm border border-gray-50">
+<button class="flex flex-col items-center gap-1 bg-white py-3 rounded-xl shadow-sm border border-gray-50 active:bg-gray-50" onclick="openModal('modal-compare')">
 <iconify-icon class="text-primary text-xl" icon="solar:users-group-two-rounded-bold-duotone"></iconify-icon>
 <span class="text-[10px]">同行对比</span>
 </button>
@@ -179,6 +185,213 @@
 <span class="text-[10px]">我的</span>
 </a>
 </nav>
+<!-- 估值助手 Modal -->
+<div class="fixed inset-0 z-[100] hidden" id="modal-valuation">
+<div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeModal('modal-valuation')"></div>
+<div class="absolute bottom-0 w-full max-w-[414px] bg-white rounded-t-3xl p-6 shadow-2xl animate-slide-up safe-bottom">
+<div class="flex justify-between items-center mb-5">
+<h3 class="text-lg font-bold flex items-center gap-2">
+<iconify-icon class="text-primary text-xl" icon="solar:chart-2-bold-duotone"></iconify-icon>
+估值助手
+</h3>
+<button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-textAssist" onclick="closeModal('modal-valuation')">
+<iconify-icon icon="solar:close-circle-bold"></iconify-icon>
+</button>
+</div>
+<!-- PE/PB 对比 -->
+<div class="grid grid-cols-2 gap-3 mb-5">
+<div class="bg-bgMain rounded-xl p-4 text-center">
+<div class="text-[10px] text-textAssist mb-1">当前 PE(TTM)</div>
+<div class="text-2xl font-bold text-primary">18.45</div>
+<div class="text-[10px] text-textAssist mt-1">行业均值 33.5</div>
+</div>
+<div class="bg-bgMain rounded-xl p-4 text-center">
+<div class="text-[10px] text-textAssist mb-1">当前 PB</div>
+<div class="text-2xl font-bold text-primary">4.76</div>
+<div class="text-[10px] text-textAssist mt-1">行业均值 6.2</div>
+</div>
+</div>
+<!-- 估值仪表盘 -->
+<div class="bg-bgMain rounded-xl p-4 mb-5">
+<div class="text-xs font-bold mb-3 text-center">估值水平判断</div>
+<div class="flex items-center justify-between mb-2">
+<span class="text-[10px] text-down font-bold">低估</span>
+<span class="text-[10px] text-textAssist">合理</span>
+<span class="text-[10px] text-up font-bold">高估</span>
+</div>
+<div class="relative h-3 bg-gradient-to-r from-down via-yellow-400 to-up rounded-full overflow-hidden">
+<div class="absolute left-0 top-0 h-full w-[30%] bg-down/20 rounded-l-full"></div>
+</div>
+<div class="flex justify-between mt-1">
+<div class="w-2 h-2 bg-down rounded-full border-2 border-white shadow mx-[14%]"></div>
+</div>
+<div class="text-center mt-3">
+<span class="inline-block bg-down/10 text-down text-xs font-bold px-3 py-1 rounded-full">当前处于低估区间</span>
+</div>
+</div>
+<!-- AI 分析说明 -->
+<div class="bg-orange-50 rounded-xl p-4 border border-orange-100">
+<div class="flex items-center gap-2 mb-2">
+<span class="text-base">🐟</span>
+<span class="text-xs font-bold text-secondary">小金鲤 AI 分析</span>
+</div>
+<p class="text-xs text-textSub leading-relaxed">
+当前 PE 18.45 显著低于行业均值 33.5，折价 45%。结合 ROE 25.8% 和稳定的分红记录，估值处于历史低位区间。从估值角度看，具有较高的安全边际。
+</p>
+</div>
+</div>
+</div>
+
+<!-- 财报速读 Modal -->
+<div class="fixed inset-0 z-[100] hidden" id="modal-finance">
+<div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeModal('modal-finance')"></div>
+<div class="absolute bottom-0 w-full max-w-[414px] bg-white rounded-t-3xl p-6 shadow-2xl animate-slide-up safe-bottom">
+<div class="flex justify-between items-center mb-5">
+<h3 class="text-lg font-bold flex items-center gap-2">
+<iconify-icon class="text-primary text-xl" icon="solar:notebook-bold-duotone"></iconify-icon>
+财报速读
+</h3>
+<button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-textAssist" onclick="closeModal('modal-finance')">
+<iconify-icon icon="solar:close-circle-bold"></iconify-icon>
+</button>
+</div>
+<!-- 核心财务指标 -->
+<div class="grid grid-cols-3 gap-2 mb-5">
+<div class="bg-bgMain rounded-xl p-3 text-center">
+<div class="text-[10px] text-textAssist mb-1">营业收入</div>
+<div class="text-sm font-bold">4009亿</div>
+<div class="text-[10px] text-up">+22.0%</div>
+</div>
+<div class="bg-bgMain rounded-xl p-3 text-center">
+<div class="text-[10px] text-textAssist mb-1">净利润</div>
+<div class="text-sm font-bold">441亿</div>
+<div class="text-[10px] text-up">+43.6%</div>
+</div>
+<div class="bg-bgMain rounded-xl p-3 text-center">
+<div class="text-[10px] text-textAssist mb-1">毛利率</div>
+<div class="text-sm font-bold">22.9%</div>
+<div class="text-[10px] text-up">+1.8pp</div>
+</div>
+</div>
+<!-- 关键要点 -->
+<div class="space-y-3 mb-4">
+<div class="flex items-start gap-3 p-3 bg-bgMain rounded-xl">
+<div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="text-[10px] font-bold text-primary">1</span>
+</div>
+<div>
+<div class="text-xs font-bold">动力电池全球市占率 37%</div>
+<div class="text-[10px] text-textAssist mt-0.5">连续7年蝉联全球第一，领先优势持续扩大</div>
+</div>
+</div>
+<div class="flex items-start gap-3 p-3 bg-bgMain rounded-xl">
+<div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="text-[10px] font-bold text-primary">2</span>
+</div>
+<div>
+<div class="text-xs font-bold">储能业务爆发式增长</div>
+<div class="text-[10px] text-textAssist mt-0.5">储能收入同比+60%，成为第二增长曲线</div>
+</div>
+</div>
+<div class="flex items-start gap-3 p-3 bg-bgMain rounded-xl">
+<div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="text-[10px] font-bold text-primary">3</span>
+</div>
+<div>
+<div class="text-xs font-bold">研发投入持续加大</div>
+<div class="text-[10px] text-textAssist mt-0.5">研发费用184亿，占营收4.6%，技术壁垒加深</div>
+</div>
+</div>
+<div class="flex items-start gap-3 p-3 bg-bgMain rounded-xl">
+<div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="text-[10px] font-bold text-primary">4</span>
+</div>
+<div>
+<div class="text-xs font-bold">海外产能加速布局</div>
+<div class="text-[10px] text-textAssist mt-0.5">匈牙利工厂推进中，海外收入占比提升至35%</div>
+</div>
+</div>
+</div>
+<div class="text-[10px] text-textAssist text-center">数据来源：2023年年度报告</div>
+</div>
+</div>
+
+<!-- 同行对比 Modal -->
+<div class="fixed inset-0 z-[100] hidden" id="modal-compare">
+<div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeModal('modal-compare')"></div>
+<div class="absolute bottom-0 w-full max-w-[414px] bg-white rounded-t-3xl p-6 shadow-2xl animate-slide-up safe-bottom">
+<div class="flex justify-between items-center mb-5">
+<h3 class="text-lg font-bold flex items-center gap-2">
+<iconify-icon class="text-primary text-xl" icon="solar:users-group-two-rounded-bold-duotone"></iconify-icon>
+同行对比
+</h3>
+<button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-textAssist" onclick="closeModal('modal-compare')">
+<iconify-icon icon="solar:close-circle-bold"></iconify-icon>
+</button>
+</div>
+<!-- 对比表格 -->
+<div class="overflow-x-auto -mx-2">
+<table class="w-full text-[11px] min-w-[480px]">
+<thead>
+<tr class="text-textAssist border-b border-gray-100">
+<th class="text-left py-2 px-2 font-medium">公司</th>
+<th class="text-right py-2 px-2 font-medium">PE</th>
+<th class="text-right py-2 px-2 font-medium">ROE</th>
+<th class="text-right py-2 px-2 font-medium">市值</th>
+<th class="text-right py-2 px-2 font-medium">年初至今</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-gray-50 bg-primary/5">
+<td class="py-3 px-2 font-bold text-primary">宁德时代</td>
+<td class="text-right px-2">18.5</td>
+<td class="text-right px-2">25.8%</td>
+<td class="text-right px-2">8340亿</td>
+<td class="text-right px-2 text-up font-bold">+18.2%</td>
+</tr>
+<tr class="border-b border-gray-50">
+<td class="py-3 px-2 font-bold">比亚迪</td>
+<td class="text-right px-2">24.3</td>
+<td class="text-right px-2">18.5%</td>
+<td class="text-right px-2">7820亿</td>
+<td class="text-right px-2 text-up font-bold">+12.6%</td>
+</tr>
+<tr class="border-b border-gray-50">
+<td class="py-3 px-2 font-bold">亿纬锂能</td>
+<td class="text-right px-2">15.2</td>
+<td class="text-right px-2">14.2%</td>
+<td class="text-right px-2">980亿</td>
+<td class="text-right px-2 text-down font-bold">-5.3%</td>
+</tr>
+<tr class="border-b border-gray-50">
+<td class="py-3 px-2 font-bold">国轩高科</td>
+<td class="text-right px-2">32.1</td>
+<td class="text-right px-2">8.6%</td>
+<td class="text-right px-2">620亿</td>
+<td class="text-right px-2 text-up font-bold">+6.8%</td>
+</tr>
+<tr>
+<td class="py-3 px-2 font-bold">中创新航</td>
+<td class="text-right px-2">21.7</td>
+<td class="text-right px-2">11.3%</td>
+<td class="text-right px-2">380亿</td>
+<td class="text-right px-2 text-down font-bold">-2.1%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-4 bg-orange-50 rounded-xl p-3 border border-orange-100">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-sm">🐟</span>
+<span class="text-[10px] font-bold text-secondary">小金鲤点评</span>
+</div>
+<p class="text-[10px] text-textSub leading-relaxed">
+宁德时代 PE 最低但 ROE 最高，性价比突出。年初至今涨幅领先，市场对其龙头地位给予溢价认可。
+</p>
+</div>
+</div>
+</div>
+
 <!-- 全局浮窗 -->
 <div class="fixed right-4 bottom-24 z-[60] cursor-pointer" onclick="location.href='ai_assistant.html'">
 <div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg border-2 border-white">
@@ -212,6 +425,16 @@
             ]
         };
         myChart.setOption(option);
+
+        // Modal functions
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.body.style.overflow = '';
+        }
     </script>
 </body>
 </html>

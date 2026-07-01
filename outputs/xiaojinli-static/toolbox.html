@@ -256,6 +256,158 @@
 </div>
 </div>
 </section>
+
+<!-- Section 3: 投资计算器 -->
+<section class="px-4 pb-6">
+<div class="mb-4">
+<h2 class="text-lg font-bold flex items-center gap-2">
+<iconify-icon class="text-primary text-xl" icon="solar:calculator-minimalistic-bold-duotone"></iconify-icon>
+投资计算器
+</h2>
+<p class="text-xs text-textAssist mt-1">实用投资工具，帮你算清楚</p>
+</div>
+
+<div class="space-y-3">
+<!-- 复利计算器 -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+<div class="p-4 flex items-center justify-between cursor-pointer" onclick="toggleCalc('calc-compound')">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+<iconify-icon class="text-primary text-lg" icon="solar:graph-up-bold-duotone"></iconify-icon>
+</div>
+<div>
+<div class="font-bold text-sm">复利计算器</div>
+<div class="text-[10px] text-textAssist">计算复利增长，看时间的朋友</div>
+</div>
+</div>
+<iconify-icon class="text-textAssist text-lg transition-transform duration-300" icon="solar:alt-arrow-down-linear" id="arrow-calc-compound"></iconify-icon>
+</div>
+<div class="hidden px-4 pb-4" id="calc-compound">
+<div class="space-y-3">
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="text-[10px] text-textAssist block mb-1">初始本金 (元)</label>
+<input type="number" id="compound-principal" value="10000" class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none" />
+</div>
+<div>
+<label class="text-[10px] text-textAssist block mb-1">每月定投 (元)</label>
+<input type="number" id="compound-monthly" value="1000" class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none" />
+</div>
+<div>
+<label class="text-[10px] text-textAssist block mb-1">年化收益率 (%)</label>
+<input type="number" id="compound-rate" value="8" class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none" />
+</div>
+<div>
+<label class="text-[10px] text-textAssist block mb-1">投资年限 (年)</label>
+<input type="number" id="compound-years" value="10" class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none" />
+</div>
+</div>
+<button class="w-full bg-primary text-white font-bold py-2.5 rounded-xl text-xs active:scale-95 transition-transform" onclick="calcCompound()">计算</button>
+<div class="hidden mt-3 bg-bgMain rounded-xl p-4" id="compound-result">
+<div class="grid grid-cols-2 gap-3 text-center">
+<div>
+<div class="text-[10px] text-textAssist">最终金额</div>
+<div class="text-lg font-bold text-primary" id="compound-total">-</div>
+</div>
+<div>
+<div class="text-[10px] text-textAssist">总收益</div>
+<div class="text-lg font-bold text-up" id="compound-profit">-</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 定投收益计算器 -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+<div class="p-4 flex items-center justify-between cursor-pointer" onclick="toggleCalc('calc-invest')">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
+<iconify-icon class="text-blue-600 text-lg" icon="solar:dollar-minimalistic-bold-duotone"></iconify-icon>
+</div>
+<div>
+<div class="font-bold text-sm">定投收益计算器</div>
+<div class="text-[10px] text-textAssist">定投每月投入，算算最终收获</div>
+</div>
+</div>
+<iconify-icon class="text-textAssist text-lg transition-transform duration-300" icon="solar:alt-arrow-down-linear" id="arrow-calc-invest"></iconify-icon>
+</div>
+<div class="hidden px-4 pb-4" id="calc-invest">
+<div class="space-y-3">
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="text-[10px] text-textAssist block mb-1">每月投入金额 (元)</label>
+<input type="number" id="invest-monthly" value="2000" class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none" />
+</div>
+<div>
+<label class="text-[10px] text-textAssist block mb-1">投资月数</label>
+<input type="number" id="invest-months" value="12" class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none" />
+</div>
+</div>
+<button class="w-full bg-blue-600 text-white font-bold py-2.5 rounded-xl text-xs active:scale-95 transition-transform" onclick="calcInvest()">计算</button>
+<div class="hidden mt-3" id="invest-result">
+<div class="bg-bgMain rounded-xl p-3 mb-2 grid grid-cols-2 gap-3 text-center">
+<div>
+<div class="text-[10px] text-textAssist">累计投入</div>
+<div class="text-sm font-bold" id="invest-total-input">-</div>
+</div>
+<div>
+<div class="text-[10px] text-textAssist">模拟收益 (8%)</div>
+<div class="text-sm font-bold text-up" id="invest-profit">-</div>
+</div>
+</div>
+<div class="bg-bgMain rounded-xl overflow-hidden">
+<div class="text-[10px] text-textAssist px-3 py-2 font-medium border-b border-gray-100">月度明细 (模拟)</div>
+<div class="max-h-40 overflow-y-auto" id="invest-table"></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 回撤计算器 -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+<div class="p-4 flex items-center justify-between cursor-pointer" onclick="toggleCalc('calc-drawdown')">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center">
+<iconify-icon class="text-up text-lg" icon="solar:graph-down-bold-duotone"></iconify-icon>
+</div>
+<div>
+<div class="font-bold text-sm">回撤计算器</div>
+<div class="text-[10px] text-textAssist">算算你的浮盈浮亏</div>
+</div>
+</div>
+<iconify-icon class="text-textAssist text-lg transition-transform duration-300" icon="solar:alt-arrow-down-linear" id="arrow-calc-drawdown"></iconify-icon>
+</div>
+<div class="hidden px-4 pb-4" id="calc-drawdown">
+<div class="space-y-3">
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="text-[10px] text-textAssist block mb-1">投入金额 (元)</label>
+<input type="number" id="drawdown-cost" value="100000" class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none" />
+</div>
+<div>
+<label class="text-[10px] text-textAssist block mb-1">当前市值 (元)</label>
+<input type="number" id="drawdown-current" value="90000" class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none" />
+</div>
+</div>
+<button class="w-full bg-up text-white font-bold py-2.5 rounded-xl text-xs active:scale-95 transition-transform" onclick="calcDrawdown()">计算</button>
+<div class="hidden mt-3 bg-bgMain rounded-xl p-4" id="drawdown-result">
+<div class="grid grid-cols-2 gap-3 text-center">
+<div>
+<div class="text-[10px] text-textAssist">浮盈/浮亏</div>
+<div class="text-lg font-bold" id="drawdown-amount">-</div>
+</div>
+<div>
+<div class="text-[10px] text-textAssist">盈亏比例</div>
+<div class="text-lg font-bold" id="drawdown-percent">-</div>
+</div>
+</div>
+<div class="mt-3 text-center" id="drawdown-status"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
 </main>
 <!-- 底部导航 -->
 <nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-4 py-3 flex justify-between items-center z-50 safe-bottom">
@@ -302,6 +454,85 @@
         function toggleDiag(index) {
             const el = document.getElementById('diag-' + index);
             el.classList.toggle('hidden');
+        }
+
+        // Calculator collapse/expand
+        function toggleCalc(id) {
+            const el = document.getElementById(id);
+            const arrow = document.getElementById('arrow-' + id);
+            el.classList.toggle('hidden');
+            if (arrow) {
+                arrow.style.transform = el.classList.contains('hidden') ? '' : 'rotate(180deg)';
+            }
+        }
+
+        // Format number with commas
+        function fmtNum(n) {
+            return n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        // 复利计算器
+        function calcCompound() {
+            const P = parseFloat(document.getElementById('compound-principal').value) || 0;
+            const M = parseFloat(document.getElementById('compound-monthly').value) || 0;
+            const r = (parseFloat(document.getElementById('compound-rate').value) || 0) / 100;
+            const Y = parseInt(document.getElementById('compound-years').value) || 0;
+            const monthlyRate = r / 12;
+            const months = Y * 12;
+            let total = P;
+            for (let i = 0; i < months; i++) {
+                total = total * (1 + monthlyRate) + M;
+            }
+            const profit = total - P - M * months;
+            document.getElementById('compound-total').innerText = '¥' + fmtNum(total);
+            document.getElementById('compound-profit').innerText = '¥' + fmtNum(profit);
+            document.getElementById('compound-result').classList.remove('hidden');
+        }
+
+        // 定投收益计算器
+        function calcInvest() {
+            const M = parseFloat(document.getElementById('invest-monthly').value) || 0;
+            const N = parseInt(document.getElementById('invest-months').value) || 0;
+            const annualRate = 0.08;
+            const monthlyRate = annualRate / 12;
+            let balance = 0;
+            let totalInput = 0;
+            let rows = '';
+            for (let i = 1; i <= N; i++) {
+                balance = balance * (1 + monthlyRate) + M;
+                totalInput += M;
+                const monthProfit = balance - totalInput;
+                rows += '<div class="flex justify-between px-3 py-1.5 text-[10px] border-b border-gray-50">'
+                    + '<span class="text-textAssist">第' + i + '月</span>'
+                    + '<span class="font-medium">¥' + fmtNum(balance) + '</span>'
+                    + '<span class="' + (monthProfit >= 0 ? 'text-up' : 'text-down') + '">¥' + fmtNum(monthProfit) + '</span>'
+                    + '</div>';
+            }
+            document.getElementById('invest-total-input').innerText = '¥' + fmtNum(totalInput);
+            document.getElementById('invest-profit').innerText = '¥' + fmtNum(balance - totalInput);
+            document.getElementById('invest-table').innerHTML = rows;
+            document.getElementById('invest-result').classList.remove('hidden');
+        }
+
+        // 回撤计算器
+        function calcDrawdown() {
+            const cost = parseFloat(document.getElementById('drawdown-cost').value) || 0;
+            const current = parseFloat(document.getElementById('drawdown-current').value) || 0;
+            const diff = current - cost;
+            const pct = cost > 0 ? (diff / cost) * 100 : 0;
+            const amountEl = document.getElementById('drawdown-amount');
+            const pctEl = document.getElementById('drawdown-percent');
+            const statusEl = document.getElementById('drawdown-status');
+            amountEl.innerText = (diff >= 0 ? '+' : '') + '¥' + fmtNum(diff);
+            amountEl.className = 'text-lg font-bold ' + (diff >= 0 ? 'text-up' : 'text-down');
+            pctEl.innerText = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+            pctEl.className = 'text-lg font-bold ' + (pct >= 0 ? 'text-up' : 'text-down');
+            if (diff >= 0) {
+                statusEl.innerHTML = '<span class="inline-block bg-down/10 text-down text-xs font-bold px-3 py-1 rounded-full">浮盈中，继续持有</span>';
+            } else {
+                statusEl.innerHTML = '<span class="inline-block bg-up/10 text-up text-xs font-bold px-3 py-1 rounded-full">浮亏中，注意风险</span>';
+            }
+            document.getElementById('drawdown-result').classList.remove('hidden');
         }
     </script>
 </body>

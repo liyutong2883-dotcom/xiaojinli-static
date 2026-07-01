@@ -41,117 +41,217 @@
 <iconify-icon class="text-2xl text-white" icon="solar:star-bold"></iconify-icon>
 </header>
 <main class="flex-1 overflow-y-auto pb-24">
-<!-- 抄作业前先问自己3个问题 -->
+<!-- AI 持仓配置解读 -->
 <section class="p-4">
 <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-orange-100">
-<button class="w-full px-4 py-3 flex justify-between items-center bg-orange-50/50" onclick="toggleSection('questions')">
-<span class="font-bold text-secondary text-sm flex items-center gap-2">
-<iconify-icon icon="solar:shield-check-bold-duotone"></iconify-icon>
-                            抄作业前先问自己 3 个问题
-                        </span>
-<iconify-icon class="transition-transform" icon="solar:alt-arrow-down-linear" id="icon-questions"></iconify-icon>
-</button>
-<div class="p-4 space-y-4" id="section-questions">
-<div class="flex gap-3">
-<div class="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs flex-shrink-0">1</div>
-<p class="text-xs text-textSub leading-relaxed">这笔钱打算投多久？该策略平均持仓周期为 1.5 年，短期波动可能较大。</p>
+<div class="px-4 py-3 bg-gradient-to-r from-primary/10 to-secondary/10 flex items-center gap-2">
+<span class="text-lg">🐟</span>
+<span class="font-bold text-secondary text-sm">为什么这个人选择这样的持仓配置</span>
 </div>
-<div class="flex gap-3 border-t border-gray-50 pt-3">
-<div class="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs flex-shrink-0">2</div>
-<p class="text-xs text-textSub leading-relaxed">能承受多大波动？最大回撤曾达到 25%，你的风险偏好是否匹配？</p>
+<div class="p-4 space-y-3">
+<p class="text-xs text-textSub leading-relaxed">基于对该组合历史调仓记录与市场环境的分析，AI 解读如下：</p>
+<div class="space-y-2.5">
+<div class="flex gap-2.5 items-start">
+<div class="w-5 h-5 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+<iconify-icon icon="solar:graph-up-linear" class="text-primary text-xs"></iconify-icon>
 </div>
-<div class="flex gap-3 border-t border-gray-50 pt-3">
-<div class="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs flex-shrink-0">3</div>
-<p class="text-xs text-textSub leading-relaxed">为什么选这个策略？是因为短期涨得好，还是认同其价值投资逻辑？</p>
+<div>
+<p class="text-[11px] font-bold text-textMain">市场判断</p>
+<p class="text-[11px] text-textSub leading-relaxed">当前看好内需消费复苏与新能源产业链的长期增长，重仓电力设备与食品饮料体现了「确定性增长 + 政策顺风」的双重逻辑。</p>
+</div>
+</div>
+<div class="flex gap-2.5 items-start">
+<div class="w-5 h-5 rounded-full bg-secondary/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+<iconify-icon icon="solar:shield-check-linear" class="text-secondary text-xs"></iconify-icon>
+</div>
+<div>
+<p class="text-[11px] font-bold text-textMain">风控思路</p>
+<p class="text-[11px] text-textSub leading-relaxed">通过跨行业分散（5 个板块）降低单一赛道风险，单只个股上限不超过 10%，整体组合波动率控制在同类前 30%。</p>
+</div>
+</div>
+<div class="flex gap-2.5 items-start">
+<div class="w-5 h-5 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+<iconify-icon icon="solar:refresh-circle-linear" class="text-primary text-xs"></iconify-icon>
+</div>
+<div>
+<p class="text-[11px] font-bold text-textMain">板块轮动</p>
+<p class="text-[11px] text-textSub leading-relaxed">近期增持非银金融，减持部分医药仓位，判断金融板块估值修复空间更大，体现从成长到价值的阶段性切换。</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 </section>
-<!-- 持仓列表 -->
-<section class="mt-2 px-4 space-y-3">
-<div class="flex justify-between items-center px-1 mb-2">
-<h2 class="text-sm font-bold">当前持仓 (12只)</h2>
+<!-- 持仓比例总览 -->
+<section class="px-4 mb-2">
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-50">
+<div class="flex justify-between items-center mb-3">
+<h2 class="text-sm font-bold">持仓比例总览</h2>
 <span class="text-[10px] text-textAssist">更新于：2024-06-25</span>
 </div>
-<!-- 股票卡片 1 -->
+<!-- Stacked horizontal bar -->
+<div class="flex h-5 rounded-full overflow-hidden mb-3">
+<div class="bg-[#FFB800]" style="width:9.5%" title="宁德时代 9.5%"></div>
+<div class="bg-[#FF6B00]" style="width:8.2%" title="贵州茅台 8.2%"></div>
+<div class="bg-[#FFD666]" style="width:6.8%" title="中国平安 6.8%"></div>
+<div class="bg-[#FFA940]" style="width:7.5%" title="隆基绿能 7.5%"></div>
+<div class="bg-[#FF8C00]" style="width:6.0%" title="药明康德 6.0%"></div>
+<div class="bg-[#FFC069]" style="width:5.5%" title="招商银行 5.5%"></div>
+<div class="bg-[#FFD591]" style="width:5.0%" title="五粮液 5.0%"></div>
+<div class="bg-[#FFE0B2]" style="width:4.8%" title="阳光电源 4.8%"></div>
+<div class="bg-[#E8D5B7]" style="width:4.5%" title="中信证券 4.5%"></div>
+<div class="bg-[#F0E6D3]" style="width:4.2%" title="恒瑞医药 4.2%"></div>
+<div class="bg-[#E8E0D0]" style="width:38.0%"></div>
+</div>
+<!-- Legend -->
+<div class="flex flex-wrap gap-x-3 gap-y-1.5">
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-[#FFB800]"></span><span class="text-[10px] text-textSub">宁德时代 9.5%</span></div>
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-[#FF6B00]"></span><span class="text-[10px] text-textSub">贵州茅台 8.2%</span></div>
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-[#FFD666]"></span><span class="text-[10px] text-textSub">中国平安 6.8%</span></div>
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-[#FFA940]"></span><span class="text-[10px] text-textSub">隆基绿能 7.5%</span></div>
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-[#FF8C00]"></span><span class="text-[10px] text-textSub">药明康德 6.0%</span></div>
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-[#FFC069]"></span><span class="text-[10px] text-textSub">招商银行 5.5%</span></div>
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-[#FFD591]"></span><span class="text-[10px] text-textSub">五粮液 5.0%</span></div>
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-[#FFE0B2]"></span><span class="text-[10px] text-textSub">阳光电源 4.8%</span></div>
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-[#E8D5B7]"></span><span class="text-[10px] text-textSub">中信证券 4.5%</span></div>
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-[#F0E6D3]"></span><span class="text-[10px] text-textSub">恒瑞医药 4.2%</span></div>
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-[#E8E0D0]"></span><span class="text-[10px] text-textSub">其他 38.0%</span></div>
+</div>
+</div>
+</section>
+<!-- 产业配置 -->
+<section class="px-4 mb-2">
 <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-50">
-<div class="flex justify-between items-start mb-3" onclick="location.href='stock_detail.html'">
-<div>
-<div class="font-bold">宁德时代</div>
-<div class="text-[10px] text-textAssist">300750.SZ · 电力设备</div>
+<h2 class="text-sm font-bold mb-3">产业配置</h2>
+<div class="flex items-center gap-4">
+<!-- Donut chart SVG -->
+<svg viewBox="0 0 100 100" class="w-28 h-28 flex-shrink-0" style="transform: rotate(-90deg);">
+<circle cx="50" cy="50" r="38" fill="transparent" stroke="#FFB800" stroke-width="14"
+  stroke-dasharray="83.57 155.33" stroke-dashoffset="0"></circle>
+<circle cx="50" cy="50" r="38" fill="transparent" stroke="#FF6B00" stroke-width="14"
+  stroke-dasharray="59.69 179.21" stroke-dashoffset="-83.57"></circle>
+<circle cx="50" cy="50" r="38" fill="transparent" stroke="#FFD666" stroke-width="14"
+  stroke-dasharray="47.75 191.15" stroke-dashoffset="-143.26"></circle>
+<circle cx="50" cy="50" r="38" fill="transparent" stroke="#FFA940" stroke-width="14"
+  stroke-dasharray="28.65 210.25" stroke-dashoffset="-191.01"></circle>
+<circle cx="50" cy="50" r="38" fill="transparent" stroke="#E8E0D0" stroke-width="14"
+  stroke-dasharray="19.10 219.80" stroke-dashoffset="-219.66"></circle>
+</svg>
+<!-- Legend -->
+<div class="space-y-2 flex-1">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-sm bg-[#FFB800]"></span><span class="text-xs text-textMain">电力设备</span></div>
+<span class="text-xs font-bold">35%</span>
 </div>
-<div class="text-right">
-<div class="text-sm font-bold text-up">+5.24%</div>
-<div class="text-[10px] text-textAssist">今日涨幅</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-sm bg-[#FF6B00]"></span><span class="text-xs text-textMain">食品饮料</span></div>
+<span class="text-xs font-bold">25%</span>
 </div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-sm bg-[#FFD666]"></span><span class="text-xs text-textMain">非银金融</span></div>
+<span class="text-xs font-bold">20%</span>
 </div>
-<div class="flex items-center gap-3 mb-4">
-<div class="text-[10px] text-textAssist w-12">持仓比例</div>
-<div class="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-<div class="h-full bg-primary w-[9.5%]"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-sm bg-[#FFA940]"></span><span class="text-xs text-textMain">医药生物</span></div>
+<span class="text-xs font-bold">12%</span>
 </div>
-<div class="text-[10px] font-bold">9.5%</div>
-</div>
-<div class="border-t border-dashed border-gray-100 pt-3">
-<button class="w-full flex justify-between items-center text-xs text-primary font-medium" onclick="toggleDetail('detail-1')">
-                            展开解读
-                            <iconify-icon icon="solar:alt-arrow-down-linear" id="icon-detail-1"></iconify-icon>
-</button>
-<div class="hidden mt-3 text-[11px] text-textSub space-y-2 bg-bgMain p-3 rounded-xl" id="detail-1">
-<p><span class="font-bold text-textMain">业务：</span>全球领先的锂电池研发制造企业，市占率连续多年全球第一。</p>
-<p><span class="font-bold text-textMain">逻辑：</span>新能源车渗透率持续提升，储能业务迎来爆发期，成本控制能力极强。</p>
-<p><span class="font-bold text-textMain">风险：</span>原材料价格波动风险，国际贸易政策变化，行业竞争加剧。</p>
-</div>
-</div>
-</div>
-<!-- 股票卡片 2 -->
-<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-50">
-<div class="flex justify-between items-start mb-3" onclick="location.href='stock_detail.html'">
-<div>
-<div class="font-bold">贵州茅台</div>
-<div class="text-[10px] text-textAssist">600519.SH · 食品饮料</div>
-</div>
-<div class="text-right">
-<div class="text-sm font-bold text-down">-0.12%</div>
-<div class="text-[10px] text-textAssist">今日涨幅</div>
-</div>
-</div>
-<div class="flex items-center gap-3 mb-4">
-<div class="text-[10px] text-textAssist w-12">持仓比例</div>
-<div class="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-<div class="h-full bg-primary w-[8.2%]"></div>
-</div>
-<div class="text-[10px] font-bold">8.2%</div>
-</div>
-<div class="border-t border-dashed border-gray-100 pt-3">
-<button class="w-full flex justify-between items-center text-xs text-primary font-medium" onclick="toggleDetail('detail-2')">
-                            展开解读
-                            <iconify-icon icon="solar:alt-arrow-down-linear" id="icon-detail-2"></iconify-icon>
-</button>
-<div class="hidden mt-3 text-[11px] text-textSub space-y-2 bg-bgMain p-3 rounded-xl" id="detail-2">
-<p><span class="font-bold text-textMain">逻辑：</span>核心资产，极高的品牌护城河与现金流能力。</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-sm bg-[#E8E0D0]"></span><span class="text-xs text-textMain">其他</span></div>
+<span class="text-xs font-bold">8%</span>
 </div>
 </div>
 </div>
-<!-- 股票卡片 3 -->
-<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-50">
-<div class="flex justify-between items-start mb-3" onclick="location.href='stock_detail.html'">
-<div>
-<div class="font-bold">中国平安</div>
-<div class="text-[10px] text-textAssist">601318.SH · 非银金融</div>
 </div>
-<div class="text-right">
-<div class="text-sm font-bold text-up">+1.45%</div>
-<div class="text-[10px] text-textAssist">今日涨幅</div>
+</section>
+<!-- 持仓明细表 -->
+<section class="px-4 mb-4">
+<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+<div class="px-4 py-3 flex justify-between items-center border-b border-gray-50">
+<h2 class="text-sm font-bold">持仓明细 (12只)</h2>
 </div>
-</div>
-<div class="flex items-center gap-3 mb-4">
-<div class="text-[10px] text-textAssist w-12">持仓比例</div>
-<div class="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-<div class="h-full bg-primary w-[6.8%]"></div>
-</div>
-<div class="text-[10px] font-bold">6.8%</div>
-</div>
+<table class="w-full">
+<thead>
+<tr class="bg-bgMain text-[10px] text-textAssist">
+<th class="text-left pl-4 py-2 font-medium">股票</th>
+<th class="text-left py-2 font-medium">代码</th>
+<th class="text-left py-2 font-medium">行业</th>
+<th class="text-right py-2 font-medium">占比</th>
+<th class="text-right pr-4 py-2 font-medium">今日</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-t border-gray-50 cursor-pointer active:bg-gray-50" onclick="location.href='stock_detail.html'">
+<td class="pl-4 py-2.5 text-xs font-medium">宁德时代</td>
+<td class="py-2.5 text-[10px] text-textAssist">300750</td>
+<td class="py-2.5 text-[10px] text-textSub">电力设备</td>
+<td class="py-2.5 text-xs text-right font-medium">9.5%</td>
+<td class="pr-4 py-2.5 text-xs text-right text-up font-medium">+5.24%</td>
+</tr>
+<tr class="border-t border-gray-50 cursor-pointer active:bg-gray-50" onclick="location.href='stock_detail.html'">
+<td class="pl-4 py-2.5 text-xs font-medium">贵州茅台</td>
+<td class="py-2.5 text-[10px] text-textAssist">600519</td>
+<td class="py-2.5 text-[10px] text-textSub">食品饮料</td>
+<td class="py-2.5 text-xs text-right font-medium">8.2%</td>
+<td class="pr-4 py-2.5 text-xs text-right text-down font-medium">-0.12%</td>
+</tr>
+<tr class="border-t border-gray-50 cursor-pointer active:bg-gray-50" onclick="location.href='stock_detail.html'">
+<td class="pl-4 py-2.5 text-xs font-medium">隆基绿能</td>
+<td class="py-2.5 text-[10px] text-textAssist">601012</td>
+<td class="py-2.5 text-[10px] text-textSub">电力设备</td>
+<td class="py-2.5 text-xs text-right font-medium">7.5%</td>
+<td class="pr-4 py-2.5 text-xs text-right text-up font-medium">+3.18%</td>
+</tr>
+<tr class="border-t border-gray-50 cursor-pointer active:bg-gray-50" onclick="location.href='stock_detail.html'">
+<td class="pl-4 py-2.5 text-xs font-medium">中国平安</td>
+<td class="py-2.5 text-[10px] text-textAssist">601318</td>
+<td class="py-2.5 text-[10px] text-textSub">非银金融</td>
+<td class="py-2.5 text-xs text-right font-medium">6.8%</td>
+<td class="pr-4 py-2.5 text-xs text-right text-up font-medium">+1.45%</td>
+</tr>
+<tr class="border-t border-gray-50 cursor-pointer active:bg-gray-50" onclick="location.href='stock_detail.html'">
+<td class="pl-4 py-2.5 text-xs font-medium">药明康德</td>
+<td class="py-2.5 text-[10px] text-textAssist">603259</td>
+<td class="py-2.5 text-[10px] text-textSub">医药生物</td>
+<td class="py-2.5 text-xs text-right font-medium">6.0%</td>
+<td class="pr-4 py-2.5 text-xs text-right text-down font-medium">-1.87%</td>
+</tr>
+<tr class="border-t border-gray-50 cursor-pointer active:bg-gray-50" onclick="location.href='stock_detail.html'">
+<td class="pl-4 py-2.5 text-xs font-medium">招商银行</td>
+<td class="py-2.5 text-[10px] text-textAssist">600036</td>
+<td class="py-2.5 text-[10px] text-textSub">非银金融</td>
+<td class="py-2.5 text-xs text-right font-medium">5.5%</td>
+<td class="pr-4 py-2.5 text-xs text-right text-up font-medium">+0.76%</td>
+</tr>
+<tr class="border-t border-gray-50 cursor-pointer active:bg-gray-50" onclick="location.href='stock_detail.html'">
+<td class="pl-4 py-2.5 text-xs font-medium">五粮液</td>
+<td class="py-2.5 text-[10px] text-textAssist">000858</td>
+<td class="py-2.5 text-[10px] text-textSub">食品饮料</td>
+<td class="py-2.5 text-xs text-right font-medium">5.0%</td>
+<td class="pr-4 py-2.5 text-xs text-right text-up font-medium">+0.32%</td>
+</tr>
+<tr class="border-t border-gray-50 cursor-pointer active:bg-gray-50" onclick="location.href='stock_detail.html'">
+<td class="pl-4 py-2.5 text-xs font-medium">阳光电源</td>
+<td class="py-2.5 text-[10px] text-textAssist">300274</td>
+<td class="py-2.5 text-[10px] text-textSub">电力设备</td>
+<td class="py-2.5 text-xs text-right font-medium">4.8%</td>
+<td class="pr-4 py-2.5 text-xs text-right text-up font-medium">+4.51%</td>
+</tr>
+<tr class="border-t border-gray-50 cursor-pointer active:bg-gray-50" onclick="location.href='stock_detail.html'">
+<td class="pl-4 py-2.5 text-xs font-medium">中信证券</td>
+<td class="py-2.5 text-[10px] text-textAssist">600030</td>
+<td class="py-2.5 text-[10px] text-textSub">非银金融</td>
+<td class="py-2.5 text-xs text-right font-medium">4.5%</td>
+<td class="pr-4 py-2.5 text-xs text-right text-down font-medium">-0.55%</td>
+</tr>
+<tr class="border-t border-gray-50 cursor-pointer active:bg-gray-50" onclick="location.href='stock_detail.html'">
+<td class="pl-4 py-2.5 text-xs font-medium">恒瑞医药</td>
+<td class="py-2.5 text-[10px] text-textAssist">600276</td>
+<td class="py-2.5 text-[10px] text-textSub">医药生物</td>
+<td class="py-2.5 text-xs text-right font-medium">4.2%</td>
+<td class="pr-4 py-2.5 text-xs text-right text-up font-medium">+1.23%</td>
+</tr>
+</tbody>
+</table>
 </div>
 </section>
 </main>
@@ -181,20 +281,5 @@
 </div>
 </div>
 </div>
-<script>
-        function toggleSection(id) {
-            const el = document.getElementById(`section-${id}`);
-            const icon = document.getElementById(`icon-${id}`);
-            el.classList.toggle('hidden');
-            icon.style.transform = el.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
-        }
-
-        function toggleDetail(id) {
-            const el = document.getElementById(id);
-            const icon = document.getElementById(`icon-${id}`);
-            el.classList.toggle('hidden');
-            icon.style.transform = el.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
-        }
-    </script>
 </body>
 </html>

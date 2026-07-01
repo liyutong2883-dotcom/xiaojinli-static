@@ -46,7 +46,6 @@
   .delay-2 { animation-delay: 0.1s; opacity: 0; }
   .delay-3 { animation-delay: 0.15s; opacity: 0; }
   .delay-4 { animation-delay: 0.2s; opacity: 0; }
-  .delay-5 { animation-delay: 0.25s; opacity: 0; }
 
   .dna-card-glow {
     box-shadow: 0 0 0 1px rgba(255,184,0,0.1), 0 4px 16px rgba(255,184,0,0.08);
@@ -70,12 +69,64 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    font-size: 13px;
+    width: 24px;
+    height: 24px;
+    border-radius: 5px;
+    font-size: 11px;
     font-weight: 700;
     flex-shrink: 0;
+  }
+
+  .dna-mode-tab {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .dna-mode-tab.active {
+    background: linear-gradient(135deg, #FFB800, #FF6B00);
+    color: white;
+  }
+  .dna-mode-tab:not(.active) {
+    background: #F0F0F5;
+    color: #999;
+  }
+
+  .trait-card {
+    background: #F8F9FC;
+    border-radius: 12px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+
+  .tag-bubble {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: #1A1A2E;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tag-bubble:active {
+    transform: scale(0.96);
+  }
+
+  .calendar-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #FFB800;
+    position: absolute;
+    bottom: 1px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 </style>
 </head>
@@ -98,23 +149,20 @@
   <!-- Main Content -->
   <main class="flex-1 pb-24">
 
-    <!-- 2. DNA Profile Banner -->
-    <div class="px-4 mt-4 animate-fade-in delay-1" id="dna-section">
-      <!-- Dynamic content injected by JS -->
+    <!-- 2. Daily Sign + Calendar (side by side) -->
+    <div class="px-4 mt-4 animate-fade-in delay-1">
+      <div class="grid grid-cols-2 gap-3" id="daily-widgets">
+        <!-- Dynamic content injected by JS -->
+      </div>
     </div>
 
-    <!-- 3. Personalized Recommendation Hint -->
-    <div class="px-4 mt-2 animate-fade-in delay-2" id="recommend-hint">
+    <!-- 3. DNA Profile Section (moved before rankings) -->
+    <section class="mt-4 animate-fade-in delay-2" id="dna-profile-section">
       <!-- Dynamic content injected by JS -->
-    </div>
+    </section>
 
-    <!-- 4. Daily Sign -->
-    <div class="px-4 mt-4 animate-fade-in delay-3" id="daily-sign">
-      <!-- Dynamic content injected by JS -->
-    </div>
-
-    <!-- 5. Rankings -->
-    <section class="mt-6 animate-fade-in delay-4">
+    <!-- 4. Rankings -->
+    <section class="mt-6 animate-fade-in delay-3">
       <div class="px-4 flex justify-between items-end mb-3">
         <h2 class="text-lg font-bold flex items-center gap-1.5">
           <iconify-icon class="text-secondary" icon="solar:chart-square-bold-duotone"></iconify-icon>
@@ -130,8 +178,8 @@
       </div>
     </section>
 
-    <!-- 6. Expert Research -->
-    <section class="mt-6 animate-fade-in delay-5">
+    <!-- 5. Expert Research -->
+    <section class="mt-6 animate-fade-in delay-4">
       <div class="px-4 flex justify-between items-end mb-3">
         <h2 class="text-lg font-bold flex items-center gap-1.5">
           <iconify-icon class="text-secondary" icon="solar:video-frame-round-bold-duotone"></iconify-icon>
@@ -214,31 +262,76 @@
       name: '猫头鹰', emoji: '🦉', headline: '认真研究型',
       preferredSort: 'aiClarity',
       yi: '研究复盘', ji: '盲目跟风',
-      recommendText: '你的投资 DNA 偏猫头鹰，今天优先看逻辑清晰的作业'
+      recommendText: '你的投资 DNA 偏猫头鹰，今天优先看逻辑清晰的作业',
+      subtitle: '深度思考者，往往能看见别人看不到的风险与机会。',
+      traits: [
+        { label: '逻辑分析力强', sub: '数据驱动' },
+        { label: '喜欢深度研究', sub: '研究型投资者' },
+        { label: '不轻易出手', sub: '精准决策' },
+        { label: '长期价值导向', sub: '价值投资' }
+      ],
+      tags: ['价值投资', '深度研究', '长期持有', '逆向思维', '基本面分析', '理性决策'],
+      sameType: '乌龟', relationType: '猎豹', relationEmoji: '🐆'
     },
     cheetah: {
       name: '猎豹', emoji: '🐆', headline: '行动派',
       preferredSort: 'returnRate',
       yi: '果断出手', ji: '犹豫不决',
-      recommendText: '你的投资 DNA 偏猎豹，今天优先看高收益机会'
+      recommendText: '你的投资 DNA 偏猎豹，今天优先看高收益机会',
+      subtitle: '快速决策的人，往往能抓住转瞬即逝的机会。',
+      traits: [
+        { label: '执行力超强', sub: '行动力型' },
+        { label: '敏锐的市场嗅觉', sub: '机会捕捉者' },
+        { label: '敢于冒险', sub: '高风险高回报' },
+        { label: '短线操作高手', sub: '效率至上' }
+      ],
+      tags: ['追涨杀跌', '短线为王', '快进快出', '热点追踪', '龙虎榜', '打板'],
+      sameType: '狐狸', relationType: '乌龟', relationEmoji: '🐢'
     },
     turtle: {
       name: '乌龟', emoji: '🐢', headline: '稳稳赚钱派',
       preferredSort: 'drawdown',
       yi: '稳健持仓', ji: '频繁操作',
-      recommendText: '你的投资 DNA 偏乌龟，今天优先看稳健赚钱的作业'
+      recommendText: '你的投资 DNA 偏乌龟，今天优先看稳健赚钱的作业',
+      subtitle: '稳扎稳打，时间会奖励每一个有耐心的人。',
+      traits: [
+        { label: '风险意识强', sub: '安全优先' },
+        { label: '耐心十足', sub: '长期主义者' },
+        { label: '追求稳定收益', sub: '稳健增长' },
+        { label: '不追热点', sub: '独立思考' }
+      ],
+      tags: ['稳健理财', '基金定投', '低风险', '长期持有', '分散投资', '不折腾'],
+      sameType: '松鼠', relationType: '猎豹', relationEmoji: '🐆'
     },
     fox: {
       name: '狐狸', emoji: '🦊', headline: '消息雷达',
       preferredSort: 'heat',
       yi: '关注资讯', ji: '信息过载',
-      recommendText: '你的投资 DNA 偏狐狸，今天优先看事件驱动的作业'
+      recommendText: '你的投资 DNA 偏狐狸，今天优先看事件驱动的作业',
+      subtitle: '信息就是武器，你总能比别人先知道发生了什么。',
+      traits: [
+        { label: '信息敏感度高', sub: '消息灵通' },
+        { label: '善于发现趋势', sub: '趋势猎手' },
+        { label: '社交圈广泛', sub: '人脉型投资者' },
+        { label: '灵活应变', sub: '快速调整' }
+      ],
+      tags: ['消息面', '政策解读', '行业趋势', '事件驱动', '社交投资', '板块轮动'],
+      sameType: '猎豹', relationType: '猫头鹰', relationEmoji: '🦉'
     },
     squirrel: {
       name: '松鼠', emoji: '🐿️', headline: '准备型',
       preferredSort: 'beginner',
       yi: '小额试水', ji: '重仓冒险',
-      recommendText: '你的投资 DNA 偏松鼠，今天优先看入门友好的作业'
+      recommendText: '你的投资 DNA 偏松鼠，今天优先看入门友好的作业',
+      subtitle: '很多优秀投资者，都是从一只谨慎的松鼠开始成长的。',
+      traits: [
+        { label: '本金保护欲强', sub: '安全感优先' },
+        { label: '越学越有兴趣', sub: '学习型投资者' },
+        { label: '喜欢慢慢积累', sub: '长期财富' },
+        { label: '成长潜力很高', sub: '' }
+      ],
+      tags: ['落袋为安', '先看看再说', '坚持定投', '怕麻烦别人', '小额起步', '边学边投'],
+      sameType: '乌龟', relationType: '狐狸', relationEmoji: '🦊'
     }
   };
 
@@ -279,88 +372,232 @@
     return localStorage.getItem('investmentDna') || null;
   }
 
-  // ========== Render DNA Banner ==========
-  function renderDNABanner(dnaType) {
-    const section = document.getElementById('dna-section');
-    if (dnaType && dnaConfig[dnaType]) {
-      const dna = dnaConfig[dnaType];
-      section.innerHTML = `
-        <a href="dna_result.html" class="block bg-white rounded-2xl p-4 dna-card-glow">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/10 flex items-center justify-center text-2xl flex-shrink-0">
-              ${dna.emoji}
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="text-xs text-textAssist mb-0.5">我的投资 DNA</div>
-              <div class="font-bold text-base text-textMain">${dna.emoji} ${dna.name} · ${dna.headline}</div>
-            </div>
-            <iconify-icon class="text-textAssist text-lg flex-shrink-0" icon="solar:alt-arrow-right-linear"></iconify-icon>
-          </div>
-        </a>
-      `;
-    } else {
-      section.innerHTML = `
-        <a href="onboarding.html" class="block bg-gradient-to-r from-primary/10 via-white to-secondary/10 rounded-2xl p-4 border border-primary/20 dna-card-glow">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-xl flex-shrink-0">
-              <iconify-icon icon="solar:dna-bold-duotone"></iconify-icon>
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="font-bold text-sm text-textMain mb-0.5">找到你的投资 DNA</div>
-              <div class="text-xs text-textSub">3 分钟测试，解锁个性化推荐</div>
-            </div>
-            <div class="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full flex-shrink-0">
-              去测试
-            </div>
-          </div>
-        </a>
-      `;
-    }
-  }
+  // ========== Current DNA mode state ==========
+  let currentDnaMode = 'solo';
 
-  // ========== Render Recommend Hint ==========
-  function renderRecommendHint(dnaType) {
-    const section = document.getElementById('recommend-hint');
-    if (dnaType && dnaConfig[dnaType]) {
-      const dna = dnaConfig[dnaType];
-      section.innerHTML = `
-        <div class="flex items-center gap-1.5 px-1">
-          <iconify-icon class="text-primary text-sm" icon="solar:stars-minimalistic-bold"></iconify-icon>
-          <span class="text-xs text-textSub">${dna.recommendText}</span>
-        </div>
-      `;
-    } else {
-      section.innerHTML = '';
-    }
-  }
-
-  // ========== Render Daily Sign ==========
-  function renderDailySign(dnaType) {
-    const section = document.getElementById('daily-sign');
+  // ========== Render Daily Widgets (Sign + Calendar side by side) ==========
+  function renderDailyWidgets(dnaType) {
+    const container = document.getElementById('daily-widgets');
     const dna = dnaType && dnaConfig[dnaType] ? dnaConfig[dnaType] : dnaConfig.turtle;
-    section.innerHTML = `
-      <div class="bg-gradient-to-r from-primary to-secondary rounded-2xl p-4 text-white shadow-md relative overflow-hidden">
-        <div class="absolute -right-4 -top-4 w-20 h-20 bg-white/10 rounded-full"></div>
-        <div class="absolute -right-2 -bottom-6 w-16 h-16 bg-white/5 rounded-full"></div>
-        <div class="relative z-10">
-          <div class="flex items-center gap-1.5 mb-3">
-            <iconify-icon class="text-sm" icon="solar:sparkles-bold"></iconify-icon>
-            <span class="text-xs font-bold opacity-90">今日投资日签</span>
-          </div>
-          <div class="flex gap-4">
-            <div class="flex-1 flex items-center gap-2.5">
-              <div class="yi-ji-badge bg-white/25 text-white">宜</div>
-              <span class="text-sm font-medium">${dna.yi}</span>
-            </div>
-            <div class="w-px bg-white/20"></div>
-            <div class="flex-1 flex items-center gap-2.5">
-              <div class="yi-ji-badge bg-black/15 text-white/90">忌</div>
-              <span class="text-sm font-medium">${dna.ji}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
+
+    // Build mini calendar
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const today = now.getDate();
+    const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const noteDays = [5, 12, 20, 25]; // days with note dots (excluding today)
+
+    const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
+    let calendarHTML = '';
+    // Weekday headers
+    weekDays.forEach(function(d) {
+      calendarHTML += '<div class="text-[9px] text-textAssist text-center font-medium">' + d + '</div>';
+    });
+    // Empty cells before first day
+    for (var e = 0; e < firstDay; e++) {
+      calendarHTML += '<div></div>';
+    }
+    // Day cells
+    for (var day = 1; day <= daysInMonth; day++) {
+      var isToday = day === today;
+      var hasNote = noteDays.includes(day);
+      calendarHTML += '<div class="relative flex items-center justify-center" style="height:22px;">';
+      if (isToday) {
+        calendarHTML += '<span class="text-[10px] bg-primary text-white w-5 h-5 rounded-full flex items-center justify-center font-bold">' + day + '</span>';
+      } else {
+        calendarHTML += '<span class="text-[10px] text-textSub">' + day + '</span>';
+        if (hasNote) {
+          calendarHTML += '<div class="calendar-dot"></div>';
+        }
+      }
+      calendarHTML += '</div>';
+    }
+
+    container.innerHTML = ''
+      + '<div class="bg-gradient-to-br from-primary to-secondary rounded-2xl p-3 text-white shadow-md relative overflow-hidden flex flex-col">'
+      +   '<div class="absolute -right-3 -top-3 w-14 h-14 bg-white/10 rounded-full"></div>'
+      +   '<div class="relative z-10 flex-1 flex flex-col justify-between">'
+      +     '<div class="flex items-center gap-1 mb-1.5">'
+      +       '<iconify-icon class="text-xs" icon="solar:sparkles-bold"></iconify-icon>'
+      +       '<span class="text-[10px] font-bold opacity-90">投资日签</span>'
+      +     '</div>'
+      +     '<div class="text-lg mb-1">' + dna.emoji + '</div>'
+      +     '<div class="space-y-1">'
+      +       '<div class="flex items-center gap-1.5">'
+      +         '<div class="yi-ji-badge bg-white/25 text-white">宜</div>'
+      +         '<span class="text-[11px] font-medium leading-tight">' + dna.yi + '</span>'
+      +       '</div>'
+      +       '<div class="flex items-center gap-1.5">'
+      +         '<div class="yi-ji-badge bg-black/15 text-white/90">忌</div>'
+      +         '<span class="text-[11px] font-medium leading-tight">' + dna.ji + '</span>'
+      +       '</div>'
+      +     '</div>'
+      +   '</div>'
+      + '</div>'
+      + '<div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100 flex flex-col">'
+      +   '<div class="flex items-center gap-1 mb-1">'
+      +     '<span class="text-xs">📝</span>'
+      +     '<span class="text-[10px] font-bold text-textMain">金鲤小记</span>'
+      +   '</div>'
+      +   '<div class="text-[10px] text-textAssist mb-1">' + year + '年' + (month + 1) + '月</div>'
+      +   '<div class="grid grid-cols-7 gap-y-0.5 flex-1">'
+      +     calendarHTML
+      +   '</div>'
+      + '</div>';
+  }
+
+  // ========== Render DNA Profile Section ==========
+  function renderDNAProfile(dnaType) {
+    var section = document.getElementById('dna-profile-section');
+    var dna = dnaType && dnaConfig[dnaType] ? dnaConfig[dnaType] : null;
+
+    if (!dna) {
+      section.innerHTML = ''
+        + '<div class="px-4">'
+        +   '<a href="onboarding.html" class="block bg-gradient-to-r from-primary/10 via-white to-secondary/10 rounded-2xl p-4 border border-primary/20 dna-card-glow">'
+        +     '<div class="flex items-center gap-3">'
+        +       '<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-xl flex-shrink-0">'
+        +         '<iconify-icon icon="solar:dna-bold-duotone"></iconify-icon>'
+        +       '</div>'
+        +       '<div class="flex-1 min-w-0">'
+        +         '<div class="font-bold text-sm text-textMain mb-0.5">找到你的投资 DNA</div>'
+        +         '<div class="text-xs text-textSub">3 分钟测试，解锁个性化推荐</div>'
+        +       '</div>'
+        +       '<div class="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full flex-shrink-0">去测试</div>'
+        +     '</div>'
+        +   '</a>'
+        + '</div>';
+      return;
+    }
+
+    // Build solo mode content
+    var traitsHTML = '';
+    dna.traits.forEach(function(t) {
+      traitsHTML += '<div class="trait-card">'
+        + '<div class="text-xs font-bold text-textMain leading-tight">' + t.label + '</div>'
+        + (t.sub ? '<div class="text-[10px] text-textAssist mt-0.5">' + t.sub + '</div>' : '')
+        + '</div>';
+    });
+
+    var soloHTML = ''
+      + '<div class="bg-white rounded-2xl p-4 dna-card-glow">'
+      +   '<div class="text-center mb-2">'
+      +     '<div class="text-3xl mb-1">' + dna.emoji + '</div>'
+      +     '<div class="font-bold text-base text-textMain">' + dna.name + '型投资者</div>'
+      +   '</div>'
+      +   '<div class="text-center text-xs text-textSub mb-4 leading-relaxed px-2">' + dna.subtitle + '</div>'
+      +   '<div class="grid grid-cols-2 gap-2 mb-4">'
+      +     traitsHTML
+      +   '</div>'
+      +   '<a href="ai_assistant.html" class="block bg-gradient-to-r from-primary/10 to-secondary/5 rounded-xl p-3 border border-primary/15">'
+      +     '<div class="flex items-center justify-between">'
+      +       '<div class="flex items-center gap-2">'
+      +         '<div class="w-7 h-7 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">'
+      +           '<span class="text-sm">🐟</span>'
+      +         '</div>'
+      +         '<span class="text-sm font-medium text-textMain">我可以成为怎样的大神</span>'
+      +       '</div>'
+      +       '<iconify-icon class="text-textAssist text-lg" icon="solar:alt-arrow-right-linear"></iconify-icon>'
+      +     '</div>'
+      +   '</a>'
+      + '</div>';
+
+    // Build discuss mode content
+    var avatarEmojis = ['👧', '👦', '', '', '👧', ''];
+    var avatarBgs = ['bg-pink-100', 'bg-blue-100', '', '', 'bg-purple-100', ''];
+    var likes = [8130, 4121, 6014, 0, 5816, 5309];
+
+    var tagsHTML = '';
+    dna.tags.forEach(function(tag, i) {
+      if (likes[i] === 0) {
+        tagsHTML += '<div class="tag-bubble bg-primary/5 border-primary/20 text-primary font-medium">'
+          + '<iconify-icon class="text-sm" icon="solar:add-circle-bold"></iconify-icon>'
+          + '<span class="text-xs">我也想说说...</span>'
+          + '</div>';
+      } else {
+        var avatarHTML = '';
+        if (avatarEmojis[i]) {
+          avatarHTML = '<div class="w-5 h-5 rounded-full ' + avatarBgs[i] + ' flex items-center justify-center text-[8px] flex-shrink-0">' + avatarEmojis[i] + '</div>';
+        }
+        tagsHTML += '<div class="tag-bubble">'
+          + avatarHTML
+          + '<span class="text-xs">' + tag + '</span>'
+          + '<span class="flex items-center gap-0.5 text-textAssist text-[10px] ml-1">'
+          +   '<iconify-icon class="text-xs text-primary" icon="solar:like-bold"></iconify-icon>'
+          +   likes[i]
+          + '</span>'
+          + '</div>';
+      }
+    });
+
+    var discussHTML = ''
+      + '<div class="bg-white rounded-2xl p-4 dna-card-glow">'
+      +   '<div class="flex items-center justify-between mb-3">'
+      +     '<div class="font-bold text-sm text-textMain">小' + dna.name + '一样的自己</div>'
+      +     '<div class="flex items-center gap-1 bg-primary/10 text-primary text-[10px] font-bold px-2.5 py-1 rounded-full">'
+      +       '<iconify-icon class="text-xs" icon="solar:users-group-rounded-bold-duotone"></iconify-icon>'
+      +       '<span>9121鲤友正在讨论</span>'
+      +       '<iconify-icon class="text-xs" icon="solar:alt-arrow-right-linear"></iconify-icon>'
+      +     '</div>'
+      +   '</div>'
+      +   '<div class="flex flex-wrap gap-2 mb-4">'
+      +     tagsHTML
+      +   '</div>'
+      +   '<div class="border-t border-gray-100 pt-3 mb-3">'
+      +     '<div class="text-xs font-bold text-textMain mb-2">与其他类型的关系</div>'
+      +     '<div class="flex gap-3">'
+      +       '<div class="flex-1 bg-bgMain rounded-xl p-2.5 flex items-center gap-2">'
+      +         '<div class="text-[10px] text-textAssist">和我是同类</div>'
+      +         '<div class="text-sm font-bold text-textMain">' + dna.sameType + '</div>'
+      +       '</div>'
+      +       '<div class="flex-1 bg-bgMain rounded-xl p-2.5 flex items-center gap-2">'
+      +         '<div class="text-[10px] text-textAssist">不打不相识</div>'
+      +         '<div class="text-sm font-bold text-textMain">' + dna.relationType + ' ' + dna.relationEmoji + '</div>'
+      +       '</div>'
+      +     '</div>'
+      +   '</div>'
+      +   '<a href="copytrade.html" class="block bg-gradient-to-r from-primary/10 to-secondary/5 rounded-xl p-3 text-center border border-primary/15">'
+      +     '<span class="text-xs font-bold text-textMain">看看朋友们感兴趣的作业本</span>'
+      +     '<span class="text-xs text-primary font-bold ml-1">点击查看 &gt;</span>'
+      +   '</a>'
+      + '</div>';
+
+    section.innerHTML = ''
+      + '<div class="px-4">'
+      +   '<div class="flex items-center justify-center gap-2 mb-3">'
+      +     '<div class="dna-mode-tab active" id="tab-solo" onclick="switchDnaMode(\'solo\')">独处模式</div>'
+      +     '<div class="dna-mode-tab" id="tab-discuss" onclick="switchDnaMode(\'discuss\')">讨论模式</div>'
+      +   '</div>'
+      +   '<div id="dna-solo-content">'
+      +     soloHTML
+      +   '</div>'
+      +   '<div id="dna-discuss-content" class="hidden">'
+      +     discussHTML
+      +   '</div>'
+      + '</div>';
+  }
+
+  // ========== Switch DNA Mode ==========
+  function switchDnaMode(mode) {
+    currentDnaMode = mode;
+    var tabSolo = document.getElementById('tab-solo');
+    var tabDiscuss = document.getElementById('tab-discuss');
+    var soloContent = document.getElementById('dna-solo-content');
+    var discussContent = document.getElementById('dna-discuss-content');
+
+    if (mode === 'solo') {
+      tabSolo.classList.add('active');
+      tabDiscuss.classList.remove('active');
+      soloContent.classList.remove('hidden');
+      discussContent.classList.add('hidden');
+    } else {
+      tabDiscuss.classList.add('active');
+      tabSolo.classList.remove('active');
+      discussContent.classList.remove('hidden');
+      soloContent.classList.add('hidden');
+    }
   }
 
   // ========== Render Rankings ==========
@@ -421,8 +658,11 @@
   // ========== Render Videos ==========
   function renderVideos() {
     const container = document.getElementById('videos-container');
-    container.innerHTML = videos.map(v => `
-      <a href="ai_assistant.html" class="min-w-[220px] max-w-[220px] video-card">
+    container.innerHTML = videos.map(v => {
+      const encodedTitle = encodeURIComponent(v.title);
+      const encodedAuthor = encodeURIComponent(v.author);
+      return `
+      <a href="video_detail.html?title=${encodedTitle}&author=${encodedAuthor}" class="min-w-[220px] max-w-[220px] video-card">
         <div class="relative rounded-2xl overflow-hidden mb-2">
           <div class="w-full h-[130px] bg-gradient-to-br ${v.gradient} flex items-center justify-center">
             <div class="w-10 h-10 bg-white/30 rounded-full flex items-center justify-center backdrop-blur-sm">
@@ -447,7 +687,8 @@
           </div>
         </div>
       </a>
-    `).join('');
+    `;
+    }).join('');
   }
 
   // ========== AI Panel Toggle ==========
@@ -459,9 +700,8 @@
   // ========== Init ==========
   document.addEventListener('DOMContentLoaded', function() {
     const dnaType = getUserDNA();
-    renderDNABanner(dnaType);
-    renderRecommendHint(dnaType);
-    renderDailySign(dnaType);
+    renderDailyWidgets(dnaType);
+    renderDNAProfile(dnaType);
     renderRankings(dnaType);
     renderVideos();
 

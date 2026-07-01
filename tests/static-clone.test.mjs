@@ -14,7 +14,8 @@ const pages = [
   "portfolio.html",
   "stock_detail.html",
   "onboarding.html",
-  "dna_result.html"
+  "dna_result.html",
+  "video_detail.html"
 ];
 
 async function readPage(page) {
@@ -33,7 +34,7 @@ test("static clone exposes all expected pages", async () => {
 test("bottom nav uses new 4-tab structure with correct labels", async () => {
   const navPages = ["discover.html", "copytrade.html", "toolbox.html", "profile.html",
                     "index.html", "portfolio.html", "stock_detail.html",
-                    "onboarding.html", "dna_result.html"];
+                    "onboarding.html", "dna_result.html", "video_detail.html"];
   const navTargets = ["discover.html", "copytrade.html", "toolbox.html", "profile.html"];
   for (const page of navPages) {
     const html = await readPage(page);
@@ -63,13 +64,18 @@ test("core interaction functions remain available", async () => {
 
   const toolbox = await readPage("toolbox.html");
   assert.match(toolbox, /function showResults\(\)/);
+  assert.match(toolbox, /function toggleCalc\(/);
 
   const assistant = await readPage("ai_assistant.html");
   assert.match(assistant, /function sendMessage\(text\)/);
   assert.match(assistant, /function sendInput\(\)/);
 
-  const portfolio = await readPage("portfolio.html");
-  assert.match(portfolio, /function toggleDetail\(id\)/);
+  const stockDetail = await readPage("stock_detail.html");
+  assert.match(stockDetail, /function openModal\(/);
+  assert.match(stockDetail, /function closeModal\(/);
+
+  const discover = await readPage("discover.html");
+  assert.match(discover, /function switchDnaMode\(/);
 });
 
 // ── 5. 投资 DNA 测试页（onboarding）结构正确 ────────────
@@ -128,8 +134,16 @@ test("discover page has redesigned content with ranking and DNA banner", async (
   assert.match(html, /DNA|画像|投资性格/, "should reference DNA/profile section");
   // 日签宜/忌
   assert.match(html, /宜|忌/, "should have 宜/忌 daily sign");
+  // 金鲤小记日历
+  assert.match(html, /金鲤小记/, "should have 金鲤小记 calendar widget");
+  // 独处/讨论两种模式
+  assert.match(html, /独处模式/, "should have 独处模式 tab");
+  assert.match(html, /讨论模式/, "should have 讨论模式 tab");
+  assert.match(html, /switchDnaMode/, "should have mode switching function");
   // 大咖投研
   assert.match(html, /大咖投研/, "should have expert research section");
+  // 视频链接到 video_detail
+  assert.match(html, /video_detail/, "should link videos to video_detail page");
   // DNA 排序逻辑
   assert.match(html, /dnaFit/, "should have dnaFit field for DNA-based sorting");
   assert.match(html, /getUserDNA/, "should read user DNA for personalization");
@@ -169,6 +183,13 @@ test("toolbox page repurposed as 仓库 with AI stock picker and homework verifi
   assert.match(html, /睿远均衡|易方达|高毅/, "should show copied homework examples");
   // 小金鲤诊断
   assert.match(html, /诊断|匹配度/, "should show diagnosis/match score");
+  // 投资计算器
+  assert.match(html, /投资计算器/, "should have calculator section");
+  assert.match(html, /复利计算器/, "should have compound interest calculator");
+  assert.match(html, /定投收益计算器/, "should have DCA calculator");
+  assert.match(html, /回撤计算器/, "should have drawdown calculator");
+  assert.match(html, /function calcCompound/, "should have compound calculation function");
+  assert.match(html, /function calcDrawdown/, "should have drawdown calculation function");
 });
 
 // ── 11. 我的页展示 DNA 画像 ──────────────────────────────
@@ -187,7 +208,7 @@ test("profile page renders DNA animal profile from localStorage", async () => {
 // ── 12. 小金鲤浮窗全局可达 ───────────────────────────────
 test("floating AI button present on all main pages", async () => {
   const floatPages = ["discover.html", "copytrade.html", "toolbox.html", "profile.html",
-                      "index.html", "portfolio.html", "stock_detail.html"];
+                      "index.html", "portfolio.html", "stock_detail.html", "video_detail.html"];
   for (const page of floatPages) {
     const html = await readPage(page);
     assert.match(html, /ai_assistant\.html/, `${page} should link to ai_assistant.html`);
@@ -209,4 +230,56 @@ test("portfolio page does not show holding period filter buttons", async () => {
   assert.doesNotMatch(portfolio, />短期<\/button>/);
   assert.doesNotMatch(portfolio, />中期<\/button>/);
   assert.doesNotMatch(portfolio, />长期<\/button>/);
+});
+
+// ── 15. 视频详情页结构完整 ──────────────────────────────
+test("video_detail page has video player area and comments section", async () => {
+  const html = await readPage("video_detail.html");
+  // 视频播放区域
+  assert.match(html, /视频|播放|player/i, "should have video player area");
+  // 作者信息
+  assert.match(html, /关注|粉丝|播放量/, "should have author info section");
+  // 互动按钮
+  assert.match(html, /点赞|收藏|分享/, "should have interaction buttons");
+  // 评论区
+  assert.match(html, /评论/, "should have comments section");
+  // 底部导航
+  assert.match(html, /discover\.html/, "should have bottom nav");
+  // 浮窗
+  assert.match(html, /ai_assistant\.html/, "should have floating AI button");
+});
+
+// ── 16. 持仓详情页新结构：AI 洞察 + 图表 + 紧凑表格 ──────
+test("portfolio page has AI insight card, charts, and compact stock table", async () => {
+  const html = await readPage("portfolio.html");
+  // 不再有"抄作业前先问自己3个问题"
+  assert.doesNotMatch(html, /抄作业前先问自己3个问题/, "should not have old 3 questions section");
+  // 有持仓配置分析
+  assert.match(html, /持仓配置|为什么.*选择/, "should have allocation rationale section");
+  // 持仓比例图表
+  assert.match(html, /持仓比例/, "should have holdings proportion chart");
+  // 产业配置
+  assert.match(html, /产业配置|行业配置/, "should have industry allocation section");
+  // 紧凑表格形式（股票/代码/行业/占比）
+  assert.match(html, /股票/, "should have stock column header");
+  assert.match(html, /代码/, "should have code column header");
+  assert.match(html, /占比/, "should have proportion column header");
+  // 链接到个股详情
+  assert.match(html, /stock_detail\.html/, "should link to stock detail pages");
+});
+
+// ── 17. 个股详情页有可点击的模态弹窗 ────────────────────
+test("stock_detail page has clickable modal overlays for research tools", async () => {
+  const html = await readPage("stock_detail.html");
+  // 三个模态弹窗
+  assert.match(html, /modal-valuation|估值助手/, "should have valuation modal");
+  assert.match(html, /modal-finance|财报速读/, "should have finance report modal");
+  assert.match(html, /modal-compare|同行对比/, "should have peer comparison modal");
+  // 弹窗开关函数
+  assert.match(html, /function openModal\(/, "should have openModal function");
+  assert.match(html, /function closeModal\(/, "should have closeModal function");
+  // 弹窗内容
+  assert.match(html, /市盈率|PE/, "valuation modal should have PE content");
+  assert.match(html, /营收|利润/, "finance modal should have revenue/profit content");
+  assert.match(html, /比亚迪|亿纬锂能/, "compare modal should have peer companies");
 });

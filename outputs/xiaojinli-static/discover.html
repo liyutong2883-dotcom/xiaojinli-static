@@ -779,31 +779,22 @@
       +   '</a>'
       + '</div>';
 
-    // Build discuss mode content - community posts feed
-    var postsHTML = '';
+    // Build discuss mode content - community posts as tag bubbles
+    var bubblesHTML = '';
     var posts = dna.posts || [];
     posts.forEach(function(post) {
-      postsHTML += ''
-        + '<div class="flex gap-2.5 py-2.5 border-b border-gray-50 last:border-b-0">'
-        +   '<div class="w-7 h-7 rounded-full ' + post.avatarBg + ' flex items-center justify-center text-xs flex-shrink-0">' + post.avatar + '</div>'
-        +   '<div class="flex-1 min-w-0">'
-        +     '<div class="flex items-center justify-between mb-0.5">'
-        +       '<span class="text-xs font-medium text-textMain">' + post.user + '</span>'
-        +     '</div>'
-        +     '<p class="text-sm text-textSub leading-relaxed">' + post.text + '</p>'
-        +     '<div class="flex items-center gap-3 mt-1">'
-        +       '<button class="flex items-center gap-1 text-textAssist">'
-        +         '<iconify-icon class="text-sm" icon="solar:like-linear"></iconify-icon>'
-        +         '<span class="text-[10px]">' + post.likes + '</span>'
-        +       '</button>'
-        +       '<button class="flex items-center gap-1 text-textAssist">'
-        +         '<iconify-icon class="text-sm" icon="solar:chat-round-linear"></iconify-icon>'
-        +         '<span class="text-[10px]">回复</span>'
-        +       '</button>'
-        +     '</div>'
-        +   '</div>'
+      bubblesHTML += '<div class="tag-bubble">'
+        + '<span class="text-xs">' + post.text + '</span>'
+        + '<span class="flex items-center gap-0.5 text-textAssist text-[10px] ml-1">'
+        +   '<iconify-icon class="text-xs text-primary" icon="solar:like-bold"></iconify-icon>'
+        +   post.likes
+        + '</span>'
         + '</div>';
     });
+    bubblesHTML += '<div class="tag-bubble bg-primary/5 border-primary/20 text-primary font-medium">'
+      + '<iconify-icon class="text-sm" icon="solar:add-circle-bold"></iconify-icon>'
+      + '<span class="text-xs">我也想说说...</span>'
+      + '</div>';
 
     var discussHTML = ''
       + '<div class="bg-white rounded-2xl p-4 dna-card-glow">'
@@ -815,14 +806,9 @@
       +       '<iconify-icon class="text-xs" icon="solar:alt-arrow-right-linear"></iconify-icon>'
       +     '</div>'
       +   '</div>'
-      // Posts feed
-      +   '<div class="mb-3">'
-      +     postsHTML
-      +   '</div>'
-      // Say something input
-      +   '<div class="flex items-center gap-2 bg-bgMain rounded-full px-3 py-2 mb-3">'
-      +     '<span class="text-xs text-textAssist flex-1">说一句...</span>'
-      +     '<iconify-icon class="text-primary text-lg" icon="solar:plain-bold"></iconify-icon>'
+      // Bubbles
+      +   '<div class="flex flex-wrap gap-2 mb-3">'
+      +     bubblesHTML
       +   '</div>'
       // Merged returns strip — compact, inline with the card
       +   '<div class="flex items-center gap-2 bg-bgMain rounded-xl px-3 py-2 mb-3">'

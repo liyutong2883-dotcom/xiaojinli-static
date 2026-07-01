@@ -118,6 +118,26 @@
     transform: scale(0.96);
   }
 
+  /* 弹幕风格气泡 - 大小颜色交错 */
+  .dm-bubble {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 18px;
+    padding: 5px 11px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+  }
+  .dm-bubble:active { transform: scale(0.95); }
+  .dm-bubble.dm-s  { font-size: 11px; padding: 4px 9px; }
+  .dm-bubble.dm-m  { font-size: 13px; }
+  .dm-bubble.dm-l  { font-size: 14px; font-weight: 600; padding: 6px 14px; }
+  .dm-bubble.dm-white  { background: white; border-color: #eee; color: #1A1A2E; }
+  .dm-bubble.dm-warm   { background: #FFF8E8; border-color: #FFE8A3; color: #B8860B; }
+  .dm-bubble.dm-primary{ background: rgba(255,184,0,0.08); border-color: rgba(255,184,0,0.2); color: #B8860B; }
+  .dm-bubble.dm-gray   { background: #F5F5F7; border-color: #E8E8EC; color: #666; }
+
   .calendar-dot {
     width: 4px;
     height: 4px;
@@ -779,21 +799,20 @@
       +   '</a>'
       + '</div>';
 
-    // Build discuss mode content - community posts as tag bubbles
+    // Build discuss mode content - danmaku-style bubbles
+    var sizes = ['dm-m', 'dm-l', 'dm-s', 'dm-m', 'dm-s'];
+    var colors = ['dm-white', 'dm-warm', 'dm-primary', 'dm-gray', 'dm-white'];
     var bubblesHTML = '';
     var posts = dna.posts || [];
-    posts.forEach(function(post) {
-      bubblesHTML += '<div class="tag-bubble">'
-        + '<span class="text-xs">' + post.text + '</span>'
-        + '<span class="flex items-center gap-0.5 text-textAssist text-[10px] ml-1">'
-        +   '<iconify-icon class="text-xs text-primary" icon="solar:like-bold"></iconify-icon>'
-        +   post.likes
-        + '</span>'
+    posts.forEach(function(post, i) {
+      bubblesHTML += '<div class="dm-bubble ' + sizes[i % sizes.length] + ' ' + colors[i % colors.length] + '">'
+        + '<span>' + post.text + '</span>'
+        + '<iconify-icon class="text-xs opacity-40" icon="solar:like-bold"></iconify-icon>'
         + '</div>';
     });
-    bubblesHTML += '<div class="tag-bubble bg-primary/5 border-primary/20 text-primary font-medium">'
+    bubblesHTML += '<div class="dm-bubble dm-m dm-primary">'
       + '<iconify-icon class="text-sm" icon="solar:add-circle-bold"></iconify-icon>'
-      + '<span class="text-xs">我也想说说...</span>'
+      + '<span>我也想说说...</span>'
       + '</div>';
 
     var discussHTML = ''

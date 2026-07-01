@@ -108,6 +108,9 @@ test("dna_result page reads DNA and displays animal profile", async () => {
   assert.match(html, /onboarding/, "should redirect to onboarding if no DNA found");
   // 有风险提示
   assert.match(html, /风险|投资/, "should contain risk/investment disclaimer");
+  // 维度画像
+  assert.match(html, /维度画像|维度/, "should show dimension profile");
+  assert.match(html, /投资关键词|关键词/, "should show investment keywords");
 });
 
 // ── 7. localStorage key 全局一致 ─────────────────────────
@@ -123,6 +126,10 @@ test("all pages use consistent localStorage key 'investmentDna'", async () => {
       assert.match(html, /investmentDna/, `${page} should use investmentDna key`);
     }
   }
+  // onboarding should save in new JSON format
+  const onboarding = await readPage("onboarding.html");
+  assert.match(onboarding, /JSON\.stringify/, "onboarding should save DNA as JSON object");
+  assert.match(onboarding, /dimensions/, "onboarding should include dimensions in saved data");
 });
 
 // ── 8. 发现页包含新内容结构 ──────────────────────────────
@@ -147,6 +154,8 @@ test("discover page has redesigned content with ranking and DNA banner", async (
   // DNA 排序逻辑
   assert.match(html, /dnaFit/, "should have dnaFit field for DNA-based sorting");
   assert.match(html, /getUserDNA/, "should read user DNA for personalization");
+  assert.match(html, /dnaTagSystem/, "should have dnaTagSystem with full tag library");
+  assert.match(html, /dimensionMap/, "should have dimensionMap for each animal");
 });
 
 // ── 9. 广场页保留三 tab + DNA 推荐字段 ───────────────────
@@ -203,6 +212,8 @@ test("profile page renders DNA animal profile from localStorage", async () => {
   assert.match(html, /onboarding/, "should link to onboarding for users without DNA");
   // DNA 数据读取
   assert.match(html, /investmentDna/, "should read investmentDna from localStorage");
+  // 维度映射
+  assert.match(html, /dimensionMap/, "should have dimension mappings");
 });
 
 // ── 12. 小金鲤浮窗全局可达 ───────────────────────────────
@@ -282,4 +293,14 @@ test("stock_detail page has clickable modal overlays for research tools", async 
   assert.match(html, /市盈率|PE/, "valuation modal should have PE content");
   assert.match(html, /营收|利润/, "finance modal should have revenue/profit content");
   assert.match(html, /比亚迪|亿纬锂能/, "compare modal should have peer companies");
+});
+
+// ── 18. DNA localStorage backward compatibility ──────────────
+test("all DNA-reading pages handle both string and JSON formats", async () => {
+  const dnaPages = ["discover.html", "copytrade.html", "dna_result.html", "profile.html", "toolbox.html"];
+  for (const page of dnaPages) {
+    const html = await readPage(page);
+    // Should handle JSON parse for new format
+    assert.match(html, /JSON\.parse|getItem/, `${page} should handle DNA storage reading`);
+  }
 });

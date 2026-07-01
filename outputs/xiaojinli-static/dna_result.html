@@ -92,7 +92,8 @@ var dnaData = {
     preferredSort: 'aiClarity',
     recommendedCategories: ['牛股跟投', '私募精选'],
     avoid: '高频短线和纯情绪驱动的作业',
-    stars: { risk: 3, action: 3, info: 5, stability: 4, discipline: 4 }
+    stars: { risk: 3, action: 3, info: 5, stability: 4, discipline: 4 },
+    dimensionMap: { decision:'rational', action:'cautious', returns:'longterm', risk:'balanced', learning:'scholar', info:'data', emotion:'stable', goals:'selfgrowth', horizon:'long', growth:'owl' }
   },
   cheetah: {
     id: 'cheetah', name: '猎豹', emoji: '🐆',
@@ -102,7 +103,8 @@ var dnaData = {
     preferredSort: 'returnRate',
     recommendedCategories: ['热门作业', '牛股跟投'],
     avoid: '低波动长周期的防御型作业',
-    stars: { risk: 5, action: 5, info: 3, stability: 2, discipline: 3 }
+    stars: { risk: 5, action: 5, info: 3, stability: 2, discipline: 3 },
+    dimensionMap: { decision:'intuitive', action:'active', returns:'aggressive', risk:'aggressive', learning:'practical', info:'news', emotion:'volatile', goals:'wealth', horizon:'short', growth:'cheetah' }
   },
   turtle: {
     id: 'turtle', name: '乌龟', emoji: '🐢',
@@ -112,7 +114,8 @@ var dnaData = {
     preferredSort: 'drawdown',
     recommendedCategories: ['牛股跟投', '私募精选'],
     avoid: '高频短线和高回撤作业',
-    stars: { risk: 2, action: 2, info: 3, stability: 5, discipline: 5 }
+    stars: { risk: 2, action: 2, info: 3, stability: 5, discipline: 5 },
+    dimensionMap: { decision:'rational', action:'cautious', returns:'stable', risk:'conservative', learning:'practical', info:'data', emotion:'stable', goals:'life', horizon:'long', growth:'turtle' }
   },
   fox: {
     id: 'fox', name: '狐狸', emoji: '🦊',
@@ -122,7 +125,8 @@ var dnaData = {
     preferredSort: 'heat',
     recommendedCategories: ['热门作业'],
     avoid: '信息不透明的冷门标的',
-    stars: { risk: 3, action: 4, info: 5, stability: 3, discipline: 3 }
+    stars: { risk: 3, action: 4, info: 5, stability: 3, discipline: 3 },
+    dimensionMap: { decision:'following', action:'rhythmic', returns:'aggressive', risk:'balanced', learning:'growing', info:'news', emotion:'normal', goals:'wealth', horizon:'medium', growth:'fox' }
   },
   squirrel: {
     id: 'squirrel', name: '松鼠', emoji: '🐿️',
@@ -132,7 +136,8 @@ var dnaData = {
     preferredSort: 'beginner',
     recommendedCategories: ['牛股跟投'],
     avoid: '高杠杆和复杂衍生品作业',
-    stars: { risk: 2, action: 2, info: 4, stability: 4, discipline: 3 }
+    stars: { risk: 2, action: 2, info: 4, stability: 4, discipline: 3 },
+    dimensionMap: { decision:'following', action:'cautious', returns:'stable', risk:'conservative', learning:'growing', info:'ai', emotion:'normal', goals:'selfgrowth', horizon:'long', growth:'squirrel' }
   }
 };
 
@@ -152,8 +157,198 @@ function renderStars(count) {
   return html;
 }
 
+function getAnimalFromStorage() {
+  var raw = localStorage.getItem('investmentDna');
+  if (!raw) return null;
+  try { var parsed = JSON.parse(raw); return typeof parsed === 'object' ? parsed.animal : raw; }
+  catch(e) { return raw; }
+}
+
+var dnaTagSystem = {
+  dimensions: {
+    decision: {
+      label: '决策方式',
+      categories: {
+        rational: { label: '理性分析', tags: [
+          { emoji: '📊', text: '数据驱动' }, { emoji: '🔍', text: '深度研究' },
+          { emoji: '🧠', text: '逻辑推理' }, { emoji: '📈', text: '基本面派' }
+        ]},
+        intuitive: { label: '经验直觉', tags: [
+          { emoji: '⚡', text: '盘感敏锐' }, { emoji: '🎯', text: '果断出手' },
+          { emoji: '🔥', text: '盘感交易' }, { emoji: '💡', text: '灵感决策' }
+        ]},
+        following: { label: '跟随决策', tags: [
+          { emoji: '👥', text: '从众心理' }, { emoji: '📱', text: '跟单达人' },
+          { emoji: '🤝', text: '信任大V' }, { emoji: '📋', text: '抄作业派' }
+        ]}
+      }
+    },
+    action: {
+      label: '行动风格',
+      categories: {
+        active: { label: '积极行动', tags: [
+          { emoji: '🚀', text: '快速出手' }, { emoji: '⚡', text: '高频操作' },
+          { emoji: '💪', text: '主动出击' }, { emoji: '🎯', text: '精准打击' }
+        ]},
+        cautious: { label: '谨慎行动', tags: [
+          { emoji: '🛡️', text: '安全第一' }, { emoji: '🐢', text: '慢慢来' },
+          { emoji: '🤔', text: '三思后行' }, { emoji: '⏳', text: '耐心等待' }
+        ]},
+        rhythmic: { label: '节奏型', tags: [
+          { emoji: '🎵', text: '节奏感强' }, { emoji: '🔄', text: '定期调仓' },
+          { emoji: '📅', text: '计划执行' }, { emoji: '⚖️', text: '均衡配置' }
+        ]}
+      }
+    },
+    returns: {
+      label: '收益偏好',
+      categories: {
+        longterm: { label: '长期收益', tags: [
+          { emoji: '🌱', text: '长期主义' }, { emoji: '📈', text: '复利思维' },
+          { emoji: '🏔️', text: '价值投资' }, { emoji: '💎', text: '钻石手' }
+        ]},
+        aggressive: { label: '收益优先', tags: [
+          { emoji: '💰', text: '追求高收益' }, { emoji: '📊', text: '超额回报' },
+          { emoji: '🔥', text: '收益为王' }, { emoji: '💹', text: '暴利猎手' }
+        ]},
+        stable: { label: '稳健收益', tags: [
+          { emoji: '🏦', text: '稳健增长' }, { emoji: '📉', text: '控制回撤' },
+          { emoji: '💵', text: '落袋为安' }, { emoji: '🛡️', text: '保本优先' }
+        ]}
+      }
+    },
+    risk: {
+      label: '风险态度',
+      categories: {
+        aggressive: { label: '激进型', tags: [
+          { emoji: '🎢', text: '高波动爱好者' }, { emoji: '💥', text: '敢赌敢拼' },
+          { emoji: '🔥', text: '风险偏好高' }, { emoji: '⚡', text: '刺激追求者' }
+        ]},
+        balanced: { label: '平衡型', tags: [
+          { emoji: '⚖️', text: '风险平衡' }, { emoji: '🎯', text: '攻守兼备' },
+          { emoji: '🔄', text: '进退有度' }, { emoji: '📊', text: '风险可控' }
+        ]},
+        conservative: { label: '保守型', tags: [
+          { emoji: '🛡️', text: '风险厌恶' }, { emoji: '🏦', text: '安全第一' },
+          { emoji: '🐢', text: '稳字当头' }, { emoji: '💤', text: '拒绝波动' }
+        ]}
+      }
+    },
+    learning: {
+      label: '学习方式',
+      categories: {
+        scholar: { label: '学者型', tags: [
+          { emoji: '📚', text: '深度研究' }, { emoji: '🎓', text: '理论派' },
+          { emoji: '📖', text: '爱读研报' }, { emoji: '🔬', text: '基本面学者' }
+        ]},
+        practical: { label: '实战型', tags: [
+          { emoji: '💪', text: '实战出真知' }, { emoji: '🎯', text: '边做边学' },
+          { emoji: '📊', text: '复盘达人' }, { emoji: '🔧', text: '工具控' }
+        ]},
+        growing: { label: '成长型', tags: [
+          { emoji: '🌱', text: '持续成长' }, { emoji: '📈', text: '每天进步' },
+          { emoji: '🤝', text: '社群学习' }, { emoji: '💡', text: '新手友好' }
+        ]}
+      }
+    },
+    info: {
+      label: '信息偏好',
+      categories: {
+        data: { label: '数据派', tags: [
+          { emoji: '📊', text: '数据控' }, { emoji: '📈', text: '图表分析' },
+          { emoji: '🔢', text: '量化思维' }, { emoji: '💻', text: '工具达人' }
+        ]},
+        news: { label: '资讯派', tags: [
+          { emoji: '📰', text: '新闻敏感' }, { emoji: '📱', text: '资讯达人' },
+          { emoji: '🔔', text: '消息灵通' }, { emoji: '🌐', text: '全网追踪' }
+        ]},
+        ai: { label: 'AI派', tags: [
+          { emoji: '🤖', text: 'AI助手' }, { emoji: '🧠', text: '智能分析' },
+          { emoji: '💡', text: 'AI解读' }, { emoji: '🔮', text: '科技赋能' }
+        ]}
+      }
+    },
+    emotion: {
+      label: '情绪特征',
+      categories: {
+        stable: { label: '情绪稳定', tags: [
+          { emoji: '🧘', text: '心态平和' }, { emoji: '😌', text: '不慌不忙' },
+          { emoji: '🏔️', text: '稳如泰山' }, { emoji: '💆', text: '情绪管理' }
+        ]},
+        normal: { label: '情绪正常', tags: [
+          { emoji: '😊', text: '偶尔紧张' }, { emoji: '🤷', text: '人之常情' },
+          { emoji: '😅', text: '会慌但能忍' }, { emoji: '🫣', text: '不敢看盘' }
+        ]},
+        volatile: { label: '情绪波动', tags: [
+          { emoji: '🎢', text: '情绪过山车' }, { emoji: '😱', text: '容易恐慌' },
+          { emoji: '🤩', text: '容易兴奋' }, { emoji: '😤', text: '追涨杀跌' }
+        ]}
+      }
+    },
+    goals: {
+      label: '投资目标',
+      categories: {
+        wealth: { label: '财富增值', tags: [
+          { emoji: '💰', text: '赚大钱' }, { emoji: '📈', text: '资产翻倍' },
+          { emoji: '🏆', text: '财务自由' }, { emoji: '💎', text: '财富积累' }
+        ]},
+        life: { label: '生活品质', tags: [
+          { emoji: '🏠', text: '买房基金' }, { emoji: '✈️', text: '旅行基金' },
+          { emoji: '👨‍👩‍👧', text: '家庭保障' }, { emoji: '🎯', text: '生活目标' }
+        ]},
+        selfgrowth: { label: '自我成长', tags: [
+          { emoji: '📚', text: '学习投资' }, { emoji: '🧠', text: '提升认知' },
+          { emoji: '🌱', text: '共同成长' }, { emoji: '💡', text: '投资修行' }
+        ]}
+      }
+    },
+    horizon: {
+      label: '投资周期',
+      categories: {
+        long: { label: '长期', tags: [
+          { emoji: '🏔️', text: '长期持有' }, { emoji: '📅', text: '以年计' },
+          { emoji: '🌱', text: '时间的朋友' }, { emoji: '💎', text: '钻石手' }
+        ]},
+        medium: { label: '中期', tags: [
+          { emoji: '📊', text: '季度调仓' }, { emoji: '🔄', text: '波段操作' },
+          { emoji: '⚖️', text: '灵活配置' }, { emoji: '📈', text: '趋势跟随' }
+        ]},
+        short: { label: '短期', tags: [
+          { emoji: '⚡', text: '快进快出' }, { emoji: '🎯', text: '短线交易' },
+          { emoji: '🔥', text: '热点追踪' }, { emoji: '💨', text: '效率至上' }
+        ]}
+      }
+    },
+    growth: {
+      label: '成长路径',
+      categories: {
+        owl: { label: '猫头鹰', tags: [
+          { emoji: '🔍', text: '深度研究' }, { emoji: '📊', text: '数据驱动' },
+          { emoji: '🧠', text: '逻辑分析' }, { emoji: '🎯', text: '精准决策' }
+        ]},
+        cheetah: { label: '猎豹', tags: [
+          { emoji: '⚡', text: '快速决策' }, { emoji: '🎯', text: '果断出手' },
+          { emoji: '🔥', text: '趋势猎手' }, { emoji: '💰', text: '收益优先' }
+        ]},
+        turtle: { label: '乌龟', tags: [
+          { emoji: '🛡️', text: '安全第一' }, { emoji: '🐢', text: '稳扎稳打' },
+          { emoji: '📉', text: '控制回撤' }, { emoji: '💎', text: '长期持有' }
+        ]},
+        fox: { label: '狐狸', tags: [
+          { emoji: '📰', text: '消息灵通' }, { emoji: '🔄', text: '灵活应变' },
+          { emoji: '🎯', text: '事件驱动' }, { emoji: '📊', text: '板块轮动' }
+        ]},
+        squirrel: { label: '松鼠', tags: [
+          { emoji: '🌱', text: '小额起步' }, { emoji: '📚', text: '边学边投' },
+          { emoji: '🛡️', text: '本金保护' }, { emoji: '💡', text: '成长潜力' }
+        ]}
+      }
+    }
+  }
+};
+
 function render() {
-  var dnaId = localStorage.getItem('investmentDna');
+  var dnaId = getAnimalFromStorage();
   if (!dnaId || !dnaData[dnaId]) {
     location.href = 'onboarding.html';
     return;
@@ -170,6 +365,48 @@ function render() {
       '</div>';
   }
 
+  // Build keyword tags from growth category
+  var growthCats = dnaTagSystem.dimensions.growth.categories;
+  var keywordTags = '';
+  if (growthCats[dnaId]) {
+    growthCats[dnaId].tags.forEach(function(tag) {
+      keywordTags += '<span class="inline-flex items-center gap-1 bg-primary/5 border border-primary/15 rounded-full px-3 py-1.5 text-xs text-textMain">' +
+        '<span>' + tag.emoji + '</span> ' + tag.text +
+        '</span>';
+    });
+  }
+
+  // Build dimension bars for first 5 dimensions
+  var dimPercentMap = {
+    decision: { rational: 85, intuitive: 60, following: 40 },
+    action:   { active: 90, cautious: 35, rhythmic: 65 },
+    returns:  { longterm: 80, aggressive: 85, stable: 40 },
+    risk:     { aggressive: 85, balanced: 60, conservative: 30 },
+    emotion:  { stable: 90, normal: 55, volatile: 25 }
+  };
+  var dimLabelMap = {
+    decision: { rational: '理性分析', intuitive: '经验直觉', following: '跟随决策' },
+    action:   { active: '行动派', cautious: '谨慎派', rhythmic: '节奏型' },
+    returns:  { longterm: '长期收益', aggressive: '收益优先', stable: '稳健收益' },
+    risk:     { aggressive: '激进型', balanced: '平衡型', conservative: '保守型' },
+    emotion:  { stable: '情绪稳定', normal: '情绪正常', volatile: '情绪波动' }
+  };
+  var dimKeys = ['decision', 'action', 'returns', 'risk', 'emotion'];
+  var dimLabels = { decision: '决策', action: '行动', returns: '收益', risk: '风险', emotion: '情绪' };
+  var dimBars = '';
+  dimKeys.forEach(function(dk) {
+    var cat = dna.dimensionMap[dk];
+    var pct = dimPercentMap[dk][cat] || 50;
+    var catLabel = dimLabelMap[dk][cat] || '';
+    dimBars += '<div class="flex items-center gap-3">' +
+      '<span class="text-xs text-textSub w-16">' + dimLabels[dk] + '</span>' +
+      '<div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">' +
+        '<div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full" style="width: ' + pct + '%"></div>' +
+      '</div>' +
+      '<span class="text-[10px] text-primary font-medium w-14 text-right">' + catLabel + '</span>' +
+      '</div>';
+  });
+
   container.innerHTML =
     '<div class="result-card bg-white rounded-2xl shadow-md p-6 mt-4 text-center">' +
       '<div class="text-[80px] leading-none mb-3">' + dna.emoji + '</div>' +
@@ -182,6 +419,14 @@ function render() {
     '<div class="fade-in bg-white rounded-2xl shadow-sm p-5 mt-4">' +
       '<h3 class="text-sm font-semibold text-textMain mb-3">能力画像</h3>' +
       '<div class="divide-y divide-gray-50">' + starRows + '</div>' +
+    '</div>' +
+    '<div class="fade-in bg-white rounded-2xl shadow-sm p-5 mt-4">' +
+      '<h3 class="text-sm font-semibold text-textMain mb-3">我的投资关键词</h3>' +
+      '<div class="flex flex-wrap gap-2">' + keywordTags + '</div>' +
+    '</div>' +
+    '<div class="fade-in bg-white rounded-2xl shadow-sm p-5 mt-4">' +
+      '<h3 class="text-sm font-semibold text-textMain mb-3">维度画像</h3>' +
+      '<div class="space-y-3">' + dimBars + '</div>' +
     '</div>' +
     '<div class="fade-in bg-white rounded-2xl shadow-sm p-5 mt-4">' +
       '<h3 class="text-sm font-semibold text-textMain mb-3">推荐 & 不推荐</h3>' +

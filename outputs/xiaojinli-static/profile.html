@@ -172,21 +172,44 @@
 </div>
 <script>
         const dnaConfig = {
-            owl:      { name: '猫头鹰', emoji: '🦉', headline: '认真研究型', description: '你习惯先理解原因再做决定，不容易被情绪带走。' },
-            cheetah:  { name: '猎豹',   emoji: '🐆', headline: '行动派',     description: '你决策速度快，对机会敏感，收益预期高。' },
-            turtle:   { name: '乌龟',   emoji: '🐢', headline: '稳稳赚钱派', description: '你不喜欢大起大落，更相信时间的力量。' },
-            fox:      { name: '狐狸',   emoji: '🦊', headline: '消息雷达',   description: '你喜欢先弄清楚信息再行动，对变化敏感。' },
-            squirrel: { name: '松鼠',   emoji: '🐿️', headline: '准备型',     description: '你偏谨慎，愿意从小开始学习。' }
+            owl:      { name: '猫头鹰', emoji: '🦉', headline: '认真研究型', description: '你习惯先理解原因再做决定，不容易被情绪带走。',
+                        dimensionMap: { decision:'rational', action:'cautious', returns:'longterm', risk:'balanced' } },
+            cheetah:  { name: '猎豹',   emoji: '🐆', headline: '行动派',     description: '你决策速度快，对机会敏感，收益预期高。',
+                        dimensionMap: { decision:'intuitive', action:'active', returns:'aggressive', risk:'aggressive' } },
+            turtle:   { name: '乌龟',   emoji: '🐢', headline: '稳稳赚钱派', description: '你不喜欢大起大落，更相信时间的力量。',
+                        dimensionMap: { decision:'rational', action:'cautious', returns:'stable', risk:'conservative' } },
+            fox:      { name: '狐狸',   emoji: '🦊', headline: '消息雷达',   description: '你喜欢先弄清楚信息再行动，对变化敏感。',
+                        dimensionMap: { decision:'following', action:'rhythmic', returns:'aggressive', risk:'balanced' } },
+            squirrel: { name: '松鼠',   emoji: '🐿️', headline: '准备型',     description: '你偏谨慎，愿意从小开始学习。',
+                        dimensionMap: { decision:'following', action:'cautious', returns:'stable', risk:'conservative' } }
         };
 
         (function renderDNA() {
-            const dna = localStorage.getItem('investmentDna');
+            var raw = localStorage.getItem('investmentDna');
+            var dna = null;
+            if (raw) {
+              try { var parsed = JSON.parse(raw); dna = typeof parsed === 'object' ? parsed.animal : raw; }
+              catch(e) { dna = raw; }
+            }
             const display = document.getElementById('dna-display');
             const menuEntry = document.getElementById('dna-menu-entry');
             const menuLabel = document.getElementById('dna-menu-label');
 
             if (dna && dnaConfig[dna]) {
                 const info = dnaConfig[dna];
+                var dimLabels = {rational:'理性分析', intuitive:'经验直觉', following:'跟随决策',
+                                  active:'行动派', cautious:'谨慎派', rhythmic:'节奏型',
+                                  longterm:'长期财富', aggressive:'收益优先', stable:'稳健收益',
+                                  balanced:'平衡型', conservative:'保守型'};
+                var dimTags = '';
+                if (info.dimensionMap) {
+                  for (var key in info.dimensionMap) {
+                    var cat = info.dimensionMap[key];
+                    if (dimLabels[cat]) {
+                      dimTags += '<span class="text-[10px] bg-primary/5 text-primary px-2 py-0.5 rounded-full border border-primary/10">' + dimLabels[cat] + '</span>';
+                    }
+                  }
+                }
                 display.innerHTML = `
                     <div class="flex items-center gap-3 mb-3">
                         <span class="text-3xl">${info.emoji}</span>
@@ -195,6 +218,7 @@
                         </div>
                     </div>
                     <p class="text-xs text-textSub leading-relaxed">${info.description}</p>
+                    <div class="flex flex-wrap gap-1.5 mt-3">${dimTags}</div>
                 `;
                 menuEntry.href = 'dna_result.html';
                 menuLabel.textContent = info.name;

@@ -451,9 +451,33 @@
             btn.classList.remove('bg-bgMain');
         }
 
+        var animalNames = {owl:'猫头鹰', cheetah:'猎豹', turtle:'乌龟', fox:'狐狸', squirrel:'松鼠'};
+
+        function getUserAnimal() {
+            var raw = localStorage.getItem('investmentDna');
+            if (!raw) return null;
+            try { var parsed = JSON.parse(raw); return typeof parsed === 'object' ? parsed.animal : raw; }
+            catch(e) { return raw; }
+        }
+
         function toggleDiag(index) {
-            const el = document.getElementById('diag-' + index);
-            el.classList.toggle('hidden');
+            var el = document.getElementById('diag-' + index);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                // Update DNA references dynamically
+                var animal = getUserAnimal();
+                var animalName = animal && animalNames[animal] ? animalNames[animal] : '未测试';
+                // Update the diagnosis text to reference the user's actual animal
+                var diagTexts = {
+                    0: '这份作业的核心逻辑是价值成长+分散持仓。过去 128 天表现稳健，最大回撤 -18.4%，在你的投资 DNA（' + animalName + '）匹配范围内。',
+                    1: '这份作业重仓消费龙头，过去 86 天收益稳健但波动较大。最大回撤 -21.7%，在你的投资 DNA（' + animalName + '）可接受范围内，但需注意消费板块政策风险。',
+                    2: '这份作业以深度调研和低估值为核心，过去 45 天表现平稳。最大回撤 -20.3%，与你的投资 DNA（' + animalName + '）高度匹配，属于稳健型配置。'
+                };
+                var pEl = el.querySelector('.text-xs.text-textSub.leading-relaxed');
+                if (pEl && diagTexts[index]) pEl.textContent = diagTexts[index];
+            } else {
+                el.classList.add('hidden');
+            }
         }
 
         // Calculator collapse/expand

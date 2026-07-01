@@ -102,46 +102,66 @@ const questions = [
   {
     text: '如果路边有人排了很长的队，你会？',
     options: [
-      { label: 'A', text: '一定有好东西，我也想看看。', dna: 'cheetah' },
-      { label: 'B', text: '先看看大家为什么排队。', dna: 'fox' },
-      { label: 'C', text: '等人少一点再决定。', dna: 'turtle' },
-      { label: 'D', text: '别人排他们的，我有自己的选择。', dna: 'owl' }
+      { label: 'A', text: '一定有好东西，我也想看看。', dna: 'cheetah',
+        dimensions: { decision: 'intuitive', action: 'active' } },
+      { label: 'B', text: '先看看大家为什么排队。', dna: 'fox',
+        dimensions: { decision: 'following', info: 'news' } },
+      { label: 'C', text: '等人少一点再决定。', dna: 'turtle',
+        dimensions: { action: 'cautious', risk: 'conservative' } },
+      { label: 'D', text: '别人排他们的，我有自己的选择。', dna: 'owl',
+        dimensions: { decision: 'rational', emotion: 'stable' } }
     ]
   },
   {
     text: '如果朋友说："这个东西以后一定会涨价。"你第一反应是？',
     options: [
-      { label: 'A', text: '真的吗？我现在就去看看。', dna: 'cheetah' },
-      { label: 'B', text: '为什么会涨？', dna: 'owl' },
-      { label: 'C', text: '我想再等等。', dna: 'turtle' },
-      { label: 'D', text: '网上有没有更多信息？', dna: 'fox' }
+      { label: 'A', text: '真的吗？我现在就去看看。', dna: 'cheetah',
+        dimensions: { action: 'active', returns: 'aggressive' } },
+      { label: 'B', text: '为什么会涨？', dna: 'owl',
+        dimensions: { decision: 'rational', info: 'data' } },
+      { label: 'C', text: '我想再等等。', dna: 'turtle',
+        dimensions: { action: 'cautious', risk: 'conservative' } },
+      { label: 'D', text: '网上有没有更多信息？', dna: 'fox',
+        dimensions: { info: 'news', decision: 'following' } }
     ]
   },
   {
     text: '如果你攒了一笔钱，你更愿意？',
     options: [
-      { label: 'A', text: '找机会赚得更多。', dna: 'cheetah' },
-      { label: 'B', text: '稳稳增值就好。', dna: 'turtle' },
-      { label: 'C', text: '先放着，不着急。', dna: 'squirrel' },
-      { label: 'D', text: '一部分稳一点，一部分试试看。', dna: 'owl' }
+      { label: 'A', text: '找机会赚得更多。', dna: 'cheetah',
+        dimensions: { returns: 'aggressive', risk: 'aggressive' } },
+      { label: 'B', text: '稳稳增值就好。', dna: 'turtle',
+        dimensions: { returns: 'stable', risk: 'conservative' } },
+      { label: 'C', text: '先放着，不着急。', dna: 'squirrel',
+        dimensions: { action: 'cautious', learning: 'growing' } },
+      { label: 'D', text: '一部分稳一点，一部分试试看。', dna: 'owl',
+        dimensions: { returns: 'longterm', risk: 'balanced' } }
     ]
   },
   {
     text: '如果你买的东西第二天就降价了，你会？',
     options: [
-      { label: 'A', text: '再买一点，更划算。', dna: 'cheetah' },
-      { label: 'B', text: '有点难受，但还能接受。', dna: 'turtle' },
-      { label: 'C', text: '以后买东西要再等等。', dna: 'squirrel' },
-      { label: 'D', text: '先看看为什么降价。', dna: 'owl' }
+      { label: 'A', text: '再买一点，更划算。', dna: 'cheetah',
+        dimensions: { emotion: 'volatile', action: 'active' } },
+      { label: 'B', text: '有点难受，但还能接受。', dna: 'turtle',
+        dimensions: { emotion: 'stable', horizon: 'long' } },
+      { label: 'C', text: '以后买东西要再等等。', dna: 'squirrel',
+        dimensions: { action: 'cautious', risk: 'conservative' } },
+      { label: 'D', text: '先看看为什么降价。', dna: 'owl',
+        dimensions: { decision: 'rational', info: 'data' } }
     ]
   },
   {
     text: '如果未来一年，你最希望投资带来什么？',
     options: [
-      { label: 'A', text: '赚到一笔让我开心的钱。', dna: 'cheetah' },
-      { label: 'B', text: '比放银行更好一点就行。', dna: 'turtle' },
-      { label: 'C', text: '希望自己学会投资。', dna: 'squirrel' },
-      { label: 'D', text: '少踩坑，比赚钱更重要。', dna: 'owl' }
+      { label: 'A', text: '赚到一笔让我开心的钱。', dna: 'cheetah',
+        dimensions: { goals: 'wealth', returns: 'aggressive' } },
+      { label: 'B', text: '比放银行更好一点就行。', dna: 'turtle',
+        dimensions: { goals: 'life', returns: 'stable' } },
+      { label: 'C', text: '希望自己学会投资。', dna: 'squirrel',
+        dimensions: { goals: 'selfgrowth', learning: 'growing' } },
+      { label: 'D', text: '少踩坑，比赚钱更重要。', dna: 'owl',
+        dimensions: { risk: 'balanced', emotion: 'stable' } }
     ]
   }
 ];
@@ -206,18 +226,26 @@ function updateProgress() {
 function showResult() {
   var tally = { cheetah: 0, fox: 0, turtle: 0, owl: 0, squirrel: 0 };
   var firstAppear = { cheetah: 99, fox: 99, turtle: 99, owl: 99, squirrel: 99 };
+  var dimVotes = {};
 
   questions.forEach(function(q, qi) {
     var chosen = q.options[selections[qi]];
     var dna = chosen.dna;
     tally[dna]++;
     if (qi < firstAppear[dna]) firstAppear[dna] = qi;
+    // Aggregate dimension votes
+    if (chosen.dimensions) {
+      for (var key in chosen.dimensions) {
+        if (!dimVotes[key]) dimVotes[key] = {};
+        var val = chosen.dimensions[key];
+        dimVotes[key][val] = (dimVotes[key][val] || 0) + 1;
+      }
+    }
   });
 
   var winner = null;
   var maxVotes = 0;
   var earliestQ = 99;
-
   for (var dna in tally) {
     var count = tally[dna];
     if (count > maxVotes || (count === maxVotes && firstAppear[dna] < earliestQ)) {
@@ -227,7 +255,23 @@ function showResult() {
     }
   }
 
-  localStorage.setItem('investmentDna', winner);
+  // Build dimensions result: pick most-voted category per dimension
+  var dimensions = {};
+  for (var dim in dimVotes) {
+    var bestCat = null;
+    var bestCount = 0;
+    for (var cat in dimVotes[dim]) {
+      if (dimVotes[dim][cat] > bestCount) {
+        bestCat = cat;
+        bestCount = dimVotes[dim][cat];
+      }
+    }
+    dimensions[dim] = bestCat;
+  }
+
+  // Save new format
+  var result = { animal: winner, dimensions: dimensions };
+  localStorage.setItem('investmentDna', JSON.stringify(result));
   location.href = 'dna_result.html';
 }
 

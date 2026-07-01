@@ -254,6 +254,197 @@
 </div>
 
 <script>
+  // ========== DNA Tag System (Layer 2) ==========
+  const dnaTagSystem = {
+    dimensions: {
+      decision: {
+        label: '决策思维', emoji: '🧠',
+        categories: {
+          rational: { label: '理性分析', tags: [
+            {emoji:'📊', text:'数据不会骗人'}, {emoji:'🧠', text:'独立判断'},
+            {emoji:'🔍', text:'多方验证'}, {emoji:'📚', text:'喜欢做功课'},
+            {emoji:'📈', text:'理性研究派'}, {emoji:'💡', text:'爱问为什么'},
+            {emoji:'📑', text:'财报爱好者'}, {emoji:'📉', text:'看估值再行动'}
+          ]},
+          intuitive: { label: '经验直觉', tags: [
+            {emoji:'✨', text:'感觉也重要'}, {emoji:'🎯', text:'相信经验'},
+            {emoji:'⚡', text:'快速拍板'}, {emoji:'👀', text:'凭第一感觉'}
+          ]},
+          following: { label: '跟随决策', tags: [
+            {emoji:'🌟', text:'容易被种草'}, {emoji:'🤝', text:'喜欢参考高手'},
+            {emoji:'📋', text:'抄作业达人'}, {emoji:'👥', text:'相信大众选择'}
+          ]}
+        }
+      },
+      action: {
+        label: '行动风格', emoji: '🚀',
+        categories: {
+          active: { label: '行动派', tags: [
+            {emoji:'⚡', text:'看准就出手'}, {emoji:'🚀', text:'行动力MAX'},
+            {emoji:'🔥', text:'不喜欢等待'}, {emoji:'🎯', text:'机会来了就上'}
+          ]},
+          cautious: { label: '谨慎派', tags: [
+            {emoji:'👀', text:'先看看再说'}, {emoji:'🌱', text:'喜欢先试仓'},
+            {emoji:'🐢', text:'想清楚再买'}, {emoji:'⏳', text:'等机会成熟'}
+          ]},
+          rhythmic: { label: '节奏型', tags: [
+            {emoji:'🏃', text:'小步快跑'}, {emoji:'⚖️', text:'节奏感很好'},
+            {emoji:'🌊', text:'顺势而为'}, {emoji:'🧩', text:'灵活调整'}
+          ]}
+        }
+      },
+      returns: {
+        label: '收益观', emoji: '💰',
+        categories: {
+          longterm: { label: '长期财富', tags: [
+            {emoji:'🌱', text:'慢慢变富'}, {emoji:'🌳', text:'长期复利派'},
+            {emoji:'💎', text:'财富积累者'}, {emoji:'🏦', text:'时间的朋友'}
+          ]},
+          aggressive: { label: '收益优先', tags: [
+            {emoji:'📈', text:'收益优先'}, {emoji:'💰', text:'喜欢高弹性'},
+            {emoji:'🚀', text:'财富加速器'}, {emoji:'🎯', text:'收益目标明确'}
+          ]},
+          stable: { label: '稳健收益', tags: [
+            {emoji:'🛡️', text:'稳稳赚钱'}, {emoji:'💵', text:'落袋为安'},
+            {emoji:'☀️', text:'睡得安心'}, {emoji:'📦', text:'保值优先'}
+          ]}
+        }
+      },
+      risk: {
+        label: '风险态度', emoji: '⚠️',
+        categories: {
+          aggressive: { label: '激进型', tags: [
+            {emoji:'🔥', text:'能扛大波动'}, {emoji:'💥', text:'不怕下跌'},
+            {emoji:'⚡', text:'高收益高风险'}, {emoji:'🎢', text:'波动无压力'}
+          ]},
+          balanced: { label: '平衡型', tags: [
+            {emoji:'⚖️', text:'胆大心细'}, {emoji:'📊', text:'风险收益兼顾'},
+            {emoji:'🎯', text:'合理配置'}, {emoji:'🧭', text:'风险可控'}
+          ]},
+          conservative: { label: '保守型', tags: [
+            {emoji:'🛡️', text:'安全感优先'}, {emoji:'🌂', text:'本金保护欲强'},
+            {emoji:'🚧', text:'风险雷达'}, {emoji:'🙅', text:'宁可少赚'}
+          ]}
+        }
+      },
+      learning: {
+        label: '学习成长', emoji: '📚',
+        categories: {
+          scholar: { label: '学霸型', tags: [
+            {emoji:'📚', text:'越学越开心'}, {emoji:'🧠', text:'学习型投资者'},
+            {emoji:'🎓', text:'投资优等生'}, {emoji:'🔬', text:'喜欢研究'}
+          ]},
+          practical: { label: '实践型', tags: [
+            {emoji:'🛠️', text:'边做边学'}, {emoji:'📖', text:'喜欢复盘'},
+            {emoji:'🎯', text:'学以致用'}, {emoji:'🌱', text:'每天进步一点'}
+          ]},
+          growing: { label: '成长型', tags: [
+            {emoji:'🚀', text:'正在进化中'}, {emoji:'🌟', text:'潜力无限'},
+            {emoji:'🌱', text:'成长速度快'}, {emoji:'💪', text:'不断升级'}
+          ]}
+        }
+      },
+      info: {
+        label: '信息偏好', emoji: '📰',
+        categories: {
+          data: { label: '数据流', tags: [
+            {emoji:'📊', text:'数据控'}, {emoji:'📈', text:'相信数据'},
+            {emoji:'📑', text:'财报党'}, {emoji:'📉', text:'看指标'}
+          ]},
+          news: { label: '消息流', tags: [
+            {emoji:'📡', text:'消息雷达'}, {emoji:'🔥', text:'热点捕手'},
+            {emoji:'📰', text:'新闻党'}, {emoji:'⚡', text:'第一时间知道'}
+          ]},
+          ai: { label: 'AI辅助', tags: [
+            {emoji:'🤖', text:'AI辅助决策'}, {emoji:'🧠', text:'智能分析派'},
+            {emoji:'🔍', text:'善用工具'}, {emoji:'📲', text:'效率达人'}
+          ]}
+        }
+      },
+      emotion: {
+        label: '情绪管理', emoji: '❤️',
+        categories: {
+          stable: { label: '稳定型', tags: [
+            {emoji:'❤️', text:'心态超稳'}, {emoji:'🌊', text:'波动免疫'},
+            {emoji:'🪨', text:'拿得住'}, {emoji:'😌', text:'越跌越冷静'}
+          ]},
+          normal: { label: '普通型', tags: [
+            {emoji:'🙂', text:'偶尔焦虑'}, {emoji:'🤔', text:'会犹豫'},
+            {emoji:'⚖️', text:'慢慢调整'}, {emoji:'🌤️', text:'情绪平衡'}
+          ]},
+          volatile: { label: '情绪型', tags: [
+            {emoji:'😰', text:'有点容易慌'}, {emoji:'📉', text:'容易受行情影响'},
+            {emoji:'😵', text:'FOMO体质'}, {emoji:'🎢', text:'情绪起伏大'}
+          ]}
+        }
+      },
+      goals: {
+        label: '投资目标', emoji: '🎯',
+        categories: {
+          wealth: { label: '财富增长', tags: [
+            {emoji:'💰', text:'财富自由派'}, {emoji:'🚀', text:'第一桶金'},
+            {emoji:'📈', text:'资产增长'}, {emoji:'💎', text:'财务升级'}
+          ]},
+          life: { label: '生活目标', tags: [
+            {emoji:'🏠', text:'买房计划'}, {emoji:'👨‍👩‍👧', text:'家庭守护者'},
+            {emoji:'🎓', text:'教育基金'}, {emoji:'🌴', text:'提前退休梦'}
+          ]},
+          selfgrowth: { label: '自我成长', tags: [
+            {emoji:'📚', text:'学会投资'}, {emoji:'🧠', text:'建立体系'},
+            {emoji:'💪', text:'提升认知'}, {emoji:'🌱', text:'成为长期投资者'}
+          ]}
+        }
+      },
+      horizon: {
+        label: '投资周期', emoji: '⏳',
+        categories: {
+          long: { label: '长线', tags: [
+            {emoji:'🌳', text:'长期主义'}, {emoji:'🕰️', text:'时间的朋友'},
+            {emoji:'📅', text:'长期持有'}, {emoji:'🐢', text:'耐心十足'}
+          ]},
+          medium: { label: '中线', tags: [
+            {emoji:'📈', text:'趋势布局'}, {emoji:'🌊', text:'波段节奏'},
+            {emoji:'🎯', text:'中期规划'}, {emoji:'⚖️', text:'灵活持仓'}
+          ]},
+          short: { label: '短线', tags: [
+            {emoji:'⚡', text:'短线体验派'}, {emoji:'🎢', text:'波段高手'},
+            {emoji:'🚀', text:'快进快出'}, {emoji:'🔥', text:'捕捉热点'}
+          ]}
+        }
+      },
+      growth: {
+        label: '成长人格', emoji: '🐟',
+        categories: {
+          squirrel: { label: '松鼠', tags: [
+            {emoji:'🌰', text:'喜欢先囤一点'}, {emoji:'📚', text:'越学越开心'},
+            {emoji:'🌱', text:'慢慢变富'}, {emoji:'👀', text:'先看看再说'},
+            {emoji:'🛡️', text:'本金保护欲强'}, {emoji:'💪', text:'成长潜力MAX'}
+          ]},
+          owl: { label: '猫头鹰', tags: [
+            {emoji:'📊', text:'数据不会骗人'}, {emoji:'🧠', text:'独立判断'},
+            {emoji:'📑', text:'财报爱好者'}, {emoji:'🔍', text:'多方验证'},
+            {emoji:'🌳', text:'长期复利派'}, {emoji:'❤️', text:'心态超稳'}
+          ]},
+          fox: { label: '狐狸', tags: [
+            {emoji:'📡', text:'消息雷达'}, {emoji:'🔥', text:'热点捕手'},
+            {emoji:'📈', text:'趋势敏锐'}, {emoji:'🧩', text:'灵活调整'},
+            {emoji:'🤝', text:'善于借鉴高手'}, {emoji:'⚖️', text:'风险收益兼顾'}
+          ]},
+          cheetah: { label: '猎豹', tags: [
+            {emoji:'⚡', text:'看准就出手'}, {emoji:'🚀', text:'行动力MAX'},
+            {emoji:'💥', text:'不怕波动'}, {emoji:'🎯', text:'收益优先'},
+            {emoji:'🔥', text:'高收益追求者'}, {emoji:'🌊', text:'顺势而为'}
+          ]},
+          turtle: { label: '乌龟', tags: [
+            {emoji:'🌳', text:'长期主义'}, {emoji:'🌱', text:'慢慢变富'},
+            {emoji:'🛡️', text:'稳健第一'}, {emoji:'🪨', text:'拿得住'},
+            {emoji:'💵', text:'落袋为安'}, {emoji:'🕰️', text:'时间的朋友'}
+          ]}
+        }
+      }
+    }
+  };
+
   // ========== DNA Config ==========
   const dnaConfig = {
     owl: {
@@ -269,7 +460,12 @@
         { label: '长期价值导向', sub: '价值投资' }
       ],
       tags: ['价值投资', '深度研究', '长期持有', '逆向思维', '基本面分析', '理性决策'],
-      sameType: '乌龟', relationType: '猎豹', relationEmoji: '🐆'
+      sameType: '乌龟', relationType: '猎豹', relationEmoji: '🐆',
+      dimensionMap: {
+        decision: 'rational', action: 'cautious', returns: 'longterm',
+        risk: 'balanced', learning: 'scholar', info: 'data',
+        emotion: 'stable', goals: 'selfgrowth', horizon: 'long', growth: 'owl'
+      }
     },
     cheetah: {
       name: '猎豹', emoji: '🐆', headline: '行动派',
@@ -284,7 +480,12 @@
         { label: '短线操作高手', sub: '效率至上' }
       ],
       tags: ['追涨杀跌', '短线为王', '快进快出', '热点追踪', '龙虎榜', '打板'],
-      sameType: '狐狸', relationType: '乌龟', relationEmoji: '🐢'
+      sameType: '狐狸', relationType: '乌龟', relationEmoji: '🐢',
+      dimensionMap: {
+        decision: 'intuitive', action: 'active', returns: 'aggressive',
+        risk: 'aggressive', learning: 'practical', info: 'news',
+        emotion: 'volatile', goals: 'wealth', horizon: 'short', growth: 'cheetah'
+      }
     },
     turtle: {
       name: '乌龟', emoji: '🐢', headline: '稳稳赚钱派',
@@ -299,7 +500,12 @@
         { label: '不追热点', sub: '独立思考' }
       ],
       tags: ['稳健理财', '基金定投', '低风险', '长期持有', '分散投资', '不折腾'],
-      sameType: '松鼠', relationType: '猎豹', relationEmoji: '🐆'
+      sameType: '松鼠', relationType: '猎豹', relationEmoji: '🐆',
+      dimensionMap: {
+        decision: 'rational', action: 'cautious', returns: 'stable',
+        risk: 'conservative', learning: 'practical', info: 'data',
+        emotion: 'stable', goals: 'life', horizon: 'long', growth: 'turtle'
+      }
     },
     fox: {
       name: '狐狸', emoji: '🦊', headline: '消息雷达',
@@ -314,7 +520,12 @@
         { label: '灵活应变', sub: '快速调整' }
       ],
       tags: ['消息面', '政策解读', '行业趋势', '事件驱动', '社交投资', '板块轮动'],
-      sameType: '猎豹', relationType: '猫头鹰', relationEmoji: '🦉'
+      sameType: '猎豹', relationType: '猫头鹰', relationEmoji: '🦉',
+      dimensionMap: {
+        decision: 'following', action: 'rhythmic', returns: 'aggressive',
+        risk: 'balanced', learning: 'growing', info: 'news',
+        emotion: 'normal', goals: 'wealth', horizon: 'medium', growth: 'fox'
+      }
     },
     squirrel: {
       name: '松鼠', emoji: '🐿️', headline: '准备型',
@@ -329,7 +540,12 @@
         { label: '成长潜力很高', sub: '' }
       ],
       tags: ['落袋为安', '先看看再说', '坚持定投', '怕麻烦别人', '小额起步', '边学边投'],
-      sameType: '乌龟', relationType: '狐狸', relationEmoji: '🦊'
+      sameType: '乌龟', relationType: '狐狸', relationEmoji: '🦊',
+      dimensionMap: {
+        decision: 'following', action: 'cautious', returns: 'stable',
+        risk: 'conservative', learning: 'growing', info: 'ai',
+        emotion: 'normal', goals: 'selfgrowth', horizon: 'long', growth: 'squirrel'
+      }
     }
   };
 
@@ -367,7 +583,17 @@
 
   // ========== Read DNA from localStorage ==========
   function getUserDNA() {
-    return localStorage.getItem('investmentDna') || null;
+    var raw = localStorage.getItem('investmentDna');
+    if (!raw) return null;
+    try {
+      var parsed = JSON.parse(raw);
+      // New format: {animal:"owl", dimensions:{...}}
+      if (parsed && typeof parsed === 'object' && parsed.animal) {
+        return parsed.animal;
+      }
+    } catch(e) {}
+    // Old format: plain string like "owl"
+    return raw;
   }
 
   // ========== Current DNA mode state ==========
@@ -458,14 +684,28 @@
       return;
     }
 
-    // Build solo mode content
+    // Build solo mode content - auto-generate from dimensionMap
+    var soloTraitKeys = ['decision', 'action', 'risk', 'returns'];
     var traitsHTML = '';
-    dna.traits.forEach(function(t) {
-      traitsHTML += '<div class="trait-card">'
-        + '<div class="text-xs font-bold text-textMain leading-tight">' + t.label + '</div>'
-        + (t.sub ? '<div class="text-[10px] text-textAssist mt-0.5">' + t.sub + '</div>' : '')
-        + '</div>';
-    });
+    if (dna.dimensionMap) {
+      soloTraitKeys.forEach(function(dimKey) {
+        var dim = dnaTagSystem.dimensions[dimKey];
+        var catKey = dna.dimensionMap[dimKey];
+        var cat = dim.categories[catKey];
+        traitsHTML += '<div class="trait-card">'
+          + '<div class="text-xs font-bold text-textMain leading-tight">' + cat.label + '</div>'
+          + '<div class="text-[10px] text-textAssist mt-0.5">' + dim.label + '</div>'
+          + '</div>';
+      });
+    } else {
+      // Fallback to hardcoded traits if no dimensionMap
+      dna.traits.forEach(function(t) {
+        traitsHTML += '<div class="trait-card">'
+          + '<div class="text-xs font-bold text-textMain leading-tight">' + t.label + '</div>'
+          + (t.sub ? '<div class="text-[10px] text-textAssist mt-0.5">' + t.sub + '</div>' : '')
+          + '</div>';
+      });
+    }
 
     var soloHTML = ''
       + '<div class="bg-white rounded-2xl p-4 dna-card-glow">'
@@ -490,31 +730,50 @@
       +   '</a>'
       + '</div>';
 
-    // Build discuss mode content
-    var avatarEmojis = ['👧', '👦', '', '', '👧', ''];
-    var avatarBgs = ['bg-pink-100', 'bg-blue-100', '', '', 'bg-purple-100', ''];
-    var likes = [8130, 4121, 6014, 0, 5816, 5309];
+    // Build discuss mode content - dimension-grouped tags
+    var primaryDims = ['decision', 'action', 'risk', 'emotion'];
+    var secondaryDims = ['returns', 'learning', 'info', 'goals', 'horizon', 'growth'];
+    var animalKey = dnaType;
 
-    var tagsHTML = '';
-    dna.tags.forEach(function(tag, i) {
-      if (likes[i] === 0) {
-        tagsHTML += '<div class="tag-bubble bg-primary/5 border-primary/20 text-primary font-medium">'
-          + '<iconify-icon class="text-sm" icon="solar:add-circle-bold"></iconify-icon>'
-          + '<span class="text-xs">我也想说说...</span>'
+    function buildDimensionGroup(dimKey) {
+      var dim = dnaTagSystem.dimensions[dimKey];
+      var catKey = dna.dimensionMap[dimKey];
+      var cat = dim.categories[catKey];
+      var isGrowthDim = (dimKey === 'growth');
+      var tagsHTML = '';
+      cat.tags.forEach(function(tag) {
+        var isHighlight = isGrowthDim && (tag.text === cat.label || isGrowthDim);
+        var tagClass = isHighlight
+          ? 'tag-bubble bg-primary/10 border-primary/30 text-primary'
+          : 'tag-bubble';
+        tagsHTML += '<div class="' + tagClass + '">'
+          + '<span class="text-xs">' + tag.emoji + '</span>'
+          + '<span class="text-xs">' + tag.text + '</span>'
           + '</div>';
-      } else {
-        var avatarHTML = '';
-        if (avatarEmojis[i]) {
-          avatarHTML = '<div class="w-5 h-5 rounded-full ' + avatarBgs[i] + ' flex items-center justify-center text-[8px] flex-shrink-0">' + avatarEmojis[i] + '</div>';
-        }
-        tagsHTML += '<div class="tag-bubble">'
-          + avatarHTML
-          + '<span class="text-xs">' + tag + '</span>'
-          + '<span class="flex items-center gap-0.5 text-textAssist text-[10px] ml-1">'
-          +   '<iconify-icon class="text-xs text-primary" icon="solar:like-bold"></iconify-icon>'
-          +   likes[i]
-          + '</span>'
-          + '</div>';
+      });
+      return '<div class="mb-3">'
+        + '<div class="flex items-center gap-1.5 mb-2">'
+        +   '<span class="text-sm">' + dim.emoji + '</span>'
+        +   '<span class="text-xs font-bold text-textMain">' + dim.label + '</span>'
+        +   '<span class="text-[10px] text-textAssist ml-1">· ' + cat.label + '</span>'
+        + '</div>'
+        + '<div class="flex flex-wrap gap-1.5">'
+        +   tagsHTML
+        + '</div>'
+        + '</div>';
+    }
+
+    var primaryGroupsHTML = '';
+    primaryDims.forEach(function(dimKey) {
+      if (dna.dimensionMap && dna.dimensionMap[dimKey]) {
+        primaryGroupsHTML += buildDimensionGroup(dimKey);
+      }
+    });
+
+    var secondaryGroupsHTML = '';
+    secondaryDims.forEach(function(dimKey) {
+      if (dna.dimensionMap && dna.dimensionMap[dimKey]) {
+        secondaryGroupsHTML += buildDimensionGroup(dimKey);
       }
     });
 
@@ -528,9 +787,17 @@
       +       '<iconify-icon class="text-xs" icon="solar:alt-arrow-right-linear"></iconify-icon>'
       +     '</div>'
       +   '</div>'
-      +   '<div class="flex flex-wrap gap-2 mb-4">'
-      +     tagsHTML
+      +   '<div id="dna-discuss-dimensions">'
+      +     primaryGroupsHTML
       +   '</div>'
+      +   '<div id="dna-discuss-more" class="hidden">'
+      +     secondaryGroupsHTML
+      +   '</div>'
+      +   (secondaryGroupsHTML ? '<div class="text-center mb-3">'
+      +     '<button id="dna-expand-btn" class="text-xs text-primary font-bold px-4 py-1.5 rounded-full bg-primary/5 border border-primary/15" onclick="toggleDnaDimensions()">'
+      +       '展开更多维度'
+      +     '</button>'
+      +   '</div>' : '')
       +   '<div class="border-t border-gray-100 pt-3 mb-3">'
       +     '<div class="text-xs font-bold text-textMain mb-2">与其他类型的关系</div>'
       +     '<div class="flex gap-3">'
@@ -563,6 +830,19 @@
       +     discussHTML
       +   '</div>'
       + '</div>';
+  }
+
+  // ========== Toggle DNA Dimensions (expand/collapse) ==========
+  function toggleDnaDimensions() {
+    var moreDiv = document.getElementById('dna-discuss-more');
+    var btn = document.getElementById('dna-expand-btn');
+    if (moreDiv.classList.contains('hidden')) {
+      moreDiv.classList.remove('hidden');
+      btn.textContent = '收起更多维度';
+    } else {
+      moreDiv.classList.add('hidden');
+      btn.textContent = '展开更多维度';
+    }
   }
 
   // ========== Switch DNA Mode ==========

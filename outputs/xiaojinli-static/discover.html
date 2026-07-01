@@ -599,7 +599,7 @@
   // ========== Current DNA mode state ==========
   let currentDnaMode = 'solo';
 
-  // ========== Render Daily Widgets (compact, de-emphasized) ==========
+  // ========== Render Daily Widgets (swapped: 小记 left, 日签 right) ==========
   function renderDailyWidgets(dnaType) {
     const container = document.getElementById('daily-widgets');
     const dna = dnaType && dnaConfig[dnaType] ? dnaConfig[dnaType] : dnaConfig.turtle;
@@ -638,23 +638,32 @@
 
     container.innerHTML = ''
       + '<div class="grid grid-cols-2 gap-2">'
-      + '<div class="bg-white/70 rounded-xl px-3 py-2 border border-gray-100">'
-      +   '<div class="flex items-center gap-1 mb-1">'
-      +     '<span class="text-[10px]">' + dna.emoji + '</span>'
-      +     '<span class="text-[10px] font-medium text-textSub">今日宜忌</span>'
-      +   '</div>'
-      +   '<div class="flex items-center gap-2">'
-      +     '<span class="text-[10px] text-primary font-medium">宜 ' + dna.yi + '</span>'
-      +     '<span class="text-[10px] text-textAssist">忌 ' + dna.ji + '</span>'
-      +   '</div>'
-      + '</div>'
-      + '<div class="bg-white/70 rounded-xl px-2.5 py-2 border border-gray-100">'
+      // Left: 金鲤小记 (calendar) — clickable
+      + '<div class="bg-white/70 rounded-xl px-2.5 py-2 border border-gray-100 cursor-pointer active:scale-[0.98] transition-transform" onclick="location.href=\'daily_note.html\'">'
       +   '<div class="flex items-center justify-between mb-0.5">'
       +     '<span class="text-[10px] font-medium text-textSub">金鲤小记</span>'
       +     '<span class="text-[9px] text-textAssist">' + (month + 1) + '月</span>'
       +   '</div>'
       +   '<div class="grid grid-cols-7 gap-y-0">'
       +     calendarHTML
+      +   '</div>'
+      + '</div>'
+      // Right: 今日日签 — visually striking with gradient, clickable
+      + '<div class="rounded-xl px-3 py-2.5 border border-primary/20 cursor-pointer active:scale-[0.98] transition-transform bg-gradient-to-br from-primary/10 via-amber-50 to-secondary/10 relative overflow-hidden" onclick="location.href=\'daily_sign.html\'">'
+      +   '<div class="absolute -right-2 -top-2 text-[40px] opacity-15">' + dna.emoji + '</div>'
+      +   '<div class="flex items-center gap-1 mb-1.5 relative z-10">'
+      +     '<iconify-icon class="text-primary text-sm" icon="solar:bookmark-bold-duotone"></iconify-icon>'
+      +     '<span class="text-[10px] font-bold text-textMain">今日日签</span>'
+      +   '</div>'
+      +   '<div class="relative z-10 space-y-1">'
+      +     '<div class="flex items-center gap-1.5">'
+      +       '<span class="text-[9px] bg-primary/20 text-primary font-bold px-1.5 py-0.5 rounded">宜</span>'
+      +       '<span class="text-xs font-bold text-textMain">' + dna.yi + '</span>'
+      +     '</div>'
+      +     '<div class="flex items-center gap-1.5">'
+      +       '<span class="text-[9px] bg-gray-200 text-textAssist font-bold px-1.5 py-0.5 rounded">忌</span>'
+      +       '<span class="text-xs text-textSub">' + dna.ji + '</span>'
+      +     '</div>'
       +   '</div>'
       + '</div>'
       + '</div>';
@@ -764,31 +773,32 @@
       +     '<div class="font-bold text-sm text-textMain">小' + dna.name + '一样的自己</div>'
       +     '<div class="flex items-center gap-1 bg-primary/10 text-primary text-[10px] font-bold px-2.5 py-1 rounded-full">'
       +       '<iconify-icon class="text-xs" icon="solar:users-group-rounded-bold-duotone"></iconify-icon>'
-      +       '<span>9121鲤友正在讨论</span>'
+      +       '<span>9121鲤友</span>'
       +       '<iconify-icon class="text-xs" icon="solar:alt-arrow-right-linear"></iconify-icon>'
       +     '</div>'
       +   '</div>'
       +   '<div class="flex flex-wrap gap-2 mb-3">'
       +     tagsHTML
       +   '</div>'
-      +   '<div class="mb-3">'
-      +     '<div class="text-xs font-bold text-textMain mb-2">同类鲤友今日收益</div>'
-      +     '<div class="flex gap-2 overflow-x-auto pb-1" style="-webkit-overflow-scrolling:touch">'
-      +       '<div class="flex-shrink-0 bg-bgMain rounded-xl px-3 py-2 flex items-center gap-2">'
-      +         '<div class="w-6 h-6 rounded-full bg-pink-100 flex items-center justify-center text-[10px]">👧</div>'
-      +         '<div><div class="text-[10px] text-textSub">小鱼儿</div><div class="text-xs font-bold text-up">+8.6%</div></div>'
+      // Merged returns strip — compact, inline with the card
+      +   '<div class="flex items-center gap-2 bg-bgMain rounded-xl px-3 py-2 mb-3">'
+      +     '<span class="text-[10px] text-textAssist flex-shrink-0">同类今日</span>'
+      +     '<div class="flex gap-2 overflow-x-auto flex-1" style="-webkit-overflow-scrolling:touch">'
+      +       '<div class="flex-shrink-0 flex items-center gap-1.5">'
+      +         '<div class="w-5 h-5 rounded-full bg-pink-100 flex items-center justify-center text-[8px]">👧</div>'
+      +         '<div><div class="text-[9px] text-textSub leading-none">小鱼儿</div><div class="text-[11px] font-bold text-up leading-tight">+8.6%</div></div>'
       +       '</div>'
-      +       '<div class="flex-shrink-0 bg-bgMain rounded-xl px-3 py-2 flex items-center gap-2">'
-      +         '<div class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-[10px]">👦</div>'
-      +         '<div><div class="text-[10px] text-textSub">阿杰</div><div class="text-xs font-bold text-up">+3.2%</div></div>'
+      +       '<div class="flex-shrink-0 flex items-center gap-1.5">'
+      +         '<div class="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center text-[8px]">👦</div>'
+      +         '<div><div class="text-[9px] text-textSub leading-none">阿杰</div><div class="text-[11px] font-bold text-up leading-tight">+3.2%</div></div>'
       +       '</div>'
-      +       '<div class="flex-shrink-0 bg-bgMain rounded-xl px-3 py-2 flex items-center gap-2">'
-      +         '<div class="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center text-[10px]">👧</div>'
-      +         '<div><div class="text-[10px] text-textSub">月月</div><div class="text-xs font-bold text-down">-1.5%</div></div>'
+      +       '<div class="flex-shrink-0 flex items-center gap-1.5">'
+      +         '<div class="w-5 h-5 rounded-full bg-purple-100 flex items-center justify-center text-[8px]">👧</div>'
+      +         '<div><div class="text-[9px] text-textSub leading-none">月月</div><div class="text-[11px] font-bold text-down leading-tight">-1.5%</div></div>'
       +       '</div>'
-      +       '<div class="flex-shrink-0 bg-bgMain rounded-xl px-3 py-2 flex items-center gap-2">'
-      +         '<div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center text-[10px]">👦</div>'
-      +         '<div><div class="text-[10px] text-textSub">大壮</div><div class="text-xs font-bold text-up">+12.1%</div></div>'
+      +       '<div class="flex-shrink-0 flex items-center gap-1.5">'
+      +         '<div class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center text-[8px]">👦</div>'
+      +         '<div><div class="text-[9px] text-textSub leading-none">大壮</div><div class="text-[11px] font-bold text-up leading-tight">+12.1%</div></div>'
       +       '</div>'
       +     '</div>'
       +   '</div>'
@@ -851,14 +861,10 @@
   function renderRankings(dnaType) {
     const container = document.getElementById('rankings-container');
 
-    let sorted = [...rankings];
-    if (dnaType) {
-      sorted.sort((a, b) => {
-        const aMatch = a.dnaFit.includes(dnaType) ? 0 : 1;
-        const bMatch = b.dnaFit.includes(dnaType) ? 0 : 1;
-        return aMatch - bMatch;
-      });
-    }
+    // Sort by return rate descending
+    let sorted = [...rankings].sort((a, b) => {
+      return parseFloat(b.returnRate) - parseFloat(a.returnRate);
+    });
 
     container.innerHTML = sorted.map((item, idx) => {
       const isFit = dnaType && item.dnaFit.includes(dnaType);
@@ -902,38 +908,75 @@
     }).join('');
   }
 
+  // ========== Video AI Comments Data ==========
+  const videoComments = {
+    '张大牛': [
+      { user: '小鱼儿', avatar: '👧', text: '@张大牛.ai 消费板块下半年还能布局吗？', likes: 328 },
+      { user: '老陈', avatar: '👦', text: '@张大牛.ai 白酒还值得持有吗？', likes: 215 }
+    ],
+    '李策略': [
+      { user: '阿杰', avatar: '👦', text: '@李策略.ai 三个信号具体指什么？', likes: 456 },
+      { user: '月月', avatar: '👧', text: '@李策略.ai 新能源现在上车晚不晚？', likes: 189 }
+    ],
+    '王稳健': [
+      { user: '大壮', avatar: '👦', text: '@王稳健.ai 红利策略适合新手吗？', likes: 521 },
+      { user: '豆豆', avatar: '👧', text: '@王稳健.ai 天花板到了是不是该卖？', likes: 167 }
+    ]
+  };
+
   // ========== Render Videos ==========
   function renderVideos() {
     const container = document.getElementById('videos-container');
     container.innerHTML = videos.map(v => {
       const encodedTitle = encodeURIComponent(v.title);
       const encodedAuthor = encodeURIComponent(v.author);
+      const comments = videoComments[v.author] || [];
+      const commentsHTML = comments.map(c =>
+        '<div class="flex items-start gap-1.5 mt-1.5">'
+        + '<div class="w-4 h-4 rounded-full bg-gray-100 flex items-center justify-center text-[7px] flex-shrink-0">' + c.avatar + '</div>'
+        + '<div class="flex-1 min-w-0">'
+        + '<span class="text-[9px] text-primary font-medium">' + c.user + '</span>'
+        + '<span class="text-[9px] text-textSub ml-0.5 break-all">' + c.text + '</span>'
+        + '<div class="flex items-center gap-0.5 mt-0.5">'
+        + '<iconify-icon class="text-[8px] text-textAssist" icon="solar:like-linear"></iconify-icon>'
+        + '<span class="text-[8px] text-textAssist">' + c.likes + '</span>'
+        + '</div>'
+        + '</div>'
+        + '</div>'
+      ).join('');
+
       return `
-      <a href="video_detail.html?title=${encodedTitle}&author=${encodedAuthor}" class="min-w-[220px] max-w-[220px] video-card">
-        <div class="relative rounded-2xl overflow-hidden mb-2">
-          <div class="w-full h-[130px] bg-gradient-to-br ${v.gradient} flex items-center justify-center">
-            <div class="w-10 h-10 bg-white/30 rounded-full flex items-center justify-center backdrop-blur-sm">
-              <iconify-icon class="text-white text-xl ml-0.5" icon="solar:play-bold"></iconify-icon>
+      <div class="min-w-[220px] max-w-[220px]">
+        <a href="video_detail.html?title=${encodedTitle}&author=${encodedAuthor}" class="block video-card">
+          <div class="relative rounded-2xl overflow-hidden mb-2">
+            <div class="w-full h-[130px] bg-gradient-to-br ${v.gradient} flex items-center justify-center">
+              <div class="w-10 h-10 bg-white/30 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <iconify-icon class="text-white text-xl ml-0.5" icon="solar:play-bold"></iconify-icon>
+              </div>
+            </div>
+            <div class="absolute bottom-2 right-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded-md font-medium">
+              ${v.duration}
             </div>
           </div>
-          <div class="absolute bottom-2 right-2 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded-md font-medium">
-            ${v.duration}
-          </div>
-        </div>
-        <h3 class="text-sm font-bold text-textMain leading-snug mb-1.5 line-clamp-2">${v.title}</h3>
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-1.5">
-            <div class="w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center text-[9px] font-bold text-textSub">
-              ${v.author.charAt(0)}
+          <h3 class="text-sm font-bold text-textMain leading-snug mb-1.5 line-clamp-2">${v.title}</h3>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <div class="w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center text-[9px] font-bold text-textSub">
+                ${v.author.charAt(0)}
+              </div>
+              <span class="text-[11px] text-textAssist">${v.author}</span>
+              <span class="text-[9px] bg-primary/10 text-primary px-1 py-0.5 rounded">AI分身</span>
             </div>
-            <span class="text-[11px] text-textAssist">${v.author}</span>
+            <div class="flex items-center gap-0.5 text-textAssist">
+              <iconify-icon class="text-xs" icon="solar:eye-bold"></iconify-icon>
+              <span class="text-[10px]">${v.views}</span>
+            </div>
           </div>
-          <div class="flex items-center gap-0.5 text-textAssist">
-            <iconify-icon class="text-xs" icon="solar:eye-bold"></iconify-icon>
-            <span class="text-[10px]">${v.views}</span>
-          </div>
+        </a>
+        <div class="bg-white rounded-xl p-2 mt-1.5 border border-gray-50">
+          ${commentsHTML}
         </div>
-      </a>
+      </div>
     `;
     }).join('');
   }

@@ -47,9 +47,9 @@
 </header>
 <!-- 一级 Tab 切换 -->
 <div class="bg-white flex px-4 border-b border-gray-100 sticky top-[52px] z-40">
-<button class="flex-1 py-3 text-sm tab-active" id="tab-bull" onclick="switchTab('bull')">大牛持仓</button>
-<button class="flex-1 py-3 text-sm text-textSub" id="tab-hot" onclick="switchTab('hot')">游资动向</button>
-<button class="flex-1 py-3 text-sm text-textSub" id="tab-private" onclick="switchTab('private')">私募持仓</button>
+<button class="flex-1 py-3 text-sm tab-active" id="tab-bull" onclick="switchTab('bull')">👀大牛</button>
+<button class="flex-1 py-3 text-sm text-textSub" id="tab-hot" onclick="switchTab('hot')">👀游资</button>
+<button class="flex-1 py-3 text-sm text-textSub" id="tab-private" onclick="switchTab('private')">👀私募</button>
 </div>
 <!-- 榜单规则说明 -->
 <div class="px-4 py-2 bg-orange-50 flex justify-between items-center">
@@ -65,12 +65,6 @@
 </div>
 <!-- 榜单列表内容 -->
 <main class="flex-1 overflow-y-auto pb-24 px-4 pt-2">
-<div class="flex items-center justify-between mb-3 px-1">
-<div>
-<h2 class="text-sm font-bold">候选名单</h2>
-<p class="text-[10px] text-textAssist mt-0.5">按模拟样本、成功率和回撤稳定性综合排序</p>
-</div>
-</div>
 <div class="space-y-3" id="list-container">
 <!-- 数据由 JS 动态渲染 -->
 </div>
@@ -193,50 +187,52 @@
             const container = document.getElementById('list-container');
             const data = mockData[type];
             container.innerHTML = data.map((item, index) => `
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-50 active:bg-gray-50 transition-colors" onclick="location.href='portfolio.html?id=${item.id}'">
-                    <div class="flex items-start justify-between gap-3">
-                        <div class="flex items-center gap-3 min-w-0">
-                            <div class="relative flex-shrink-0">
-                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
-                                    ${item.avatar.length > 2 ? item.avatar : item.avatar}
-                                </div>
-                                ${index < 3 ? `<div class="absolute -top-1 -left-1 w-5 h-5 ${index === 0 ? 'bg-yellow-400' : index === 1 ? 'bg-gray-300' : 'bg-orange-400'} rounded-full flex items-center justify-center text-[10px] text-white border-2 border-white">${index + 1}</div>` : ''}
-                            </div>
-                            <div class="min-w-0">
-                                <div class="flex items-center gap-2">
-                                    <span class="font-bold truncate">${item.name}</span>
-                                    <span class="text-[9px] bg-orange-50 text-secondary px-1.5 py-0.5 rounded">${item.riskLevel}</span>
-                                </div>
-                                <div class="flex flex-wrap gap-1 mt-1">
-                                    ${item.tags.map(tag => `<span class="text-[9px] bg-bgMain px-1.5 py-0.5 rounded text-textAssist">${tag}</span>`).join('')}
-                                </div>
-                                <div class="text-[9px] text-textAssist mt-1">${item.sampleSize} · ${item.disclosureLag}</div>
-                            </div>
-                        </div>
-                        <button onclick="event.stopPropagation(); toggleFollow(this)" class="text-[10px] px-3 py-1.5 rounded-full border flex-shrink-0 ${item.followed ? 'bg-gray-100 text-textAssist border-gray-100' : 'border-primary text-primary'}">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-50 active:bg-gray-50 transition-colors overflow-hidden" onclick="location.href='portfolio.html?id=${item.id}'">
+                    <!-- Hero: 成功率 -->
+                    <div class="px-4 pt-4 pb-3 text-center relative">
+                        ${index < 3 ? `<div class="absolute top-3 left-3 w-6 h-6 ${index === 0 ? 'bg-yellow-400' : index === 1 ? 'bg-gray-300' : 'bg-orange-400'} rounded-full flex items-center justify-center text-[10px] text-white font-bold border-2 border-white">${index + 1}</div>` : ''}
+                        <button onclick="event.stopPropagation(); toggleFollow(this)" class="absolute top-3 right-3 text-[10px] px-3 py-1 rounded-full border flex-shrink-0 ${item.followed ? 'bg-gray-100 text-textAssist border-gray-100' : 'border-primary text-primary'}">
                             ${item.followed ? '已关注' : '+ 关注'}
                         </button>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2 mt-4">
-                        <div class="bg-red-50 rounded-xl p-3">
-                            <div class="text-[10px] text-textAssist">成功率</div>
-                            <div class="text-2xl font-bold text-up leading-tight mt-1">${item.successRate}</div>
-                        </div>
-                        <div class="bg-green-50 rounded-xl p-3">
-                            <div class="text-[10px] text-textAssist">最大回撤</div>
-                            <div class="text-2xl font-bold text-down leading-tight mt-1">${item.maxDrawdown}</div>
+                        <div class="text-[10px] text-textAssist mb-1">胜率</div>
+                        <div class="text-4xl font-black text-up leading-none">${item.successRate}</div>
+                        <div class="flex items-center justify-center gap-3 mt-2">
+                            <span class="text-[11px] text-textAssist">回撤 <span class="text-down font-semibold">${item.maxDrawdown}</span></span>
+                            <span class="text-[10px] text-textAssist">·</span>
+                            <span class="text-[11px] text-textAssist">${item.riskLevel}</span>
                         </div>
                     </div>
-                    <div class="mt-2 flex items-center gap-1 text-[10px] text-primary">
-                        <iconify-icon icon="solar:star-bold" class="text-xs"></iconify-icon>
-                        <span>${item.fitReason}</span>
+                    <!-- Body: 名称 + 标签 -->
+                    <div class="px-4 pb-3 border-t border-gray-50 pt-3">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-xs flex-shrink-0">
+                                ${item.avatar}
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <span class="font-bold text-sm text-textMain truncate block">${item.name}</span>
+                                <div class="text-[9px] text-textAssist">${item.sampleSize} · ${item.disclosureLag}</div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-1">
+                            ${item.tags.map(tag => `<span class="text-[9px] bg-bgMain px-1.5 py-0.5 rounded text-textAssist">${tag}</span>`).join('')}
+                        </div>
                     </div>
-                    <div class="mt-1.5 flex flex-wrap gap-1">
+                    <!-- AI 推荐 -->
+                    <div class="px-4 pb-3">
+                        <div class="bg-primary/5 rounded-xl p-2.5 flex items-start gap-1.5">
+                            <iconify-icon icon="solar:star-bold" class="text-primary text-sm mt-0.5 flex-shrink-0"></iconify-icon>
+                            <span class="text-[11px] text-textSub leading-relaxed">${item.fitReason}</span>
+                        </div>
+                    </div>
+                    <!-- DNA 匹配标签 -->
+                    ${getDimensionMatches(item.dnaDimensions).length > 0 ? `
+                    <div class="px-4 pb-3 flex flex-wrap gap-1">
                       ${getDimensionMatches(item.dnaDimensions).map(m => `<span class="text-[9px] bg-primary/10 text-primary px-1.5 py-0.5 rounded">${m} ✓</span>`).join('')}
-                    </div>
-                    <div class="mt-3 flex items-center justify-between gap-3 border-t border-dashed border-gray-100 pt-3">
-                        <div class="text-[11px] text-textSub truncate">风格匹配：<span class="font-bold text-textMain">${item.fit}</span></div>
-                        <div class="text-[10px] text-primary flex items-center gap-0.5 flex-shrink-0">
+                    </div>` : ''}
+                    <!-- Footer CTA -->
+                    <div class="px-4 pb-4 flex items-center justify-between border-t border-dashed border-gray-100 pt-3">
+                        <div class="text-[11px] text-textSub">风格：<span class="font-bold text-textMain">${item.fit}</span></div>
+                        <div class="text-[10px] text-primary flex items-center gap-0.5 font-medium">
                             查看持仓
                             <iconify-icon icon="solar:alt-arrow-right-linear"></iconify-icon>
                         </div>

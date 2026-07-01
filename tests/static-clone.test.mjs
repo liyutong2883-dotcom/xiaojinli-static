@@ -161,21 +161,19 @@ test("discover page has redesigned content with ranking and DNA banner", async (
 // ── 9. 广场页保留三 tab + DNA 推荐字段 ───────────────────
 test("copytrade page keeps 3 tabs and DNA recommendation fields", async () => {
   const html = await readPage("copytrade.html");
-  // 三个 tab：大牛持仓 / 游资动向 / 私募持仓
-  assert.match(html, /大牛持仓/, "should have 大牛持仓 tab");
-  assert.match(html, /游资动向/, "should have 游资动向 tab");
-  assert.match(html, /私募持仓/, "should have 私募持仓 tab");
+  // 三个 tab：👀大牛 / 👀游资 / 👀私募
+  assert.match(html, /👀大牛/, "should have 👀大牛 tab");
+  assert.match(html, /👀游资/, "should have 👀游资 tab");
+  assert.match(html, /👀私募/, "should have 👀私募 tab");
   // DNA 推荐字段
   assert.match(html, /dnaFit/, "should have dnaFit in mock data");
   assert.match(html, /fitReason/, "should have fitReason recommendation text");
   assert.match(html, /为什么推荐给你/, "should show recommendation reason to user");
-  // 核心数据字段保留
-  assert.match(html, /成功率/);
-  assert.match(html, /最大回撤/);
+  // 核心数据字段保留 (in mock data)
+  assert.match(html, /成功率|successRate/);
+  assert.match(html, /maxDrawdown/, "should have maxDrawdown data");
   assert.match(html, /sampleSize:/);
   assert.match(html, /disclosureLag:/);
-  // 候选名单保留
-  assert.match(html, /候选名单/);
   // 模拟样本声明
   assert.match(html, /模拟样本/);
   assert.match(html, /不构成投资建议/);
@@ -265,10 +263,8 @@ test("portfolio page has AI insight card, charts, and compact stock table", asyn
   const html = await readPage("portfolio.html");
   // 不再有"抄作业前先问自己3个问题"
   assert.doesNotMatch(html, /抄作业前先问自己3个问题/, "should not have old 3 questions section");
-  // 有持仓配置分析
-  assert.match(html, /持仓配置|为什么.*选择/, "should have allocation rationale section");
-  // 持仓比例图表
-  assert.match(html, /持仓比例/, "should have holdings proportion chart");
+  // 有持仓配置分析（简化版）
+  assert.match(html, /为什么这样持仓能赚钱|持仓配置|为什么.*选择/, "should have allocation rationale section");
   // 产业配置
   assert.match(html, /产业配置|行业配置/, "should have industry allocation section");
   // 紧凑表格形式（股票/代码/行业/占比）

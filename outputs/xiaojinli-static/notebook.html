@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>小金鲤 - 我的作业本</title>
+<script src="assets/vendor/tailwindcss.js"></script>
+<script src="assets/vendor/iconify-icon.min.js"></script>
+<script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FFB800',
+                        secondary: '#FF6B00',
+                        bgMain: '#F8F9FC',
+                        textMain: '#1A1A2E',
+                        textSub: '#666666',
+                        textAssist: '#999999',
+                        up: '#FF4D4F',
+                        down: '#52C41A'
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+    </style>
+</head>
+<body class="bg-bgMain text-textMain">
+<div class="max-w-[414px] mx-auto min-h-screen flex flex-col relative bg-bgMain shadow-xl">
+<!-- 顶部品牌栏 -->
+<header class="sticky top-0 z-50 bg-primary px-4 py-3 flex justify-between items-center shadow-md text-white">
+<div class="flex items-center gap-3">
+<a href="profile.html"><iconify-icon class="text-2xl" icon="solar:alt-arrow-left-linear"></iconify-icon></a>
+<span class="font-bold">我的作业本</span>
+</div>
+<iconify-icon class="text-2xl" icon="solar:magnifer-linear"></iconify-icon>
+</header>
+
+<main class="flex-1 overflow-y-auto pb-24">
+<!-- 统计概览 -->
+<section class="px-4 pt-4">
+<div class="bg-gradient-to-br from-primary/10 via-amber-50 to-secondary/10 rounded-2xl p-4 border border-orange-100">
+<div class="grid grid-cols-3 gap-3 text-center">
+<div>
+<div class="text-2xl font-black text-primary">12</div>
+<div class="text-[10px] text-textSub mt-0.5">跟投作业</div>
+</div>
+<div>
+<div class="text-2xl font-black text-up">+8.3%</div>
+<div class="text-[10px] text-textSub mt-0.5">累计收益</div>
+</div>
+<div>
+<div class="text-2xl font-black text-secondary">3</div>
+<div class="text-[10px] text-textSub mt-0.5">关注的大牛</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 作业列表 -->
+<section class="px-4 mt-4">
+<h2 class="text-sm font-bold mb-3">最近作业</h2>
+<div class="space-y-3">
+<!-- 作业卡片 1 -->
+<a class="bg-white rounded-2xl p-4 shadow-sm border border-gray-50 active:bg-gray-50 block" href="portfolio.html?id=1">
+<div class="flex items-start justify-between gap-3">
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-bold truncate">睿远均衡</span>
+<span class="text-[9px] bg-orange-50 text-secondary px-1.5 py-0.5 rounded">中低风险</span>
+</div>
+<div class="text-[10px] text-textAssist mt-1">跟投时间：2024-06-20</div>
+<div class="mt-2 flex items-center gap-2">
+<div class="bg-red-50 rounded-lg px-2 py-1">
+<span class="text-[10px] text-textAssist">收益</span>
+<div class="text-sm font-bold text-up">+5.24%</div>
+</div>
+<div class="bg-blue-50 rounded-lg px-2 py-1">
+<span class="text-[10px] text-textAssist">持仓</span>
+<div class="text-sm font-bold text-textMain">12只</div>
+</div>
+</div>
+</div>
+<iconify-icon class="text-textAssist text-xl flex-shrink-0 mt-1" icon="solar:alt-arrow-right-linear"></iconify-icon>
+</div>
+</a>
+
+<!-- 作业卡片 2 -->
+<a class="bg-white rounded-2xl p-4 shadow-sm border border-gray-50 active:bg-gray-50 block" href="portfolio.html?id=2">
+<div class="flex items-start justify-between gap-3">
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-bold truncate">易方达蓝筹</span>
+<span class="text-[9px] bg-orange-50 text-secondary px-1.5 py-0.5 rounded">中等波动</span>
+</div>
+<div class="text-[10px] text-textAssist mt-1">跟投时间：2024-06-18</div>
+<div class="mt-2 flex items-center gap-2">
+<div class="bg-green-50 rounded-lg px-2 py-1">
+<span class="text-[10px] text-textAssist">收益</span>
+<div class="text-sm font-bold text-down">-1.23%</div>
+</div>
+<div class="bg-blue-50 rounded-lg px-2 py-1">
+<span class="text-[10px] text-textAssist">持仓</span>
+<div class="text-sm font-bold text-textMain">8只</div>
+</div>
+</div>
+</div>
+<iconify-icon class="text-textAssist text-xl flex-shrink-0 mt-1" icon="solar:alt-arrow-right-linear"></iconify-icon>
+</div>
+</a>
+
+<!-- 作业卡片 3 -->
+<a class="bg-white rounded-2xl p-4 shadow-sm border border-gray-50 active:bg-gray-50 block" href="portfolio.html?id=3">
+<div class="flex items-start justify-between gap-3">
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-bold truncate">兴证全球</span>
+<span class="text-[9px] bg-orange-50 text-secondary px-1.5 py-0.5 rounded">均衡配置</span>
+</div>
+<div class="text-[10px] text-textAssist mt-1">跟投时间：2024-06-15</div>
+<div class="mt-2 flex items-center gap-2">
+<div class="bg-red-50 rounded-lg px-2 py-1">
+<span class="text-[10px] text-textAssist">收益</span>
+<div class="text-sm font-bold text-up">+3.18%</div>
+</div>
+<div class="bg-blue-50 rounded-lg px-2 py-1">
+<span class="text-[10px] text-textAssist">持仓</span>
+<div class="text-sm font-bold text-textMain">10只</div>
+</div>
+</div>
+</div>
+<iconify-icon class="text-textAssist text-xl flex-shrink-0 mt-1" icon="solar:alt-arrow-right-linear"></iconify-icon>
+</div>
+</a>
+</div>
+
+<!-- 查看更多 -->
+<div class="mt-4 text-center">
+<button class="text-xs text-primary font-medium">查看全部作业 →</button>
+</div>
+</section>
+
+<!-- 学习提示 -->
+<section class="px-4 mt-6 mb-6">
+<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-50">
+<div class="flex items-start gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+<span class="text-xl">💡</span>
+</div>
+<div>
+<div class="text-sm font-bold mb-1">新手建议</div>
+<p class="text-[11px] text-textSub leading-relaxed">刚开始跟投？建议先从低风险的组合开始，观察一段时间后再逐步增加投入。记得定期查看持仓变化哦～</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+
+<!-- 底部导航 -->
+<nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-4 py-3 flex justify-between items-center z-50 safe-bottom">
+<a class="flex flex-col items-center gap-1 text-textAssist" href="discover.html">
+<iconify-icon class="text-2xl" icon="solar:home-smile-angle-linear"></iconify-icon>
+<span class="text-[10px]">发现</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-textAssist" href="copytrade.html">
+<iconify-icon class="text-2xl" icon="solar:copy-bold"></iconify-icon>
+<span class="text-[10px]">广场</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-textAssist" href="toolbox.html">
+<iconify-icon class="text-2xl" icon="solar:box-bold"></iconify-icon>
+<span class="text-[10px]">仓库</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="profile.html">
+<iconify-icon class="text-2xl" icon="solar:user-bold"></iconify-icon>
+<span class="text-[10px] font-bold">我的</span>
+</a>
+</nav>
+
+<!-- 全局浮窗 -->
+<div class="fixed right-4 bottom-24 z-[60] cursor-pointer" onclick="location.href='ai_assistant.html'">
+<div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+<span class="text-2xl">🐟</span>
+</div>
+</div>
+</div>
+</body>
+</html>

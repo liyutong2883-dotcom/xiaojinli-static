@@ -38,7 +38,6 @@
 
         /* Tag pills */
         .tag { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 3px; background: #FFF8E6; color: #B8860B; font-weight: 500; line-height: 1.6; }
-        .tag-dna { background: #FFF0E6; color: #FF6B00; }
         .tag-homework { background: #F0F9FF; color: #0284C7; }
 
         /* Fund row */
@@ -47,9 +46,6 @@
 
         /* Column header */
         .col-header { font-size: 11px; color: #999; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
-
-        /* DNA match badge */
-        .dna-match { display: inline-flex; align-items: center; gap: 2px; font-size: 10px; color: #FF6B00; background: #FFF0E6; padding: 1px 6px; border-radius: 99px; font-weight: 600; }
     </style>
 </head>
 <body class="bg-white text-textMain">
@@ -116,14 +112,14 @@
 </div>
 <script>
     var funds = [
-        { name: '广发全球精选股票(QDII)A', code: '270023', nav: 7.5358, navDate: '06-30', change: '+2.63%', up: true, totalReturn: '+12.63%', totalUp: true, days: '19天', homework: '睿远均衡', dnaMatch: 92, tags: ['高夏普比率', '作业推荐'] },
-        { name: '易方达全球优质企业混合(QDII)A', code: '018229', nav: 2.6418, navDate: '06-30', change: '+2.97%', up: true, totalReturn: '+19.64%', totalUp: true, days: '19天', homework: '易方达蓝筹', dnaMatch: 88, tags: ['作业推荐'] },
-        { name: '南方红利低波50ETF联接A', code: '008163', nav: 0.9861, navDate: '06-30', change: '+1.30%', up: true, totalReturn: '-6.89%', totalUp: false, days: '19天', homework: '高毅资产', dnaMatch: 95, tags: ['金选', '低回撤率', 'DNA匹配'] },
-        { name: '建信新兴市场优选混合(QDII)C', code: '018147', nav: 2.8030, navDate: '06-30', change: '+2.79%', up: true, totalReturn: '+5.57%', totalUp: true, days: '28天', homework: '景林资产', dnaMatch: 78, tags: ['高夏普比率'] },
-        { name: '易方达全球成长精选混合(QDII)A', code: '012920', nav: 5.2809, navDate: '06-30', change: '+4.29%', up: true, totalReturn: '+82.33%', totalUp: true, days: '128天', homework: '淡水泉', dnaMatch: 85, tags: ['作业推荐'] },
-        { name: '易方达成长动力混合A', code: '014727', nav: 3.6721, navDate: '06-30', change: '-1.86%', up: false, totalReturn: '+55.70%', totalUp: true, days: '128天', homework: '中欧医疗', dnaMatch: 72, tags: ['跑赢赛道', '高夏普比率'] },
-        { name: '沪深300ETF', code: '510300', nav: 4.1256, navDate: '06-30', change: '+1.52%', up: true, totalReturn: '+8.45%', totalUp: true, days: '45天', homework: '兴证全球', dnaMatch: 90, tags: ['指数基金', 'DNA匹配'] },
-        { name: '通信ETF', code: '515880', nav: 1.2450, navDate: '06-30', change: '+2.48%', up: true, totalReturn: '+11.2%', totalUp: true, days: '30天', homework: '章盟主', dnaMatch: 68, tags: ['行业型', '作业推荐'] }
+        { name: '广发全球精选股票(QDII)A', code: '270023', nav: 7.5358, navDate: '06-30', change: '+2.63%', up: true, totalReturn: '+12.63%', totalUp: true, days: '19天', homework: '睿远均衡', tags: ['高夏普比率', '作业推荐'] },
+        { name: '易方达全球优质企业混合(QDII)A', code: '018229', nav: 2.6418, navDate: '06-30', change: '+2.97%', up: true, totalReturn: '+19.64%', totalUp: true, days: '19天', homework: '易方达蓝筹', tags: ['作业推荐'] },
+        { name: '南方红利低波50ETF联接A', code: '008163', nav: 0.9861, navDate: '06-30', change: '+1.30%', up: true, totalReturn: '-6.89%', totalUp: false, days: '19天', homework: '高毅资产', tags: ['金选', '低回撤率'] },
+        { name: '建信新兴市场优选混合(QDII)C', code: '018147', nav: 2.8030, navDate: '06-30', change: '+2.79%', up: true, totalReturn: '+5.57%', totalUp: true, days: '28天', homework: '景林资产', tags: ['高夏普比率'] },
+        { name: '易方达全球成长精选混合(QDII)A', code: '012920', nav: 5.2809, navDate: '06-30', change: '+4.29%', up: true, totalReturn: '+82.33%', totalUp: true, days: '128天', homework: '淡水泉', tags: ['作业推荐'] },
+        { name: '易方达成长动力混合A', code: '014727', nav: 3.6721, navDate: '06-30', change: '-1.86%', up: false, totalReturn: '+55.70%', totalUp: true, days: '128天', homework: '中欧医疗', tags: ['跑赢赛道', '高夏普比率'] },
+        { name: '沪深300ETF', code: '510300', nav: 4.1256, navDate: '06-30', change: '+1.52%', up: true, totalReturn: '+8.45%', totalUp: true, days: '45天', homework: '兴证全球', tags: ['指数基金'] },
+        { name: '通信ETF', code: '515880', nav: 1.2450, navDate: '06-30', change: '+2.48%', up: true, totalReturn: '+11.2%', totalUp: true, days: '30天', homework: '章盟主', tags: ['行业型', '作业推荐'] }
     ];
 
     function renderFunds() {
@@ -132,19 +128,15 @@
             var returnColor = f.totalUp ? 'text-up' : 'text-down';
             var tagsHtml = f.tags.map(function(t) {
                 var cls = 'tag';
-                if (t === 'DNA匹配') cls = 'tag-dna';
-                else if (t === '作业推荐') cls = 'tag-homework';
+                if (t === '作业推荐') cls = 'tag-homework';
                 return '<span class="' + cls + '">' + t + '</span>';
             }).join(' ');
-
-            var dnaHtml = f.dnaMatch >= 85 ? '<span class="dna-match">🐟 ' + f.dnaMatch + '%</span>' : '';
 
             return '<div class="fund-row">' +
                 '<div>' +
                     '<div class="text-sm font-bold leading-tight">' + f.name + '</div>' +
                     '<div class="text-[11px] text-textAssist mt-1 flex items-center gap-1.5 flex-wrap">' +
                         '<span>' + f.code + '</span>' +
-                        dnaHtml +
                         tagsHtml +
                     '</div>' +
                 '</div>' +

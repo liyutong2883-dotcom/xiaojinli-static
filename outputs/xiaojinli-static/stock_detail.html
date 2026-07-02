@@ -436,5 +436,15 @@
             document.body.style.overflow = '';
         }
     </script>
+<script id="__tailwind_fouc_fix">
+(function(){
+  function reveal(){ document.body.style.opacity = '1'; }
+  // Tailwind Play CDN sets this after processing
+  if (document.readyState === 'complete') { setTimeout(reveal, 100); }
+  else { window.addEventListener('load', function(){ setTimeout(reveal, 100); }); }
+  // Fallback: force reveal after 1.5s no matter what
+  setTimeout(reveal, 1500);
+})();
+</script>
 </body>
 </html>

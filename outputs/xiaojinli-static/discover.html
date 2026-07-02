@@ -96,8 +96,8 @@
 
   .trait-card {
     background: #F8F9FC;
-    border-radius: 12px;
-    padding: 10px 12px;
+    border-radius: 8px;
+    padding: 6px 4px;
     text-align: center;
   }
 
@@ -802,16 +802,16 @@
         var catKey = dna.dimensionMap[dimKey];
         var cat = dim.categories[catKey];
         traitsHTML += '<div class="trait-card">'
-          + '<div class="text-xs font-bold text-textMain leading-tight">' + cat.label + '</div>'
-          + '<div class="text-[10px] text-textAssist mt-0.5">' + dim.label + '</div>'
+          + '<div class="text-[11px] font-bold text-textMain leading-tight">' + cat.label + '</div>'
+          + '<div class="text-[9px] text-textAssist mt-0.5">' + dim.label + '</div>'
           + '</div>';
       });
     } else {
       // Fallback to hardcoded traits if no dimensionMap
       dna.traits.forEach(function(t) {
         traitsHTML += '<div class="trait-card">'
-          + '<div class="text-xs font-bold text-textMain leading-tight">' + t.label + '</div>'
-          + (t.sub ? '<div class="text-[10px] text-textAssist mt-0.5">' + t.sub + '</div>' : '')
+          + '<div class="text-[11px] font-bold text-textMain leading-tight">' + t.label + '</div>'
+          + (t.sub ? '<div class="text-[9px] text-textAssist mt-0.5">' + t.sub + '</div>' : '')
           + '</div>';
       });
     }
@@ -831,7 +831,7 @@
       +     '<div class="font-bold text-base text-textMain">' + dna.emoji + ' 小' + dna.name + '｜' + dna.investorType + '｜全国仅有' + dna.percent + '</div>'
       +   '</div>'
       +   '<div class="text-center text-xs text-textSub mb-4 leading-relaxed px-2">' + dna.subtitle + '</div>'
-      +   '<div class="grid grid-cols-2 gap-2 mb-4">'
+      +   '<div class="grid grid-cols-4 gap-1.5 mb-4">'
       +     traitsHTML
       +   '</div>'
       // 日签融合区

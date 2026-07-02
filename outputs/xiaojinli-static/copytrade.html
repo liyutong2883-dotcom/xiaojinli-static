@@ -30,6 +30,13 @@
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
         .tab-active { color: #FFB800; border-bottom: 3px solid #FFB800; font-weight: bold; }
         .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+        @keyframes fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .guide-overlay { position: fixed; inset: 0; z-index: 998; background: rgba(0,0,0,0.35); animation: fade-in 0.25s ease forwards; }
+        .guide-tooltip { position: absolute; z-index: 999; background: #1A1A2E; color: white; border-radius: 12px; padding: 12px 16px; font-size: 12px; line-height: 1.6; max-width: 280px; box-shadow: 0 8px 24px rgba(0,0,0,0.25); animation: fade-in 0.3s ease forwards; }
+        .guide-tooltip::after { content: ''; position: absolute; width: 10px; height: 10px; background: #1A1A2E; transform: rotate(45deg); }
+        .guide-tooltip.arrow-top::after { top: -5px; left: 24px; }
+        .guide-tooltip.arrow-bottom::after { bottom: -5px; left: 24px; }
+        .guide-tooltip .guide-close { display: inline-block; margin-top: 8px; background: #FFB800; color: #1A1A2E; border: none; border-radius: 6px; padding: 4px 14px; font-size: 11px; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body class="bg-bgMain text-textMain">
@@ -86,6 +93,15 @@
 <div class="fixed right-4 bottom-24 z-[60] cursor-pointer" onclick="location.href='ai_assistant.html'">
 <div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg border-2 border-white">
 <span class="text-2xl">🐟</span>
+</div>
+</div>
+<!-- 首次访问引导气泡 -->
+<div id="guide-copytrade" class="hidden">
+<div class="guide-overlay" onclick="dismissGuide('copytrade')"></div>
+<div class="guide-tooltip arrow-top" style="top: 140px; left: 16px; right: 16px; max-width: none;">
+<div class="font-bold mb-1">📋 广场 — 投资高手的作业池</div>
+<div>这里汇集了各类投资高手的组合，你可以直接关注并跟踪他们的操作。系统会根据你的投资 DNA 智能排序，最适合你的排在前面。</div>
+<button class="guide-close" onclick="dismissGuide('copytrade')">我知道了</button>
 </div>
 </div>
 </div>
@@ -249,6 +265,16 @@
 
         // 初始渲染
         renderList();
+
+        // ========== 首次访问引导 ==========
+        function dismissGuide(page) {
+            localStorage.setItem('guide_' + page + '_shown', '1');
+            var el = document.getElementById('guide-' + page);
+            if (el) el.classList.add('hidden');
+        }
+        if (!localStorage.getItem('guide_copytrade_shown')) {
+            document.getElementById('guide-copytrade').classList.remove('hidden');
+        }
     </script>
 </body>
 </html>

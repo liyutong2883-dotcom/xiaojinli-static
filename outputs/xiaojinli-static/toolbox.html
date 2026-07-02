@@ -31,6 +31,18 @@
         .tag-active { background-color: #FFB800; color: white; border-color: #FFB800; }
         .idea-tab-active { background-color: white; color: #1A1A2E; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
         .square-filter-active { background-color: #1A1A2E; color: white; }
+        @keyframes fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .guide-overlay { position: fixed; inset: 0; z-index: 998; background: rgba(0,0,0,0.35); animation: fade-in 0.25s ease forwards; }
+        .guide-tooltip { position: absolute; z-index: 999; background: #1A1A2E; color: white; border-radius: 12px; padding: 12px 16px; font-size: 12px; line-height: 1.6; max-width: 280px; box-shadow: 0 8px 24px rgba(0,0,0,0.25); animation: fade-in 0.3s ease forwards; }
+        .guide-tooltip::after { content: ''; position: absolute; width: 10px; height: 10px; background: #1A1A2E; transform: rotate(45deg); }
+        .guide-tooltip.arrow-top::after { top: -5px; left: 24px; }
+        .guide-tooltip.arrow-bottom::after { bottom: -5px; left: 24px; }
+        .guide-tooltip .guide-close { display: inline-block; margin-top: 8px; background: #FFB800; color: #1A1A2E; border: none; border-radius: 6px; padding: 4px 14px; font-size: 11px; font-weight: 700; cursor: pointer; }
+        .modal-overlay { position: fixed; inset: 0; z-index: 900; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; animation: fade-in 0.2s ease forwards; }
+        .modal-box { background: white; border-radius: 16px; padding: 24px; width: 300px; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
+        .modal-box h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+        .modal-box p { font-size: 12px; color: #666; line-height: 1.6; margin-bottom: 16px; }
+        .modal-box button { background: #FFB800; color: white; border: none; border-radius: 10px; padding: 8px 28px; font-size: 13px; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body class="bg-bgMain text-textMain">
@@ -41,7 +53,7 @@
 <span class="text-2xl">🐟</span>
 <span>小金鲤灵感</span>
 </div>
-<iconify-icon class="text-2xl text-white" icon="solar:settings-bold"></iconify-icon>
+<iconify-icon class="text-2xl text-white cursor-pointer" icon="solar:settings-bold" onclick="document.getElementById('settings-modal').classList.remove('hidden')"></iconify-icon>
 </header>
 <main class="flex-1 overflow-y-auto pb-24">
 <!-- Section 3: 灵感 (三合一) -->
@@ -574,6 +586,25 @@
 <span class="text-2xl">🐟</span>
 </div>
 </div>
+<!-- 首次访问引导气泡 -->
+<div id="guide-toolbox" class="hidden">
+<div class="guide-overlay" onclick="dismissGuide('toolbox')"></div>
+<div class="guide-tooltip arrow-top" style="top: 130px; left: 16px; right: 16px; max-width: none;">
+<div class="font-bold mb-1">💡 灵感 — AI 帮你选策略</div>
+<div>用一句话描述你的投资想法，AI 帮你生成专属选股策略。也可以在灵感广场看看别人的策略，或者管理自己已关注的灵感条件。</div>
+<button class="guide-close" onclick="dismissGuide('toolbox')">我知道了</button>
+</div>
+</div>
+<!-- 设置弹窗 -->
+<div id="settings-modal" class="hidden">
+<div class="modal-overlay" onclick="this.parentNode.classList.add('hidden')">
+<div class="modal-box" onclick="event.stopPropagation()">
+<h3>⚙️ 灵感设置</h3>
+<p>灵感偏好设置即将上线，届时你可以在这里调整 AI 推荐风格和通知频率。敬请期待！</p>
+<button onclick="this.closest('.modal-overlay').parentNode.classList.add('hidden')">知道了</button>
+</div>
+</div>
+</div>
 </div>
 <script>
         function showResults() {
@@ -722,6 +753,16 @@
                 statusEl.innerHTML = '<span class="inline-block bg-up/10 text-up text-xs font-bold px-3 py-1 rounded-full">浮亏中，注意风险</span>';
             }
             document.getElementById('drawdown-result').classList.remove('hidden');
+        }
+
+        // ========== 首次访问引导 ==========
+        function dismissGuide(page) {
+            localStorage.setItem('guide_' + page + '_shown', '1');
+            var el = document.getElementById('guide-' + page);
+            if (el) el.classList.add('hidden');
+        }
+        if (!localStorage.getItem('guide_toolbox_shown')) {
+            document.getElementById('guide-toolbox').classList.remove('hidden');
         }
     </script>
 </body>

@@ -195,6 +195,53 @@
     left: 50%;
     transform: translateX(-50%);
   }
+  /* 首次访问引导气泡 */
+  .guide-overlay {
+    position: fixed; inset: 0; z-index: 998;
+    background: rgba(0,0,0,0.35);
+    animation: fade-in 0.25s ease forwards;
+  }
+  .guide-tooltip {
+    position: absolute; z-index: 999;
+    background: #1A1A2E; color: white;
+    border-radius: 12px; padding: 12px 16px;
+    font-size: 12px; line-height: 1.6;
+    max-width: 280px; box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    animation: fade-in 0.3s ease forwards;
+  }
+  .guide-tooltip::after {
+    content: ''; position: absolute;
+    width: 10px; height: 10px;
+    background: #1A1A2E; transform: rotate(45deg);
+  }
+  .guide-tooltip.arrow-top::after { top: -5px; left: 24px; }
+  .guide-tooltip.arrow-bottom::after { bottom: -5px; left: 24px; }
+  .guide-tooltip .guide-close {
+    display: inline-block; margin-top: 8px;
+    background: #FFB800; color: #1A1A2E;
+    border: none; border-radius: 6px;
+    padding: 4px 14px; font-size: 11px; font-weight: 700;
+    cursor: pointer;
+  }
+  /* 简易弹窗 */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 900;
+    background: rgba(0,0,0,0.4);
+    display: flex; align-items: center; justify-content: center;
+    animation: fade-in 0.2s ease forwards;
+  }
+  .modal-box {
+    background: white; border-radius: 16px;
+    padding: 24px; width: 300px; text-align: center;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  }
+  .modal-box h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .modal-box p { font-size: 12px; color: #666; line-height: 1.6; margin-bottom: 16px; }
+  .modal-box button {
+    background: #FFB800; color: white; border: none;
+    border-radius: 10px; padding: 8px 28px;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+  }
 </style>
 </head>
 <body class="bg-bgMain text-textMain">
@@ -207,7 +254,7 @@
       <span class="text-2xl">🐟</span>
       <span>小金鲤</span>
     </div>
-    <div class="relative cursor-pointer">
+    <div id="bell-btn" class="relative cursor-pointer">
       <iconify-icon class="text-2xl text-white" icon="solar:bell-bing-bold-duotone"></iconify-icon>
       <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-up rounded-full border-2 border-primary"></span>
     </div>
@@ -309,6 +356,27 @@
       </div>
       <div class="text-center mt-4">
         <a class="text-xs text-primary font-bold" href="ai_assistant.html">进入完整 AI 对话模式 &gt;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 首次访问引导气泡 -->
+  <div id="guide-discover" class="hidden">
+    <div class="guide-overlay" onclick="dismissGuide('discover')"></div>
+    <div class="guide-tooltip arrow-top" style="top: 180px; left: 16px; right: 16px; max-width: none;">
+      <div class="font-bold mb-1">👋 欢迎来到小金鲤！</div>
+      <div>这里是你专属的投资发现页。查看你的投资 DNA 画像、今日收益排行榜，还有大咖投研视频。点击右下角 🐟 可以随时问 AI 问题哦！</div>
+      <button class="guide-close" onclick="dismissGuide('discover')">我知道了</button>
+    </div>
+  </div>
+
+  <!-- 通知弹窗 -->
+  <div id="notification-modal" class="hidden">
+    <div class="modal-overlay" onclick="closeNotification()">
+      <div class="modal-box" onclick="event.stopPropagation()">
+        <h3>📬 消息通知</h3>
+        <p>暂无新通知。当有你关注的动态更新时，会在这里提醒你。</p>
+        <button onclick="closeNotification()">知道了</button>
       </div>
     </div>
   </div>
@@ -991,6 +1059,18 @@
     panel.classList.toggle('hidden');
   }
 
+  // ========== 首次访问引导 ==========
+  function dismissGuide(page) {
+    localStorage.setItem('guide_' + page + '_shown', '1');
+    var el = document.getElementById('guide-' + page);
+    if (el) el.classList.add('hidden');
+  }
+
+  // ========== 通知弹窗 ==========
+  function closeNotification() {
+    document.getElementById('notification-modal').classList.add('hidden');
+  }
+
   // ========== Init ==========
   document.addEventListener('DOMContentLoaded', function() {
     const dnaType = getUserDNA();
@@ -1006,6 +1086,16 @@
     renderVideos();
 
     document.getElementById('fab').addEventListener('click', toggleAI);
+
+    // 通知铃铛点击
+    document.getElementById('bell-btn').addEventListener('click', function() {
+      document.getElementById('notification-modal').classList.remove('hidden');
+    });
+
+    // 首次访问引导气泡
+    if (!localStorage.getItem('guide_discover_shown')) {
+      document.getElementById('guide-discover').classList.remove('hidden');
+    }
   });
 </script>
 

@@ -20,128 +20,77 @@
                         textMain: '#1F2023',
                         textSub: '#697077',
                         textAssist: '#999999',
-                        card: '#FFFFFF',
-                        line: '#EAECF0'
+                        line: '#EAECF0',
+                        tagBg: '#EBF5FF',
+                        tagText: '#2B7DE9'
                     }
                 }
             }
         }
     </script>
 <style>
-        body { font-family: 'Inter','PingFang SC','Microsoft YaHei','Helvetica Neue',sans-serif; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
         .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
 
-        /* Pill tabs */
-        .pill-tab { border-radius: 99px; min-height: 36px; padding: 0 16px; font-size: 12px; font-weight: 600; border: 1px solid #EAECF0; background: white; color: #697077; transition: all 0.2s; }
-        .pill-tab-active { background: #1F2023; color: white; border-color: #1F2023; }
+        /* Top tabs */
+        .top-tab { font-size: 14px; font-weight: 400; color: #999; padding: 0 2px; position: relative; white-space: nowrap; }
+        .top-tab-active { color: #2B7DE9; font-weight: 600; }
+        .top-tab-active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: #2B7DE9; border-radius: 1px; }
+        .top-tab-bold { font-weight: 600; color: #1F2023; }
 
-        /* Stock/Fund row */
-        .watch-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; background: white; border: 1px solid #f0f0f0; border-radius: 15px; padding: 12px 14px; min-height: 72px; transition: transform 0.15s, box-shadow 0.15s; }
-        .watch-row:active { transform: scale(0.98); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        /* Tag pills */
+        .tag { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 3px; background: #EBF5FF; color: #2B7DE9; font-weight: 500; line-height: 1.6; }
+        .tag-gold { background: #FFF8E6; color: #B8860B; }
 
-        /* Type badge */
-        .type-badge { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; flex-shrink: 0; }
-        .type-stock { background: #fff0d6; color: #79520b; }
-        .type-fund-index { background: #e7f2ee; color: #146a50; }
-        .type-fund-sector { background: #f7e8e9; color: #9b2730; }
+        /* Fund row */
+        .fund-row { display: grid; grid-template-columns: 1.3fr 0.7fr 0.6fr 0.8fr; align-items: start; padding: 14px 0; border-bottom: 1px solid #f5f5f5; }
+        .fund-row:active { background: #fafafa; }
 
-        /* Sparkline mini chart */
-        .mini-chart { width: 56px; height: 24px; }
-        .mini-chart svg { width: 100%; height: 100%; }
+        /* Column header */
+        .col-header { font-size: 11px; color: #999; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
 
-        /* Market hero gradient */
-        .market-hero { background: linear-gradient(145deg, #fffaf5 0%, #fff 58%, #fff4f0 100%); }
-
-        /* Profit tag */
-        .profit-tag { font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 600; }
-        .profit-up { background: rgba(217,45,58,0.08); color: #D92D3A; }
-        .profit-down { background: rgba(20,134,109,0.08); color: #14866D; }
-
-        /* Summary card */
-        .summary-card { background: white; border-radius: 16px; border: 1px solid #f0f0f0; padding: 14px 16px; }
-
-        /* Section eyebrow */
-        .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #999; }
+        /* Sort icon */
+        .sort-icon { display: inline-flex; flex-direction: column; vertical-align: middle; margin-left: 2px; opacity: 0.3; }
+        .sort-icon .arrow-up { font-size: 6px; line-height: 1; }
+        .sort-icon .arrow-down { font-size: 6px; line-height: 1; }
     </style>
 </head>
-<body class="bg-bgMain text-textMain">
-<div class="max-w-[414px] mx-auto min-h-screen flex flex-col relative bg-bgMain shadow-xl">
+<body class="bg-white text-textMain">
+<div class="max-w-[414px] mx-auto min-h-screen flex flex-col relative bg-white shadow-xl">
 <!-- 顶部品牌栏 -->
 <header class="sticky top-0 z-50 bg-primary px-4 py-3 flex justify-between items-center shadow-md text-white">
 <div class="flex items-center gap-3">
 <button onclick="history.back()"><iconify-icon class="text-2xl" icon="solar:alt-arrow-left-linear"></iconify-icon></button>
 <span class="font-bold text-lg">自选</span>
 </div>
-<div class="flex items-center gap-3">
-<iconify-icon class="text-xl cursor-pointer" icon="solar:magnifer-linear"></iconify-icon>
 <iconify-icon class="text-xl cursor-pointer" icon="solar:menu-dots-bold"></iconify-icon>
-</div>
 </header>
 
+<!-- Top Tabs -->
+<div class="sticky top-[52px] z-40 bg-white px-4 pt-3 pb-0 border-b border-line">
+<div class="flex items-center gap-5 overflow-x-auto">
+<button class="top-tab top-tab-active" onclick="switchTopTab(this)">全部</button>
+<button class="top-tab top-tab-bold" onclick="switchTopTab(this)">持有</button>
+<button class="top-tab" onclick="switchTopTab(this)">已清仓</button>
+<button class="top-tab" onclick="switchTopTab(this)">偏股</button>
+<button class="top-tab" onclick="switchTopTab(this)">偏债</button>
+<button class="top-tab" onclick="switchTopTab(this)">指数</button>
+<div class="flex-1"></div>
+<iconify-icon class="text-xl text-textAssist cursor-pointer" icon="solar:sort-linear"></iconify-icon>
+</div>
+</div>
+
 <main class="flex-1 overflow-y-auto pb-24">
-<!-- 大盘概览 Hero -->
-<div class="market-hero px-4 pt-5 pb-4">
-<div class="eyebrow mb-1">MARKET OVERVIEW</div>
-<div class="grid grid-cols-3 gap-3">
-<div class="summary-card text-center">
-<div class="text-[10px] text-textAssist mb-1">上证指数</div>
-<div class="text-base font-bold text-up">3,286.53</div>
-<div class="flex items-center justify-center gap-1 mt-1">
-<span class="text-[10px] font-bold text-up">+1.24%</span>
-<div class="mini-chart">
-<svg viewBox="0 0 56 24" fill="none"><path d="M0 20 L8 16 L16 18 L24 12 L32 14 L40 8 L48 6 L56 2" stroke="#D92D3A" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
-</div>
-</div>
-</div>
-<div class="summary-card text-center">
-<div class="text-[10px] text-textAssist mb-1">深证成指</div>
-<div class="text-base font-bold text-up">10,458</div>
-<div class="flex items-center justify-center gap-1 mt-1">
-<span class="text-[10px] font-bold text-up">+0.87%</span>
-<div class="mini-chart">
-<svg viewBox="0 0 56 24" fill="none"><path d="M0 18 L8 14 L16 16 L24 10 L32 12 L40 9 L48 7 L56 4" stroke="#D92D3A" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
-</div>
-</div>
-</div>
-<div class="summary-card text-center">
-<div class="text-[10px] text-textAssist mb-1">创业板指</div>
-<div class="text-base font-bold text-down">2,156.8</div>
-<div class="flex items-center justify-center gap-1 mt-1">
-<span class="text-[10px] font-bold text-down">-0.32%</span>
-<div class="mini-chart">
-<svg viewBox="0 0 56 24" fill="none"><path d="M0 6 L8 8 L16 5 L24 10 L32 12 L40 15 L48 14 L56 18" stroke="#14866D" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
-</div>
-</div>
-</div>
-</div>
-<!-- 总资产概览 -->
-<div class="mt-4 flex items-center justify-between">
-<div>
-<div class="text-[10px] text-textAssist">自选今日均涨</div>
-<div class="text-2xl font-black text-up leading-tight mt-0.5">+2.36%</div>
-</div>
-<div class="text-right">
-<div class="text-[10px] text-textAssist">持仓盈亏</div>
-<div class="text-lg font-bold text-up leading-tight mt-0.5">+¥4,230</div>
-</div>
-</div>
+<!-- Column Headers -->
+<div class="px-4 col-header grid grid-cols-[1.3fr_0.7fr_0.6fr_0.8fr]">
+<div class="flex items-center gap-1">基金名称 <iconify-icon class="text-xs text-textAssist" icon="solar:copy-linear"></iconify-icon></div>
+<div class="flex items-center gap-1">净值 <span class="text-[9px]">07-01</span> <span class="sort-icon"><span class="arrow-up">▲</span><span class="arrow-down">▼</span></span></div>
+<div class="flex items-center gap-1">跟踪指数 <span class="text-[9px]">07-02</span></div>
+<div class="text-right">添加后收益 <span class="text-[9px] block">添加时长</span></div>
 </div>
 
-<!-- Tab 切换 -->
-<div class="px-4 pt-4 pb-2 flex gap-2">
-<button class="pill-tab pill-tab-active" onclick="switchTab(this,'stocks')">股票 <span class="opacity-60">(8)</span></button>
-<button class="pill-tab" onclick="switchTab(this,'funds')">基金 <span class="opacity-60">(4)</span></button>
-</div>
-
-<!-- ===== 股票列表 ===== -->
-<div id="panel-stocks" class="px-4 pb-4">
-<div class="space-y-[9px]" id="stock-list"></div>
-</div>
-
-<!-- ===== 基金列表 ===== -->
-<div id="panel-funds" class="hidden px-4 pb-4">
-<div class="space-y-[9px]" id="fund-list"></div>
-</div>
+<!-- Fund List -->
+<div class="px-4" id="fund-list"></div>
 </main>
 
 <!-- 底部导航 -->
@@ -171,99 +120,61 @@
 </div>
 </div>
 <script>
-    var stocks = [
-        { name: '中际旭创', code: '300308', price: 168.52, change: '+6.12%', up: true, held: 200, profit: '+1,240', profitPct: '+4.3%', sector: '光模块', sparkUp: true },
-        { name: '阳光电源', code: '300274', price: 98.76, change: '+4.76%', up: true, held: 100, profit: '+680', profitPct: '+7.2%', sector: '光伏设备', sparkUp: true },
-        { name: '宁德时代', code: '300750', price: 189.52, change: '+5.24%', up: true, held: 300, profit: '+2,130', profitPct: '+3.9%', sector: '锂电池', sparkUp: true },
-        { name: '贵州茅台', code: '600519', price: 1526.0, change: '-0.82%', up: false, held: 50, profit: '-620', profitPct: '-0.8%', sector: '白酒', sparkUp: false },
-        { name: '比亚迪', code: '002594', price: 268.40, change: '+3.15%', up: true, held: 150, profit: '+1,560', profitPct: '+4.1%', sector: '新能源车', sparkUp: true },
-        { name: '招商银行', code: '600036', price: 35.82, change: '+0.56%', up: true, held: 500, profit: '+210', profitPct: '+1.2%', sector: '银行', sparkUp: true },
-        { name: '新易盛', code: '300502', price: 82.30, change: '+7.88%', up: true, held: 200, profit: '+1,860', profitPct: '+12.1%', sector: '光模块', sparkUp: true },
-        { name: '中国平安', code: '601318', price: 48.15, change: '-1.23%', up: false, held: 400, profit: '-480', profitPct: '-2.4%', sector: '保险', sparkUp: false }
-    ];
-
     var funds = [
-        { name: '沪深300ETF', code: '510300', nav: 4.1256, change: '+1.52%', up: true, held: 5000, profit: '+750', profitPct: '+3.6%', type: '指数型', fundClass: 'type-fund-index', sparkUp: true },
-        { name: '中证500ETF', code: '510500', nav: 6.8932, change: '+0.87%', up: true, held: 3000, profit: '+320', profitPct: '+1.5%', type: '指数型', fundClass: 'type-fund-index', sparkUp: true },
-        { name: '通信ETF', code: '515880', nav: 1.2450, change: '+2.48%', up: true, held: 10000, profit: '+1,240', profitPct: '+11.2%', type: '行业型', fundClass: 'type-fund-sector', sparkUp: true },
-        { name: '半导体ETF', code: '512480', nav: 0.9823, change: '+3.67%', up: true, held: 8000, profit: '+890', profitPct: '+9.8%', type: '行业型', fundClass: 'type-fund-sector', sparkUp: true }
+        { name: '广发全球精选股票(QDII)A', code: '270023', nav: 7.5358, navDate: '06-30', change: '+2.63%', up: true, totalReturn: '+12.63%', totalUp: true, days: '19天', tags: ['持有', '高夏普比率'] },
+        { name: '易方达全球优质企业混合(QDII)A', code: '018229', nav: 2.6418, navDate: '06-30', change: '+2.97%', up: true, totalReturn: '+19.64%', totalUp: true, days: '19天', tags: ['持有'] },
+        { name: '南方红利低波50ETF联接A', code: '008163', nav: 0.9861, navDate: '06-30', change: '+1.30%', up: true, totalReturn: '-6.89%', totalUp: false, days: '19天', tags: ['金选', '指数基金', '持有', '历史月月分红', '低回撤率'] },
+        { name: '建信新兴市场优选混合(QDII)C', code: '018147', nav: 2.8030, navDate: '06-30', change: '+2.79%', up: true, totalReturn: '+5.57%', totalUp: true, days: '28天', tags: ['高夏普比率'] },
+        { name: '易方达全球成长精选混合(QDII)A', code: '012920', nav: 5.2809, navDate: '06-30', change: '+4.29%', up: true, totalReturn: '+82.33%', totalUp: true, days: '128天', tags: ['持有'] },
+        { name: '易方达成长动力混合A', code: '014727', nav: 3.6721, navDate: '06-30', change: '-1.86%', up: false, totalReturn: '+55.70%', totalUp: true, days: '128天', tags: ['跑赢赛道', '高夏普比率'] },
+        { name: '华泰柏瑞沪深300ETF联接A', code: '460300', nav: 1.8562, navDate: '06-30', change: '+1.52%', up: true, totalReturn: '+8.45%', totalUp: true, days: '45天', tags: ['持有', '指数基金'] },
+        { name: '招商中证白酒指数(LOF)A', code: '161725', nav: 1.1234, navDate: '06-30', change: '-0.56%', up: false, totalReturn: '-3.21%', totalUp: false, days: '60天', tags: ['持有'] }
     ];
-
-    function makeSparkline(up) {
-        var color = up ? '#D92D3A' : '#14866D';
-        var pathUp = 'M0 20 L7 17 L14 18 L21 13 L28 14 L35 9 L42 7 L49 4 L56 2';
-        var pathDown = 'M0 4 L7 7 L14 5 L21 10 L28 12 L35 15 L42 14 L49 18 L56 20';
-        return '<div class="mini-chart"><svg viewBox="0 0 56 24" fill="none"><path d="' + (up ? pathUp : pathDown) + '" stroke="' + color + '" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>';
-    }
-
-    function renderStocks() {
-        var html = stocks.map(function(s) {
-            var colorClass = s.up ? 'text-up' : 'text-down';
-            var profitClass = s.up ? 'profit-up' : 'profit-down';
-            return '<div class="watch-row" onclick="location.href=\'stock_detail.html\'">' +
-                '<div class="flex items-center gap-3">' +
-                    '<div class="type-badge type-stock">' + s.name.charAt(0) + '</div>' +
-                    '<div class="flex-1 min-w-0">' +
-                        '<div class="text-sm font-bold truncate">' + s.name + '</div>' +
-                        '<div class="text-[10px] text-textAssist mt-0.5">' + s.code + ' · ' + s.sector + '</div>' +
-                        '<div class="flex items-center gap-2 mt-1.5">' +
-                            '<span class="text-[10px] text-textAssist">持有 ' + s.held + '股</span>' +
-                            '<span class="profit-tag ' + profitClass + '">盈亏 ' + s.profit + '</span>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="text-right flex items-center gap-2">' +
-                    makeSparkline(s.sparkUp) +
-                    '<div>' +
-                        '<div class="text-sm font-bold ' + colorClass + '">' + s.price.toFixed(2) + '</div>' +
-                        '<div class="text-[10px] font-bold ' + colorClass + '">' + s.change + '</div>' +
-                    '</div>' +
-                '</div>' +
-            '</div>';
-        }).join('');
-        document.getElementById('stock-list').innerHTML = html;
-    }
 
     function renderFunds() {
         var html = funds.map(function(f) {
-            var colorClass = f.up ? 'text-up' : 'text-down';
-            var profitClass = f.up ? 'profit-up' : 'profit-down';
-            return '<div class="watch-row">' +
-                '<div class="flex items-center gap-3">' +
-                    '<div class="type-badge ' + f.fundClass + '">' + f.name.charAt(0) + '</div>' +
-                    '<div class="flex-1 min-w-0">' +
-                        '<div class="text-sm font-bold truncate">' + f.name + '</div>' +
-                        '<div class="text-[10px] text-textAssist mt-0.5">' + f.code + ' · ' + f.type + '</div>' +
-                        '<div class="flex items-center gap-2 mt-1.5">' +
-                            '<span class="text-[10px] text-textAssist">持有 ' + f.held.toLocaleString() + '份</span>' +
-                            '<span class="profit-tag ' + profitClass + '">盈亏 ' + f.profit + '</span>' +
-                        '</div>' +
+            var changeColor = f.up ? 'text-up' : 'text-down';
+            var returnColor = f.totalUp ? 'text-up' : 'text-down';
+            var tagsHtml = f.tags.map(function(t) {
+                var cls = t === '金选' || t === '指数基金' ? 'tag tag-gold' : 'tag';
+                return '<span class="' + cls + '">' + t + '</span>';
+            }).join(' ');
+
+            return '<div class="fund-row">' +
+                '<div>' +
+                    '<div class="text-sm font-bold leading-tight">' + f.name + '</div>' +
+                    '<div class="text-[11px] text-textAssist mt-1 flex items-center gap-1.5 flex-wrap">' +
+                        '<span>' + f.code + '</span>' +
+                        tagsHtml +
                     '</div>' +
                 '</div>' +
-                '<div class="text-right flex items-center gap-2">' +
-                    makeSparkline(f.sparkUp) +
-                    '<div>' +
-                        '<div class="text-sm font-bold ' + colorClass + '">' + f.nav.toFixed(4) + '</div>' +
-                        '<div class="text-[10px] font-bold ' + colorClass + '">' + f.change + '</div>' +
-                    '</div>' +
+                '<div>' +
+                    '<div class="text-base font-bold">' + f.nav.toFixed(4) + '</div>' +
+                    '<div class="text-xs font-bold ' + changeColor + '">' + f.change + '</div>' +
+                    '<div class="text-[10px] text-textAssist mt-0.5">' + f.navDate + '</div>' +
+                '</div>' +
+                '<div class="text-sm text-textAssist text-center">--</div>' +
+                '<div class="text-right">' +
+                    '<div class="text-base font-bold ' + returnColor + '">' + f.totalReturn + '</div>' +
+                    '<div class="text-[10px] text-textAssist mt-0.5">' + f.days + '</div>' +
                 '</div>' +
             '</div>';
         }).join('');
         document.getElementById('fund-list').innerHTML = html;
     }
 
-    function switchTab(btn, panel) {
-        document.getElementById('panel-stocks').classList.add('hidden');
-        document.getElementById('panel-funds').classList.add('hidden');
-        document.getElementById('panel-' + panel).classList.remove('hidden');
-        var tabs = btn.parentNode.querySelectorAll('.pill-tab');
+    function switchTopTab(btn) {
+        var tabs = btn.parentNode.querySelectorAll('.top-tab');
         for (var i = 0; i < tabs.length; i++) {
-            tabs[i].classList.remove('pill-tab-active');
+            tabs[i].classList.remove('top-tab-active', 'top-tab-bold');
         }
-        btn.classList.add('pill-tab-active');
+        if (btn.textContent === '全部') {
+            btn.classList.add('top-tab-active');
+        } else {
+            btn.classList.add('top-tab-bold');
+        }
     }
 
-    renderStocks();
     renderFunds();
 </script>
 </body>

@@ -20,9 +20,7 @@
                         textMain: '#1F2023',
                         textSub: '#697077',
                         textAssist: '#999999',
-                        line: '#EAECF0',
-                        tagBg: '#EBF5FF',
-                        tagText: '#2B7DE9'
+                        line: '#EAECF0'
                     }
                 }
             }
@@ -34,25 +32,24 @@
 
         /* Top tabs */
         .top-tab { font-size: 14px; font-weight: 400; color: #999; padding: 0 2px; position: relative; white-space: nowrap; }
-        .top-tab-active { color: #2B7DE9; font-weight: 600; }
-        .top-tab-active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: #2B7DE9; border-radius: 1px; }
+        .top-tab-active { color: #FFB800; font-weight: 600; }
+        .top-tab-active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: #FFB800; border-radius: 1px; }
         .top-tab-bold { font-weight: 600; color: #1F2023; }
 
         /* Tag pills */
-        .tag { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 3px; background: #EBF5FF; color: #2B7DE9; font-weight: 500; line-height: 1.6; }
-        .tag-gold { background: #FFF8E6; color: #B8860B; }
+        .tag { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 3px; background: #FFF8E6; color: #B8860B; font-weight: 500; line-height: 1.6; }
+        .tag-dna { background: #FFF0E6; color: #FF6B00; }
+        .tag-homework { background: #F0F9FF; color: #0284C7; }
 
         /* Fund row */
-        .fund-row { display: grid; grid-template-columns: 1.3fr 0.7fr 0.6fr 0.8fr; align-items: start; padding: 14px 0; border-bottom: 1px solid #f5f5f5; }
+        .fund-row { display: grid; grid-template-columns: 1.4fr 0.7fr 0.6fr 0.8fr; align-items: start; padding: 14px 0; border-bottom: 1px solid #f5f5f5; }
         .fund-row:active { background: #fafafa; }
 
         /* Column header */
         .col-header { font-size: 11px; color: #999; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
 
-        /* Sort icon */
-        .sort-icon { display: inline-flex; flex-direction: column; vertical-align: middle; margin-left: 2px; opacity: 0.3; }
-        .sort-icon .arrow-up { font-size: 6px; line-height: 1; }
-        .sort-icon .arrow-down { font-size: 6px; line-height: 1; }
+        /* DNA match badge */
+        .dna-match { display: inline-flex; align-items: center; gap: 2px; font-size: 10px; color: #FF6B00; background: #FFF0E6; padding: 1px 6px; border-radius: 99px; font-weight: 600; }
     </style>
 </head>
 <body class="bg-white text-textMain">
@@ -70,11 +67,9 @@
 <div class="sticky top-[52px] z-40 bg-white px-4 pt-3 pb-0 border-b border-line">
 <div class="flex items-center gap-5 overflow-x-auto">
 <button class="top-tab top-tab-active" onclick="switchTopTab(this)">全部</button>
-<button class="top-tab top-tab-bold" onclick="switchTopTab(this)">持有</button>
-<button class="top-tab" onclick="switchTopTab(this)">已清仓</button>
-<button class="top-tab" onclick="switchTopTab(this)">偏股</button>
-<button class="top-tab" onclick="switchTopTab(this)">偏债</button>
-<button class="top-tab" onclick="switchTopTab(this)">指数</button>
+<button class="top-tab top-tab-bold" onclick="switchTopTab(this)">股票</button>
+<button class="top-tab top-tab-bold" onclick="switchTopTab(this)">基金</button>
+<button class="top-tab" onclick="switchTopTab(this)">作业</button>
 <div class="flex-1"></div>
 <iconify-icon class="text-xl text-textAssist cursor-pointer" icon="solar:sort-linear"></iconify-icon>
 </div>
@@ -82,11 +77,11 @@
 
 <main class="flex-1 overflow-y-auto pb-24">
 <!-- Column Headers -->
-<div class="px-4 col-header grid grid-cols-[1.3fr_0.7fr_0.6fr_0.8fr]">
-<div class="flex items-center gap-1">基金名称 <iconify-icon class="text-xs text-textAssist" icon="solar:copy-linear"></iconify-icon></div>
-<div class="flex items-center gap-1">净值 <span class="text-[9px]">07-01</span> <span class="sort-icon"><span class="arrow-up">▲</span><span class="arrow-down">▼</span></span></div>
-<div class="flex items-center gap-1">跟踪指数 <span class="text-[9px]">07-02</span></div>
-<div class="text-right">添加后收益 <span class="text-[9px] block">添加时长</span></div>
+<div class="px-4 col-header grid grid-cols-[1.4fr_0.7fr_0.6fr_0.8fr]">
+<div class="flex items-center gap-1">基金名称</div>
+<div class="flex items-center gap-1">净值 <span class="text-[9px]">07-01</span></div>
+<div class="flex items-center gap-1">作业来源</div>
+<div class="text-right">添加后收益 <span class="text-[9px] block">持有天数</span></div>
 </div>
 
 <!-- Fund List -->
@@ -121,14 +116,14 @@
 </div>
 <script>
     var funds = [
-        { name: '广发全球精选股票(QDII)A', code: '270023', nav: 7.5358, navDate: '06-30', change: '+2.63%', up: true, totalReturn: '+12.63%', totalUp: true, days: '19天', tags: ['持有', '高夏普比率'] },
-        { name: '易方达全球优质企业混合(QDII)A', code: '018229', nav: 2.6418, navDate: '06-30', change: '+2.97%', up: true, totalReturn: '+19.64%', totalUp: true, days: '19天', tags: ['持有'] },
-        { name: '南方红利低波50ETF联接A', code: '008163', nav: 0.9861, navDate: '06-30', change: '+1.30%', up: true, totalReturn: '-6.89%', totalUp: false, days: '19天', tags: ['金选', '指数基金', '持有', '历史月月分红', '低回撤率'] },
-        { name: '建信新兴市场优选混合(QDII)C', code: '018147', nav: 2.8030, navDate: '06-30', change: '+2.79%', up: true, totalReturn: '+5.57%', totalUp: true, days: '28天', tags: ['高夏普比率'] },
-        { name: '易方达全球成长精选混合(QDII)A', code: '012920', nav: 5.2809, navDate: '06-30', change: '+4.29%', up: true, totalReturn: '+82.33%', totalUp: true, days: '128天', tags: ['持有'] },
-        { name: '易方达成长动力混合A', code: '014727', nav: 3.6721, navDate: '06-30', change: '-1.86%', up: false, totalReturn: '+55.70%', totalUp: true, days: '128天', tags: ['跑赢赛道', '高夏普比率'] },
-        { name: '华泰柏瑞沪深300ETF联接A', code: '460300', nav: 1.8562, navDate: '06-30', change: '+1.52%', up: true, totalReturn: '+8.45%', totalUp: true, days: '45天', tags: ['持有', '指数基金'] },
-        { name: '招商中证白酒指数(LOF)A', code: '161725', nav: 1.1234, navDate: '06-30', change: '-0.56%', up: false, totalReturn: '-3.21%', totalUp: false, days: '60天', tags: ['持有'] }
+        { name: '广发全球精选股票(QDII)A', code: '270023', nav: 7.5358, navDate: '06-30', change: '+2.63%', up: true, totalReturn: '+12.63%', totalUp: true, days: '19天', homework: '睿远均衡', dnaMatch: 92, tags: ['高夏普比率', '作业推荐'] },
+        { name: '易方达全球优质企业混合(QDII)A', code: '018229', nav: 2.6418, navDate: '06-30', change: '+2.97%', up: true, totalReturn: '+19.64%', totalUp: true, days: '19天', homework: '易方达蓝筹', dnaMatch: 88, tags: ['作业推荐'] },
+        { name: '南方红利低波50ETF联接A', code: '008163', nav: 0.9861, navDate: '06-30', change: '+1.30%', up: true, totalReturn: '-6.89%', totalUp: false, days: '19天', homework: '高毅资产', dnaMatch: 95, tags: ['金选', '低回撤率', 'DNA匹配'] },
+        { name: '建信新兴市场优选混合(QDII)C', code: '018147', nav: 2.8030, navDate: '06-30', change: '+2.79%', up: true, totalReturn: '+5.57%', totalUp: true, days: '28天', homework: '景林资产', dnaMatch: 78, tags: ['高夏普比率'] },
+        { name: '易方达全球成长精选混合(QDII)A', code: '012920', nav: 5.2809, navDate: '06-30', change: '+4.29%', up: true, totalReturn: '+82.33%', totalUp: true, days: '128天', homework: '淡水泉', dnaMatch: 85, tags: ['作业推荐'] },
+        { name: '易方达成长动力混合A', code: '014727', nav: 3.6721, navDate: '06-30', change: '-1.86%', up: false, totalReturn: '+55.70%', totalUp: true, days: '128天', homework: '中欧医疗', dnaMatch: 72, tags: ['跑赢赛道', '高夏普比率'] },
+        { name: '沪深300ETF', code: '510300', nav: 4.1256, navDate: '06-30', change: '+1.52%', up: true, totalReturn: '+8.45%', totalUp: true, days: '45天', homework: '兴证全球', dnaMatch: 90, tags: ['指数基金', 'DNA匹配'] },
+        { name: '通信ETF', code: '515880', nav: 1.2450, navDate: '06-30', change: '+2.48%', up: true, totalReturn: '+11.2%', totalUp: true, days: '30天', homework: '章盟主', dnaMatch: 68, tags: ['行业型', '作业推荐'] }
     ];
 
     function renderFunds() {
@@ -136,15 +131,20 @@
             var changeColor = f.up ? 'text-up' : 'text-down';
             var returnColor = f.totalUp ? 'text-up' : 'text-down';
             var tagsHtml = f.tags.map(function(t) {
-                var cls = t === '金选' || t === '指数基金' ? 'tag tag-gold' : 'tag';
+                var cls = 'tag';
+                if (t === 'DNA匹配') cls = 'tag-dna';
+                else if (t === '作业推荐') cls = 'tag-homework';
                 return '<span class="' + cls + '">' + t + '</span>';
             }).join(' ');
+
+            var dnaHtml = f.dnaMatch >= 85 ? '<span class="dna-match">🐟 ' + f.dnaMatch + '%</span>' : '';
 
             return '<div class="fund-row">' +
                 '<div>' +
                     '<div class="text-sm font-bold leading-tight">' + f.name + '</div>' +
                     '<div class="text-[11px] text-textAssist mt-1 flex items-center gap-1.5 flex-wrap">' +
                         '<span>' + f.code + '</span>' +
+                        dnaHtml +
                         tagsHtml +
                     '</div>' +
                 '</div>' +
@@ -153,7 +153,7 @@
                     '<div class="text-xs font-bold ' + changeColor + '">' + f.change + '</div>' +
                     '<div class="text-[10px] text-textAssist mt-0.5">' + f.navDate + '</div>' +
                 '</div>' +
-                '<div class="text-sm text-textAssist text-center">--</div>' +
+                '<div class="text-[11px] text-textSub pt-1">' + f.homework + '</div>' +
                 '<div class="text-right">' +
                     '<div class="text-base font-bold ' + returnColor + '">' + f.totalReturn + '</div>' +
                     '<div class="text-[10px] text-textAssist mt-0.5">' + f.days + '</div>' +

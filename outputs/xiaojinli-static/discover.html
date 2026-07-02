@@ -994,6 +994,13 @@
   // ========== Init ==========
   document.addEventListener('DOMContentLoaded', function() {
     const dnaType = getUserDNA();
+
+    // 未做 DNA 测试 → 自动弹出问卷
+    if (!dnaType) {
+      window.location.href = 'onboarding.html';
+      return;
+    }
+
     renderDNAProfile(dnaType);
     renderRankings(dnaType);
     renderVideos();

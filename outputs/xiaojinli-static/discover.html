@@ -96,8 +96,8 @@
 
   .trait-card {
     background: #F8F9FC;
-    border-radius: 8px;
-    padding: 6px 4px;
+    border-radius: 6px;
+    padding: 3px 2px;
     text-align: center;
   }
 
@@ -802,16 +802,16 @@
         var catKey = dna.dimensionMap[dimKey];
         var cat = dim.categories[catKey];
         traitsHTML += '<div class="trait-card">'
-          + '<div class="text-[11px] font-bold text-textMain leading-tight">' + cat.label + '</div>'
-          + '<div class="text-[9px] text-textAssist mt-0.5">' + dim.label + '</div>'
+          + '<div class="text-[10px] font-bold text-textMain leading-tight">' + cat.label + '</div>'
+          + '<div class="text-[8px] text-textAssist mt-0">' + dim.label + '</div>'
           + '</div>';
       });
     } else {
       // Fallback to hardcoded traits if no dimensionMap
       dna.traits.forEach(function(t) {
         traitsHTML += '<div class="trait-card">'
-          + '<div class="text-[11px] font-bold text-textMain leading-tight">' + t.label + '</div>'
-          + (t.sub ? '<div class="text-[9px] text-textAssist mt-0.5">' + t.sub + '</div>' : '')
+          + '<div class="text-[10px] font-bold text-textMain leading-tight">' + t.label + '</div>'
+          + (t.sub ? '<div class="text-[8px] text-textAssist mt-0">' + t.sub + '</div>' : '')
           + '</div>';
       });
     }
@@ -831,22 +831,23 @@
       +     '<div class="font-bold text-base text-textMain">' + dna.emoji + ' 小' + dna.name + '｜' + dna.investorType + '｜全国仅有' + dna.percent + '</div>'
       +   '</div>'
       +   '<div class="text-center text-xs text-textSub mb-4 leading-relaxed px-2">' + dna.subtitle + '</div>'
-      +   '<div class="grid grid-cols-4 gap-1.5 mb-4">'
+      +   '<div class="grid grid-cols-4 gap-1 mb-3">'
       +     traitsHTML
       +   '</div>'
       // 日签融合区 — compact inline
-      +   '<div class="bg-gradient-to-r from-primary/5 via-amber-50/60 to-secondary/5 rounded-lg px-3 py-2 mb-3 border border-primary/10 flex items-center justify-center gap-4 text-center">'
-      +     '<div class="flex items-center gap-2">'
-      +       '<span class="text-sm font-black text-primary">宜</span>'
-      +       '<span class="text-xs font-bold text-textMain">' + dna.yi + '</span>'
+      +   '<div class="bg-gradient-to-r from-primary/5 via-amber-50/60 to-secondary/5 rounded-xl px-4 py-3 mb-3 border border-primary/10">'
+      +     '<div class="flex items-center justify-center gap-5 mb-2">'
+      +       '<div class="flex items-center gap-2">'
+      +         '<span class="text-base font-black text-primary">宜</span>'
+      +         '<span class="text-sm font-bold text-textMain">' + dna.yi + '</span>'
+      +       '</div>'
+      +       '<div class="w-px h-5 bg-primary/20"></div>'
+      +       '<div class="flex items-center gap-2">'
+      +         '<span class="text-base font-black text-textAssist">忌</span>'
+      +         '<span class="text-sm font-bold text-textSub">' + dna.ji + '</span>'
+      +       '</div>'
       +     '</div>'
-      +     '<div class="w-px h-4 bg-primary/20"></div>'
-      +     '<div class="flex items-center gap-2">'
-      +       '<span class="text-sm font-black text-textAssist">忌</span>'
-      +       '<span class="text-xs font-bold text-textSub">' + dna.ji + '</span>'
-      +     '</div>'
-      +     '<div class="w-px h-4 bg-primary/20"></div>'
-      +     '<div class="text-[10px] text-textAssist italic">' + dna.subtitle.slice(0, 12) + '</div>'
+      +     '<div class="text-center text-[11px] text-textAssist italic">' + dna.subtitle.slice(0, 18) + '</div>'
       +   '</div>'
       +   '<a href="ai_assistant.html?q=' + encodeURIComponent('根据我的投资DNA画像，帮我解读一下我的投资风格，以及我可以成为怎样的大神') + '" class="flex items-center justify-between bg-gradient-to-r from-primary/10 to-secondary/5 rounded-lg px-3 py-2 border border-primary/15">'
       +     '<div class="flex items-center gap-2">'

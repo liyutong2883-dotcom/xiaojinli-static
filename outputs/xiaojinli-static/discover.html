@@ -630,7 +630,7 @@
           + '</div>'
           + '<p class="text-sm text-textMain leading-relaxed mb-2.5">' + p.text + '</p>'
           + '<div class="flex items-center gap-4 text-textAssist">'
-          +   '<button class="flex items-center gap-1 text-[11px] hover:text-up transition-colors" onclick="this.querySelector(\'iconify-icon\\').setAttribute(\'icon\\',\'solar:heart-bold\\');this.classList.add(\'text-up\\')">'
+          +   '<button class="flex items-center gap-1 text-[11px] hover:text-up transition-colors" onclick="likeToggle(this)">'
           +     '<iconify-icon class="text-sm" icon="solar:heart-linear"></iconify-icon>'
           +     '<span>' + p.likes + '</span>'
           +   '</button>'
@@ -646,6 +646,19 @@
           + '</div>';
       }).join('')
       + '</div>';
+  }
+
+  // ========== 点赞切换 ==========
+  function likeToggle(btn) {
+    var icon = btn.querySelector('iconify-icon');
+    var isLiked = btn.classList.contains('text-up');
+    if (isLiked) {
+      btn.classList.remove('text-up');
+      icon.setAttribute('icon', 'solar:heart-linear');
+    } else {
+      btn.classList.add('text-up');
+      icon.setAttribute('icon', 'solar:heart-bold');
+    }
   }
 
 

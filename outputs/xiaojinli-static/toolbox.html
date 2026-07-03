@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
@@ -8,770 +7,519 @@
 <script src="assets/vendor/tailwindcss.js"></script>
 <script src="assets/vendor/iconify-icon.min.js"></script>
 <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#FFB800',
-                        secondary: '#FF6B00',
-                        bgMain: '#F8F9FC',
-                        textMain: '#1A1A2E',
-                        textSub: '#666666',
-                        textAssist: '#999999',
-                        up: '#FF4D4F',
-                        down: '#52C41A'
-                    }
-                }
-            }
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: '#FFB800',
+          secondary: '#FF6B00',
+          bgMain: '#F8F9FC',
+          up: '#FF4D4F',
+          down: '#52C41A',
+          textMain: '#1A1A2E',
+          textSub: '#666666',
+          textAssist: '#999999'
         }
-    </script>
+      }
+    }
+  }
+</script>
 <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
-        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
-        .tag-active { background-color: #FFB800; color: white; border-color: #FFB800; }
-        .idea-tab-active { background-color: white; color: #1A1A2E; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-        .square-filter-active { background-color: #1A1A2E; color: white; }
-        @keyframes fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        .guide-overlay { position: fixed; inset: 0; z-index: 998; background: rgba(0,0,0,0.35); animation: fade-in 0.25s ease forwards; }
-        .guide-tooltip { position: absolute; z-index: 999; background: #1A1A2E; color: white; border-radius: 12px; padding: 12px 16px; font-size: 12px; line-height: 1.6; max-width: 280px; box-shadow: 0 8px 24px rgba(0,0,0,0.25); animation: fade-in 0.3s ease forwards; }
-        .guide-tooltip::after { content: ''; position: absolute; width: 10px; height: 10px; background: #1A1A2E; transform: rotate(45deg); }
-        .guide-tooltip.arrow-top::after { top: -5px; left: 24px; }
-        .guide-tooltip.arrow-bottom::after { bottom: -5px; left: 24px; }
-        .guide-tooltip .guide-close { display: inline-block; margin-top: 8px; background: #FFB800; color: #1A1A2E; border: none; border-radius: 6px; padding: 4px 14px; font-size: 11px; font-weight: 700; cursor: pointer; }
-        .modal-overlay { position: fixed; inset: 0; z-index: 900; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; animation: fade-in 0.2s ease forwards; }
-        .modal-box { background: white; border-radius: 16px; padding: 24px; width: 300px; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
-        .modal-box h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
-        .modal-box p { font-size: 12px; color: #666; line-height: 1.6; margin-bottom: 16px; }
-        .modal-box button { background: #FFB800; color: white; border: none; border-radius: 10px; padding: 8px 28px; font-size: 13px; font-weight: 700; cursor: pointer; }
-    </style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .glass-effect { background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); }
+  @keyframes fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slide-up { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .animate-fade-in { animation: fade-in 0.4s ease-out forwards; }
+  .animate-slide-up { animation: slide-up 0.3s ease-out forwards; }
+  .delay-1 { animation-delay: 0.05s; opacity: 0; }
+  .delay-2 { animation-delay: 0.1s; opacity: 0; }
+
+  .tab-btn { padding: 8px 0; font-size: 13px; color: #999; font-weight: 600; border-bottom: 3px solid transparent; transition: all 0.2s; }
+  .tab-btn.active { color: #FFB800; border-bottom-color: #FFB800; }
+
+  .modal-backdrop { transition: opacity 0.3s ease; }
+
+  .guide-overlay { position: fixed; inset: 0; z-index: 998; background: rgba(0,0,0,0.35); animation: fade-in 0.25s ease forwards; }
+  .guide-tooltip { position: absolute; z-index: 999; background: #1A1A2E; color: white; border-radius: 12px; padding: 12px 16px; font-size: 12px; line-height: 1.6; max-width: 280px; box-shadow: 0 8px 24px rgba(0,0,0,0.25); animation: fade-in 0.3s ease forwards; }
+  .guide-tooltip::after { content: ''; position: absolute; width: 10px; height: 10px; background: #1A1A2E; transform: rotate(45deg); }
+  .guide-tooltip.arrow-top::after { top: -5px; left: 24px; }
+  .guide-tooltip .guide-close { display: inline-block; margin-top: 8px; background: #FFB800; color: #1A1A2E; border: none; border-radius: 6px; padding: 4px 14px; font-size: 11px; font-weight: 700; cursor: pointer; }
+
+  .stock-row { transition: all 0.15s; }
+  .stock-row:active { transform: scale(0.98); }
+  .fav-btn { transition: all 0.15s; }
+  .fav-btn:active { transform: scale(1.3); }
+  .remove-btn:active { transform: scale(0.9); }
+</style>
 </head>
 <body class="bg-bgMain text-textMain">
 <div class="max-w-[414px] mx-auto min-h-screen flex flex-col relative bg-bgMain shadow-xl">
-<!-- 顶部品牌栏 -->
-<header class="sticky top-0 z-50 bg-primary px-4 py-3 flex justify-between items-center shadow-md">
-<div class="flex items-center gap-1 font-bold text-white text-lg">
-<span class="text-2xl">🐟</span>
-<span>小金鲤灵感</span>
-</div>
-<iconify-icon class="text-2xl text-white cursor-pointer" icon="solar:settings-bold" onclick="document.getElementById('settings-modal').classList.remove('hidden')"></iconify-icon>
+
+<!-- Header -->
+<header class="sticky top-0 z-50 bg-gradient-to-r from-primary to-[#FFC933] px-4 py-3 flex justify-between items-center shadow-md">
+  <div class="flex items-center gap-1.5 font-bold text-white text-lg">
+    <span class="text-2xl">🐟</span>
+    <span>灵感</span>
+  </div>
 </header>
+
+<!-- Tab 导航 -->
+<div class="sticky top-[52px] z-40 bg-white border-b border-gray-100 px-6 flex justify-around">
+  <button class="tab-btn active" onclick="switchTab(this,'tab-homework')">高手作业</button>
+  <button class="tab-btn" onclick="switchTab(this,'tab-square')">灵感广场</button>
+  <button class="tab-btn" onclick="switchTab(this,'tab-notebook')">作业本</button>
+</div>
+
 <main class="flex-1 overflow-y-auto pb-24">
-<!-- Section 3: 灵感 (三合一) -->
-<section class="pb-6">
-<!-- 灵感 Header -->
-<div class="px-4 pt-5 pb-3">
-<div class="flex items-center gap-2 mb-1">
-<iconify-icon class="text-primary text-xl" icon="solar:lightbulb-bold-duotone"></iconify-icon>
-<h2 class="text-lg font-bold">灵感</h2>
-</div>
-<p class="text-xs text-textSub">一套策略 → 一份股票清单，跟踪胜率与回撤。</p>
+
+<!-- ====== Tab 1: 高手作业 (继承 copytrade 布局) ====== -->
+<div id="tab-homework" class="animate-fade-in">
+  <!-- DNA 排序提示 -->
+  <div class="px-4 pt-3 pb-1">
+    <div class="text-[10px] text-primary bg-primary/10 px-2 py-1 rounded-full inline-block" id="dna-sort-label">按 DNA 匹配排序</div>
+  </div>
+  <!-- 作业列表 -->
+  <div class="px-4 pt-2 space-y-3" id="homework-list">
+    <!-- JS 动态渲染 -->
+  </div>
+  <div class="py-6 text-center text-xs text-textAssist">已加载全部数据</div>
 </div>
 
-<!-- 灵感 Tab 导航 -->
-<div class="px-4 mb-3 flex gap-0 bg-bgMain rounded-xl p-1 mx-0" style="margin-left:16px;margin-right:16px;" id="idea-tabs">
-<button class="idea-tab-active flex-1 text-xs py-2 rounded-lg font-bold transition-all" onclick="switchIdeaTab(this,'panel-custom')">一句话灵感</button>
-<button class="flex-1 text-xs py-2 rounded-lg text-textSub transition-all" onclick="switchIdeaTab(this,'panel-square')">灵感广场</button>
-<button class="flex-1 text-xs py-2 rounded-lg text-textSub transition-all" onclick="switchIdeaTab(this,'panel-mine')">我的灵感</button>
+<!-- ====== Tab 2: 灵感广场 (继承旧灵感广场) ====== -->
+<div id="tab-square" class="hidden animate-fade-in">
+  <div class="px-4 pt-4">
+    <!-- 筛选 -->
+    <div class="flex gap-2 mb-3">
+      <button class="bg-textMain text-white text-[10px] px-2.5 py-1 rounded-full font-bold" onclick="filterSquare(this)">全部</button>
+      <button class="bg-white text-textSub text-[10px] px-2.5 py-1 rounded-full border border-gray-100" onclick="filterSquare(this)">股票</button>
+      <button class="bg-white text-textSub text-[10px] px-2.5 py-1 rounded-full border border-gray-100" onclick="filterSquare(this)">基金</button>
+      <button class="bg-white text-textSub text-[10px] px-2.5 py-1 rounded-full border border-gray-100" onclick="filterSquare(this)">公开灵感</button>
+    </div>
+    <div class="space-y-3" id="square-list">
+      <!-- JS 动态渲染 -->
+    </div>
+  </div>
 </div>
 
-<!-- ===== Panel 1: 一句话灵感 ===== -->
-<div id="panel-custom">
-<div class="px-4">
-<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-50">
-<div class="flex items-center gap-2 mb-3">
-<div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-<span class="text-white text-sm">AI</span>
-</div>
-<div>
-<h3 class="font-bold text-sm">用一句话描述你的投资想法</h3>
-<p class="text-[10px] text-textAssist">小金鲤会帮你生成一套选股策略</p>
-</div>
-</div>
-<textarea id="custom-idea-input" class="w-full bg-bgMain rounded-xl p-3 text-xs leading-relaxed border-none outline-none resize-none" rows="3" placeholder="例如：我有2万元，想6个月赚15%，不能亏太多，帮我设计一个投资灵感。"></textarea>
-<button class="w-full bg-gradient-to-r from-primary to-secondary text-white font-bold py-3 rounded-xl text-xs mt-3 active:scale-95 transition-transform shadow-lg shadow-primary/20" onclick="generateCustomIdea()">
-生成灵感
-</button>
-</div>
-
-<!-- AI 生成结果 (默认隐藏) -->
-<div class="hidden mt-4" id="custom-idea-result">
-<div class="bg-white rounded-2xl p-4 shadow-sm border border-primary/20">
-<div class="flex items-center gap-2 mb-3">
-<div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-<iconify-icon class="text-primary text-sm" icon="solar:sparkles-bold-duotone"></iconify-icon>
-</div>
-<h3 class="font-bold text-sm">AI 生成灵感：稳健成长组合</h3>
-</div>
-<div class="bg-bgMain rounded-xl p-3 mb-3">
-<p class="text-[11px] text-textSub leading-relaxed mb-2">根据你的目标（收益 15%、低风险、6 个月），建议采用"核心 + 卫星"配置策略：核心仓位 70% 配置宽基 ETF 获取市场平均收益，卫星仓位 30% 配置高景气行业 ETF 博取超额收益。</p>
-<div class="flex flex-wrap gap-1.5">
-<span class="text-[10px] bg-red-50 text-up px-2 py-0.5 rounded-full border border-red-100">最大回撤 ≤10%</span>
-<span class="text-[10px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full border border-blue-100">ETF 优先</span>
-<span class="text-[10px] bg-orange-50 text-secondary px-2 py-0.5 rounded-full border border-orange-100">主题仓 ≤30%</span>
-</div>
-</div>
-<!-- 建议配置 -->
-<div class="space-y-2 mb-3">
-<div class="flex items-center justify-between p-2.5 bg-bgMain rounded-lg">
-<div class="flex items-center gap-2">
-<div class="w-6 h-6 rounded bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">核</div>
-<div>
-<div class="text-xs font-bold">沪深300 ETF</div>
-<div class="text-[10px] text-textAssist">核心仓 · 建议占比 40%</div>
-</div>
-</div>
-<span class="text-[10px] text-textAssist">510300</span>
-</div>
-<div class="flex items-center justify-between p-2.5 bg-bgMain rounded-lg">
-<div class="flex items-center gap-2">
-<div class="w-6 h-6 rounded bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">核</div>
-<div>
-<div class="text-xs font-bold">中证500 ETF</div>
-<div class="text-[10px] text-textAssist">核心仓 · 建议占比 30%</div>
-</div>
-</div>
-<span class="text-[10px] text-textAssist">510500</span>
-</div>
-<div class="flex items-center justify-between p-2.5 bg-bgMain rounded-lg">
-<div class="flex items-center gap-2">
-<div class="w-6 h-6 rounded bg-secondary/10 flex items-center justify-center text-[10px] font-bold text-secondary">卫</div>
-<div>
-<div class="text-xs font-bold">通信ETF</div>
-<div class="text-[10px] text-textAssist">卫星仓 · 建议占比 15%</div>
-</div>
-</div>
-<span class="text-[10px] text-textAssist">515880</span>
-</div>
-<div class="flex items-center justify-between p-2.5 bg-bgMain rounded-lg">
-<div class="flex items-center gap-2">
-<div class="w-6 h-6 rounded bg-secondary/10 flex items-center justify-center text-[10px] font-bold text-secondary">卫</div>
-<div>
-<div class="text-xs font-bold">半导体ETF</div>
-<div class="text-[10px] text-textAssist">卫星仓 · 建议占比 15%</div>
-</div>
-</div>
-<span class="text-[10px] text-textAssist">512480</span>
-</div>
-</div>
-<div class="flex gap-2">
-<button class="flex-1 bg-primary text-white font-bold py-2.5 rounded-xl text-xs active:scale-95 transition-transform">生成并关注</button>
-<button class="flex-1 bg-bgMain text-textSub font-bold py-2.5 rounded-xl text-xs active:scale-95 transition-transform border border-gray-100">修改条件</button>
-</div>
-</div>
-</div>
-</div>
+<!-- ====== Tab 3: 作业本 (歌单式) ====== -->
+<div id="tab-notebook" class="hidden animate-fade-in">
+  <div class="px-4 pt-4">
+    <div class="flex items-center justify-between mb-3">
+      <div>
+        <h3 class="text-sm font-bold">我的作业本</h3>
+        <p class="text-[10px] text-textAssist mt-0.5">从高手作业中收藏的个股，像歌单一样管理</p>
+      </div>
+      <span class="text-[10px] text-textAssist bg-bgMain px-2 py-1 rounded-full" id="notebook-count">0 只</span>
+    </div>
+    <div class="space-y-2" id="notebook-list">
+      <!-- JS 动态渲染 -->
+    </div>
+    <div id="notebook-empty" class="hidden text-center py-12">
+      <div class="text-4xl mb-3">📋</div>
+      <div class="text-sm font-bold text-textSub mb-1">作业本还是空的</div>
+      <div class="text-[10px] text-textAssist">去高手作业里收藏感兴趣的股票吧</div>
+      <button class="mt-4 bg-primary text-white text-xs font-bold px-6 py-2 rounded-full" onclick="switchTab(document.querySelector('.tab-btn'), 'tab-homework')">去看看</button>
+    </div>
+  </div>
 </div>
 
-<!-- ===== Panel 2: 灵感广场 ===== -->
-<div id="panel-square" class="hidden">
-<div class="px-4">
-<!-- 广场筛选 -->
-<div class="flex gap-2 mb-3">
-<button class="square-filter-active text-[10px] px-2.5 py-1 rounded-full font-bold" onclick="filterSquare(this)">全部</button>
-<button class="bg-white text-textSub text-[10px] px-2.5 py-1 rounded-full border border-gray-100" onclick="filterSquare(this)">股票</button>
-<button class="bg-white text-textSub text-[10px] px-2.5 py-1 rounded-full border border-gray-100" onclick="filterSquare(this)">基金</button>
-<button class="bg-white text-textSub text-[10px] px-2.5 py-1 rounded-full border border-gray-100" onclick="filterSquare(this)">公开灵感</button>
-</div>
-
-<div class="space-y-3">
-<!-- 广场卡片 1 -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
-<div class="p-4">
-<div class="flex items-center justify-between mb-2">
-<div class="flex items-center gap-2">
-<div class="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-[10px] font-bold text-secondary">趋</div>
-<span class="text-[11px] font-bold">@趋势鲤鱼</span>
-<span class="text-[10px] text-textAssist">· 今天 14:30</span>
-</div>
-<span class="text-[10px] text-down bg-down/10 px-2 py-0.5 rounded-full font-bold">胜率 72%</span>
-</div>
-<h3 class="font-bold text-sm mb-1">北向连续净买 + 行业低位</h3>
-<p class="text-[11px] text-textSub mb-3">跟踪陆股通资金连续 3 日以上净买入的行业，在行业估值处于近 3 年 30% 分位以下时关注。</p>
-<!-- 当前股单 -->
-<div class="bg-bgMain rounded-xl p-3 mb-3">
-<div class="text-[10px] text-textAssist font-medium mb-2">当前选出标的</div>
-<div class="space-y-1.5">
-<div class="flex items-center justify-between">
-<span class="text-xs font-medium">中际旭创 <span class="text-textAssist text-[10px]">300308</span></span>
-<span class="text-xs font-bold text-up">+6.12%</span>
-</div>
-<div class="flex items-center justify-between">
-<span class="text-xs font-medium">阳光电源 <span class="text-textAssist text-[10px]">300274</span></span>
-<span class="text-xs font-bold text-up">+4.76%</span>
-</div>
-<div class="flex items-center justify-between">
-<span class="text-xs font-medium">通信ETF <span class="text-textAssist text-[10px]">515880</span></span>
-<span class="text-xs font-bold text-up">+2.48%</span>
-</div>
-</div>
-</div>
-<div class="flex items-center justify-between">
-<div class="flex gap-3">
-<span class="text-[10px] text-textAssist">均涨 <strong class="text-up">+4.8%</strong></span>
-<span class="text-[10px] text-textAssist">关注 <strong>1,284</strong></span>
-<span class="text-[10px] text-textAssist">回撤 <strong class="text-down">-3.2%</strong></span>
-</div>
-<button class="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-lg active:scale-95 transition-transform">关注</button>
-</div>
-</div>
-</div>
-
-<!-- 广场卡片 2 (打赏解锁) -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
-<div class="p-4">
-<div class="flex items-center justify-between mb-2">
-<div class="flex items-center gap-2">
-<div class="w-6 h-6 rounded-full bg-pink-100 flex items-center justify-center text-[10px] font-bold text-pink-500">稳</div>
-<span class="text-[11px] font-bold">@稳稳姐</span>
-<span class="text-[10px] text-textAssist">· 昨天 17:20</span>
-</div>
-<span class="text-[10px] text-down bg-down/10 px-2 py-0.5 rounded-full font-bold">胜率 76%</span>
-</div>
-<h3 class="font-bold text-sm mb-1">高股息低波动 + 月度再平衡</h3>
-<p class="text-[11px] text-textSub mb-3">筛选股息率高于 4%、波动率低于同类平均的基金，每月调仓一次，适合稳健型投资者长期持有。</p>
-<!-- 条件锁定 -->
-<div class="bg-bgMain rounded-xl p-3 mb-3 text-center">
-<div class="text-[10px] text-textAssist mb-2">当前选出标的（3 只）</div>
-<div class="flex items-center justify-center gap-2 mb-2">
-<iconify-icon class="text-primary text-lg" icon="solar:lock-bold-duotone"></iconify-icon>
-<span class="text-xs text-textSub">条件需打赏解锁</span>
-</div>
-<div class="flex items-center justify-center gap-1">
-<span class="text-[10px] bg-bgMain text-textAssist px-2 py-0.5 rounded border border-gray-100">股息率 ≥4%</span>
-<span class="text-[10px] bg-bgMain text-textAssist px-2 py-0.5 rounded border border-gray-100">波动率 ≤ 同类均值</span>
-<span class="text-[10px] bg-bgMain text-textAssist px-2 py-0.5 rounded border border-gray-100">规模 ≥20亿</span>
-</div>
-</div>
-<div class="flex items-center justify-between">
-<div class="flex gap-3">
-<span class="text-[10px] text-textAssist">均涨 <strong class="text-up">+2.1%</strong></span>
-<span class="text-[10px] text-textAssist">关注 <strong>3,412</strong></span>
-<span class="text-[10px] text-textAssist">回撤 <strong class="text-down">-1.8%</strong></span>
-</div>
-<button class="bg-secondary text-white text-[10px] font-bold px-3 py-1.5 rounded-lg active:scale-95 transition-transform">打赏查看</button>
-</div>
-</div>
-</div>
-
-<!-- 广场卡片 3 -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
-<div class="p-4">
-<div class="flex items-center justify-between mb-2">
-<div class="flex items-center gap-2">
-<div class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-[10px] font-bold text-blue-500">短</div>
-<span class="text-[11px] font-bold">@短线小算盘</span>
-<span class="text-[10px] text-textAssist">· 今天 10:55</span>
-</div>
-<span class="text-[10px] text-up bg-up/10 px-2 py-0.5 rounded-full font-bold">胜率 57%</span>
-</div>
-<h3 class="font-bold text-sm mb-1">游资首板回流 + 成交额放大</h3>
-<p class="text-[11px] text-textSub mb-3">寻找题材刚启动、成交额快速放大的短线机会，关注首板后第二天的回流确认信号。</p>
-<!-- 公开灵感 - 条件可见 -->
-<div class="bg-bgMain rounded-xl p-3 mb-3">
-<div class="text-[10px] text-textAssist font-medium mb-2">筛选条件（公开灵感）</div>
-<div class="flex flex-wrap gap-1.5 mb-2">
-<span class="text-[10px] bg-white text-textSub px-2 py-0.5 rounded border border-gray-100">涨停结构：近3日首板</span>
-<span class="text-[10px] bg-white text-textSub px-2 py-0.5 rounded border border-gray-100">成交额 ≥ 20日均额 1.5x</span>
-<span class="text-[10px] bg-white text-textSub px-2 py-0.5 rounded border border-gray-100">换手率 5%-18%</span>
-</div>
-<div class="text-[10px] text-textAssist">当前选出：新易盛、拓荆科技、鸣志电器、上能电气</div>
-</div>
-<div class="flex items-center justify-between">
-<div class="flex gap-3">
-<span class="text-[10px] text-textAssist">均涨 <strong class="text-up">+8.1%</strong></span>
-<span class="text-[10px] text-textAssist">关注 <strong>1,084</strong></span>
-<span class="text-[10px] text-textAssist">回撤 <strong class="text-down">-11.2%</strong></span>
-</div>
-<button class="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-lg active:scale-95 transition-transform">关注</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<!-- ===== Panel 3: 我的灵感条件 ===== -->
-<div id="panel-mine" class="hidden">
-<!-- 当前灵感标题 -->
-<div class="px-4 mb-3">
-<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-50">
-<div class="flex items-center justify-between mb-1">
-<h3 class="font-bold text-sm">机构作业跟踪灵感</h3>
-<span class="text-[10px] text-textAssist bg-bgMain px-2 py-0.5 rounded-full">已关注 12 天</span>
-</div>
-<p class="text-[11px] text-textSub mb-3">跟踪外资投行、游资席位和私募的最新调仓动作，筛选出条件匹配的标的。</p>
-<!-- 条件面板 -->
-<div class="space-y-3">
-<div>
-<div class="flex justify-between items-center mb-1">
-<label class="text-[11px] text-textSub font-medium">评级上调数量</label>
-<span class="text-[11px] font-bold text-primary insp-cond-val" data-unit="家">≥1家</span>
-</div>
-<input class="w-full h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="0" max="5" value="1" oninput="this.parentNode.querySelector('.insp-cond-val').innerText='≥'+this.value+this.parentNode.querySelector('.insp-cond-val').dataset.unit"/>
-</div>
-<div>
-<div class="flex justify-between items-center mb-1">
-<label class="text-[11px] text-textSub font-medium">目标价中位数上调</label>
-<span class="text-[11px] font-bold text-primary insp-cond-val" data-unit="%">≥5%</span>
-</div>
-<input class="w-full h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="0" max="20" value="5" oninput="this.parentNode.querySelector('.insp-cond-val').innerText='≥'+this.value+this.parentNode.querySelector('.insp-cond-val').dataset.unit"/>
-</div>
-<div>
-<div class="flex justify-between items-center mb-1">
-<label class="text-[11px] text-textSub font-medium">北向净增持</label>
-<span class="text-[11px] font-bold text-primary insp-cond-val" data-unit="日">≥3日</span>
-</div>
-<input class="w-full h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="0" max="10" value="3" oninput="this.parentNode.querySelector('.insp-cond-val').innerText='≥'+this.value+this.parentNode.querySelector('.insp-cond-val').dataset.unit"/>
-</div>
-<div class="grid grid-cols-2 gap-3">
-<div>
-<div class="flex justify-between items-center mb-1">
-<label class="text-[11px] text-textSub font-medium">PE 分位</label>
-<span class="text-[11px] font-bold text-primary insp-cond-val" data-unit="%">≤80%</span>
-</div>
-<input class="w-full h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="0" max="100" value="80" oninput="this.parentNode.querySelector('.insp-cond-val').innerText='≤'+this.value+this.parentNode.querySelector('.insp-cond-val').dataset.unit"/>
-</div>
-<div>
-<div class="flex justify-between items-center mb-1">
-<label class="text-[11px] text-textSub font-medium">成交额/20日均值</label>
-<span class="text-[11px] font-bold text-primary insp-cond-val" data-unit="倍">≥1.3倍</span>
-</div>
-<input class="w-full h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="1" max="3" step="0.1" value="1.3" oninput="this.parentNode.querySelector('.insp-cond-val').innerText='≥'+parseFloat(this.value).toFixed(1)+this.parentNode.querySelector('.insp-cond-val').dataset.unit"/>
-</div>
-</div>
-<div>
-<div class="flex justify-between items-center mb-1">
-<label class="text-[11px] text-textSub font-medium">同板块上涨占比</label>
-<span class="text-[11px] font-bold text-primary insp-cond-val" data-unit="%">≥60%</span>
-</div>
-<input class="w-full h-1 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="0" max="100" value="60" oninput="this.parentNode.querySelector('.insp-cond-val').innerText='≥'+this.value+this.parentNode.querySelector('.insp-cond-val').dataset.unit"/>
-</div>
-</div>
-<!-- 操作按钮 -->
-<div class="flex gap-2 mt-4">
-<button class="flex-1 bg-primary text-white font-bold py-2.5 rounded-xl text-xs active:scale-95 transition-transform">保存条件</button>
-<button class="flex-1 bg-textMain text-white font-bold py-2.5 rounded-xl text-xs active:scale-95 transition-transform" onclick="runInspFilter()">重新运行</button>
-</div>
-</div>
-</div>
-
-<!-- 当前选出结果 -->
-<div class="px-4 mt-3">
-<div class="flex items-center justify-between mb-2">
-<h3 class="text-sm font-bold flex items-center gap-1.5">
-<span class="w-1.5 h-1.5 rounded-full bg-up inline-block"></span>
-当前选出结果
-</h3>
-<span class="text-[10px] text-textAssist">更新于 15:40</span>
-</div>
-<div class="space-y-2" id="insp-stock-results">
-<button class="w-full bg-white rounded-xl p-3 shadow-sm border border-gray-50 flex items-center justify-between text-left active:scale-[0.98] transition-transform" onclick="location.href='stock_detail.html'">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center text-xs font-bold text-secondary">中</div>
-<div>
-<div class="text-sm font-bold">中际旭创</div>
-<div class="text-[10px] text-textAssist">300308 · 光模块</div>
-</div>
-</div>
-<div class="text-right">
-<div class="text-sm font-bold text-up">+6.12%</div>
-<div class="text-[10px] text-textAssist">评级上调 3 家</div>
-</div>
-</button>
-<button class="w-full bg-white rounded-xl p-3 shadow-sm border border-gray-50 flex items-center justify-between text-left active:scale-[0.98] transition-transform" onclick="location.href='stock_detail.html'">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center text-xs font-bold text-secondary">北</div>
-<div>
-<div class="text-sm font-bold">北方华创</div>
-<div class="text-[10px] text-textAssist">002371 · 半导体设备</div>
-</div>
-</div>
-<div class="text-right">
-<div class="text-sm font-bold text-up">+5.82%</div>
-<div class="text-[10px] text-textAssist">北向净增持 5 日</div>
-</div>
-</button>
-<button class="w-full bg-white rounded-xl p-3 shadow-sm border border-gray-50 flex items-center justify-between text-left active:scale-[0.98] transition-transform" onclick="location.href='stock_detail.html'">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">通</div>
-<div>
-<div class="text-sm font-bold">通信ETF</div>
-<div class="text-[10px] text-textAssist">515880 · 场内ETF</div>
-</div>
-</div>
-<div class="text-right">
-<div class="text-sm font-bold text-up">+2.48%</div>
-<div class="text-[10px] text-textAssist">板块上涨占比 78%</div>
-</div>
-</button>
-</div>
-</div>
-</div>
-</section>
-
-<!-- Section 4: 投资计算器 -->
-<section class="px-4 pb-6">
-<div class="mb-4">
-<h2 class="text-lg font-bold flex items-center gap-2">
-<iconify-icon class="text-primary text-xl" icon="solar:calculator-minimalistic-bold-duotone"></iconify-icon>
-投资计算器
-</h2>
-<p class="text-xs text-textAssist mt-1">实用投资工具，帮你算清楚</p>
-</div>
-
-<div class="space-y-3">
-<!-- 复利计算器 -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
-<div class="p-4 flex items-center justify-between cursor-pointer" onclick="toggleCalc('calc-compound')">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-<iconify-icon class="text-primary text-lg" icon="solar:graph-up-bold-duotone"></iconify-icon>
-</div>
-<div>
-<div class="font-bold text-sm">复利计算器</div>
-<div class="text-[10px] text-textAssist">计算复利增长，看时间的朋友</div>
-</div>
-</div>
-<iconify-icon class="text-textAssist text-lg transition-transform duration-300" icon="solar:alt-arrow-down-linear" id="arrow-calc-compound"></iconify-icon>
-</div>
-<div class="hidden px-4 pb-4" id="calc-compound">
-<div class="space-y-3">
-<div class="grid grid-cols-2 gap-3">
-<div>
-<label class="text-[10px] text-textAssist block mb-1">初始本金 (元)</label>
-<input type="number" id="compound-principal" value="10000" class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none" />
-</div>
-<div>
-<label class="text-[10px] text-textAssist block mb-1">每月定投 (元)</label>
-<input type="number" id="compound-monthly" value="1000" class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none" />
-</div>
-<div>
-<label class="text-[10px] text-textAssist block mb-1">年化收益率 (%)</label>
-<input type="number" id="compound-rate" value="8" class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none" />
-</div>
-<div>
-<label class="text-[10px] text-textAssist block mb-1">投资年限 (年)</label>
-<input type="number" id="compound-years" value="10" class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none" />
-</div>
-</div>
-<button class="w-full bg-primary text-white font-bold py-2.5 rounded-xl text-xs active:scale-95 transition-transform" onclick="calcCompound()">计算</button>
-<div class="hidden mt-3 bg-bgMain rounded-xl p-4" id="compound-result">
-<div class="grid grid-cols-2 gap-3 text-center">
-<div>
-<div class="text-[10px] text-textAssist">最终金额</div>
-<div class="text-lg font-bold text-primary" id="compound-total">-</div>
-</div>
-<div>
-<div class="text-[10px] text-textAssist">总收益</div>
-<div class="text-lg font-bold text-up" id="compound-profit">-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<!-- 定投收益计算器 -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
-<div class="p-4 flex items-center justify-between cursor-pointer" onclick="toggleCalc('calc-invest')">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
-<iconify-icon class="text-blue-600 text-lg" icon="solar:dollar-minimalistic-bold-duotone"></iconify-icon>
-</div>
-<div>
-<div class="font-bold text-sm">定投收益计算器</div>
-<div class="text-[10px] text-textAssist">定投每月投入，算算最终收获</div>
-</div>
-</div>
-<iconify-icon class="text-textAssist text-lg transition-transform duration-300" icon="solar:alt-arrow-down-linear" id="arrow-calc-invest"></iconify-icon>
-</div>
-<div class="hidden px-4 pb-4" id="calc-invest">
-<div class="space-y-3">
-<div class="grid grid-cols-2 gap-3">
-<div>
-<label class="text-[10px] text-textAssist block mb-1">每月投入金额 (元)</label>
-<input type="number" id="invest-monthly" value="2000" class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none" />
-</div>
-<div>
-<label class="text-[10px] text-textAssist block mb-1">投资月数</label>
-<input type="number" id="invest-months" value="12" class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none" />
-</div>
-</div>
-<button class="w-full bg-blue-600 text-white font-bold py-2.5 rounded-xl text-xs active:scale-95 transition-transform" onclick="calcInvest()">计算</button>
-<div class="hidden mt-3" id="invest-result">
-<div class="bg-bgMain rounded-xl p-3 mb-2 grid grid-cols-2 gap-3 text-center">
-<div>
-<div class="text-[10px] text-textAssist">累计投入</div>
-<div class="text-sm font-bold" id="invest-total-input">-</div>
-</div>
-<div>
-<div class="text-[10px] text-textAssist">模拟收益 (8%)</div>
-<div class="text-sm font-bold text-up" id="invest-profit">-</div>
-</div>
-</div>
-<div class="bg-bgMain rounded-xl overflow-hidden">
-<div class="text-[10px] text-textAssist px-3 py-2 font-medium border-b border-gray-100">月度明细 (模拟)</div>
-<div class="max-h-40 overflow-y-auto" id="invest-table"></div>
-</div>
-</div>
-</div>
-</div>
-
-<!-- 回撤计算器 -->
-<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
-<div class="p-4 flex items-center justify-between cursor-pointer" onclick="toggleCalc('calc-drawdown')">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center">
-<iconify-icon class="text-up text-lg" icon="solar:graph-down-bold-duotone"></iconify-icon>
-</div>
-<div>
-<div class="font-bold text-sm">回撤计算器</div>
-<div class="text-[10px] text-textAssist">算算你的浮盈浮亏</div>
-</div>
-</div>
-<iconify-icon class="text-textAssist text-lg transition-transform duration-300" icon="solar:alt-arrow-down-linear" id="arrow-calc-drawdown"></iconify-icon>
-</div>
-<div class="hidden px-4 pb-4" id="calc-drawdown">
-<div class="space-y-3">
-<div class="grid grid-cols-2 gap-3">
-<div>
-<label class="text-[10px] text-textAssist block mb-1">投入金额 (元)</label>
-<input type="number" id="drawdown-cost" value="100000" class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none" />
-</div>
-<div>
-<label class="text-[10px] text-textAssist block mb-1">当前市值 (元)</label>
-<input type="number" id="drawdown-current" value="90000" class="w-full bg-bgMain rounded-lg px-3 py-2 text-xs border-none outline-none" />
-</div>
-</div>
-<button class="w-full bg-up text-white font-bold py-2.5 rounded-xl text-xs active:scale-95 transition-transform" onclick="calcDrawdown()">计算</button>
-<div class="hidden mt-3 bg-bgMain rounded-xl p-4" id="drawdown-result">
-<div class="grid grid-cols-2 gap-3 text-center">
-<div>
-<div class="text-[10px] text-textAssist">浮盈/浮亏</div>
-<div class="text-lg font-bold" id="drawdown-amount">-</div>
-</div>
-<div>
-<div class="text-[10px] text-textAssist">盈亏比例</div>
-<div class="text-lg font-bold" id="drawdown-percent">-</div>
-</div>
-</div>
-<div class="mt-3 text-center" id="drawdown-status"></div>
-</div>
-</div>
-</div>
-</div>
-</section>
 </main>
+
+<!-- ====== 作业详情 Modal ====== -->
+<div class="fixed inset-0 z-[100] hidden" id="detail-modal">
+  <div class="absolute inset-0 bg-black/40 modal-backdrop" onclick="closeDetail()"></div>
+  <div class="absolute bottom-0 w-full max-w-[414px] bg-white rounded-t-3xl shadow-2xl animate-slide-up max-h-[85vh] flex flex-col">
+    <!-- 详情 Header -->
+    <div class="px-5 pt-5 pb-3 border-b border-gray-100 flex-shrink-0">
+      <div class="flex justify-between items-start">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center font-bold text-primary text-sm border-2 border-primary/30" id="detail-avatar">RY</div>
+          <div>
+            <div class="font-bold text-base" id="detail-name">睿远均衡</div>
+            <div class="text-[10px] text-textAssist" id="detail-meta">胜率 63% · 最大回撤 -18.4%</div>
+          </div>
+        </div>
+        <button class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-textAssist" onclick="closeDetail()">
+          <iconify-icon icon="solar:close-circle-bold"></iconify-icon>
+        </button>
+      </div>
+    </div>
+    <!-- 详情内容 (可滚动) -->
+    <div class="flex-1 overflow-y-auto px-5 py-4 space-y-5">
+      <!-- Step 1: 大佬的思路 -->
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <div class="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">1</div>
+          <h4 class="text-sm font-bold">大佬的思路</h4>
+        </div>
+        <div class="bg-orange-50 rounded-xl p-3 border border-orange-100" id="detail-logic">
+          <p class="text-xs text-textSub leading-relaxed">
+            以低估值优质成长股为核心，通过深度调研筛选 ROE 持续高于 15%、现金流充裕的公司。持仓分散在 15-20 只，单只不超过 8%，注重安全边际。当前看好制造业升级和消费复苏两条主线。
+          </p>
+        </div>
+      </div>
+      <!-- Step 2: 产业配置 -->
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <div class="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">2</div>
+          <h4 class="text-sm font-bold">产业配置</h4>
+        </div>
+        <div class="grid grid-cols-2 gap-2" id="detail-allocation">
+          <!-- JS 渲染 -->
+        </div>
+      </div>
+      <!-- Step 3: 持仓明细 -->
+      <div>
+        <div class="flex items-center gap-2 mb-2">
+          <div class="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">3</div>
+          <h4 class="text-sm font-bold">持仓明细</h4>
+        </div>
+        <div class="space-y-2" id="detail-holdings">
+          <!-- JS 渲染 -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- 底部导航 -->
-<nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-4 py-3 flex justify-between items-center z-50 safe-bottom">
-<a class="flex flex-col items-center gap-1 text-textAssist" href="discover.html">
-<iconify-icon class="text-2xl" icon="solar:home-smile-angle-linear"></iconify-icon>
-<span class="text-[10px]">发现</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-textAssist" href="copytrade.html">
-<iconify-icon class="text-2xl" icon="solar:copy-bold"></iconify-icon>
-<span class="text-[10px]">广场</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-primary" href="toolbox.html">
-<iconify-icon class="text-2xl" icon="solar:lightbulb-bold"></iconify-icon>
-<span class="text-[10px] font-bold">灵感</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-textAssist" href="profile.html">
-<iconify-icon class="text-2xl" icon="solar:user-bold"></iconify-icon>
-<span class="text-[10px]">我的</span>
-</a>
+<nav class="fixed bottom-0 w-full max-w-[414px] glass-effect border-t border-gray-100 px-4 py-3 flex justify-between items-center z-50 safe-bottom">
+  <a class="flex flex-col items-center gap-1 text-textAssist" href="discover.html">
+    <iconify-icon class="text-2xl" icon="solar:home-smile-angle-linear"></iconify-icon>
+    <span class="text-[10px]">发现</span>
+  </a>
+  <a class="flex flex-col items-center gap-1 text-primary" href="toolbox.html">
+    <iconify-icon class="text-2xl" icon="solar:lightbulb-bold"></iconify-icon>
+    <span class="text-[10px] font-bold">灵感</span>
+  </a>
+  <a class="flex flex-col items-center gap-1 text-textAssist" href="profile.html">
+    <iconify-icon class="text-2xl" icon="solar:user-linear"></iconify-icon>
+    <span class="text-[10px]">我的</span>
+  </a>
 </nav>
+
 <!-- 全局浮窗 -->
 <div class="fixed right-4 bottom-24 z-[60] cursor-pointer" onclick="location.href='ai_assistant.html'">
-<div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg border-2 border-white">
-<span class="text-2xl">🐟</span>
+  <div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+    <span class="text-2xl">🐟</span>
+  </div>
 </div>
-</div>
-<!-- 首次访问引导气泡 -->
+
+<!-- 首次访问引导 -->
 <div id="guide-toolbox" class="hidden">
-<div class="guide-overlay" onclick="dismissGuide('toolbox')"></div>
-<div class="guide-tooltip arrow-top" style="top: 130px; left: 16px; right: 16px; max-width: none;">
-<div class="font-bold mb-1">💡 灵感 — AI 帮你选策略</div>
-<div>用一句话描述你的投资想法，AI 帮你生成专属选股策略。也可以在灵感广场看看别人的策略，或者管理自己已关注的灵感条件。</div>
-<button class="guide-close" onclick="dismissGuide('toolbox')">我知道了</button>
+  <div class="guide-overlay" onclick="dismissGuide('toolbox')"></div>
+  <div class="guide-tooltip arrow-top" style="top: 120px; left: 16px; right: 16px; max-width: none;">
+    <div class="font-bold mb-1">💡 灵感 — 高手的作业池</div>
+    <div>查看投资高手的作业思路和持仓，收藏感兴趣的个股到作业本。也可以在灵感广场看看别人的策略灵感。</div>
+    <button class="guide-close" onclick="dismissGuide('toolbox')">我知道了</button>
+  </div>
 </div>
+
 </div>
-<!-- 设置弹窗 -->
-<div id="settings-modal" class="hidden">
-<div class="modal-overlay" onclick="this.parentNode.classList.add('hidden')">
-<div class="modal-box" onclick="event.stopPropagation()">
-<h3>⚙️ 灵感设置</h3>
-<p>灵感偏好设置即将上线，届时你可以在这里调整 AI 推荐风格和通知频率。敬请期待！</p>
-<button onclick="this.closest('.modal-overlay').parentNode.classList.add('hidden')">知道了</button>
-</div>
-</div>
-</div>
-</div>
+
 <script>
-        function showResults() {
-            const res = document.getElementById('results');
-            res.classList.remove('hidden');
-            res.scrollIntoView({ behavior: 'smooth' });
-        }
+// ========== DNA Config ==========
+var dnaConfig = {
+  cheetah: { label: '收益率优先', emoji: '🐆' },
+  turtle:  { label: '低回撤优先', emoji: '🐢' },
+  owl:     { label: 'AI 解释完整度优先', emoji: '🦉' },
+  fox:     { label: '事件催化优先', emoji: '🦊' },
+  squirrel:{ label: '学习友好优先', emoji: '🐿️' }
+};
+var dnaDimensionMap = {
+  owl:      { decision:'rational', action:'cautious', returns:'longterm', risk:'balanced', learning:'scholar', info:'data', emotion:'stable', goals:'selfgrowth', horizon:'long' },
+  cheetah:  { decision:'intuitive', action:'active', returns:'aggressive', risk:'aggressive', learning:'practical', info:'news', emotion:'volatile', goals:'wealth', horizon:'short' },
+  turtle:   { decision:'rational', action:'cautious', returns:'stable', risk:'conservative', learning:'practical', info:'data', emotion:'stable', goals:'life', horizon:'long' },
+  fox:      { decision:'following', action:'rhythmic', returns:'aggressive', risk:'balanced', learning:'growing', info:'news', emotion:'normal', goals:'wealth', horizon:'medium' },
+  squirrel: { decision:'following', action:'cautious', returns:'stable', risk:'conservative', learning:'growing', info:'ai', emotion:'normal', goals:'selfgrowth', horizon:'long' }
+};
 
-        function toggleTag(btn) {
-            document.querySelectorAll('.tag-active').forEach(b => {
-                b.classList.remove('tag-active');
-                b.classList.add('bg-bgMain');
-            });
-            btn.classList.add('tag-active');
-            btn.classList.remove('bg-bgMain');
-        }
+// ========== 高手作业数据 ==========
+var homeworkData = [
+  { id:1, name:'睿远均衡', avatar:'RY', successRate:'63%', maxDrawdown:'-18.4%', riskLevel:'中低波动', sampleSize:'42次调仓', disclosureLag:'季报滞后45天', tags:['大牛','价值成长','分散持仓'], followed:true, dnaFit:['turtle','owl'], dnaDimensions:{decision:'rational',action:'cautious',returns:'longterm',risk:'balanced'}, fitReason:'适合想稳一点、但又不想完全放弃收益弹性的用户',
+    logic:'以低估值优质成长股为核心，通过深度调研筛选 ROE 持续高于15%的公司。持仓分散在15-20只，注重安全边际。当前看好制造业升级和消费复苏。',
+    allocation:[{sector:'高端制造',pct:'35%',stocks:'宁德时代、汇川技术'},{sector:'消费复苏',pct:'25%',stocks:'贵州茅台、美的集团'},{sector:'医药健康',pct:'20%',stocks:'恒瑞医药、药明康德'},{sector:'金融地产',pct:'10%',stocks:'招商银行'},{sector:'现金',pct:'10%',stocks:'—'}],
+    holdings:[{name:'宁德时代',code:'300750',pct:'7.8%',change:'+5.24%',sector:'高端制造'},{name:'贵州茅台',code:'600519',pct:'6.5%',change:'+1.2%',sector:'消费'},{name:'恒瑞医药',code:'600276',pct:'5.2%',change:'-0.8%',sector:'医药'},{name:'汇川技术',code:'300124',pct:'4.8%',change:'+3.1%',sector:'高端制造'},{name:'招商银行',code:'600036',pct:'4.0%',change:'+0.5%',sector:'金融'}]
+  },
+  { id:2, name:'易方达蓝筹', avatar:'EF', successRate:'59%', maxDrawdown:'-21.7%', riskLevel:'中等波动', sampleSize:'38次调仓', disclosureLag:'季报滞后45天', tags:['大牛','消费医药','大盘成长'], followed:false, dnaFit:['cheetah','fox'], dnaDimensions:{decision:'intuitive',action:'rhythmic',returns:'aggressive',risk:'balanced'}, fitReason:'消费龙头集中持仓，适合看好内需复苏的用户',
+    logic:'重仓消费和医药龙头，集中持仓高确定性标的。偏好品牌壁垒深、定价权强的企业，长期持有为主，换手率较低。',
+    allocation:[{sector:'白酒消费',pct:'40%',stocks:'贵州茅台、五粮液'},{sector:'医疗创新',pct:'30%',stocks:'迈瑞医疗、爱尔眼科'},{sector:'互联网',pct:'15%',stocks:'腾讯控股'},{sector:'现金',pct:'15%',stocks:'—'}],
+    holdings:[{name:'贵州茅台',code:'600519',pct:'12%',change:'+1.2%',sector:'白酒'},{name:'五粮液',code:'000858',pct:'8%',change:'+0.8%',sector:'白酒'},{name:'迈瑞医疗',code:'300760',pct:'7%',change:'-1.5%',sector:'医疗'},{name:'腾讯控股',code:'00700',pct:'6%',change:'+2.3%',sector:'互联网'}]
+  },
+  { id:3, name:'章盟主', avatar:'ZM', successRate:'48%', maxDrawdown:'-36.2%', riskLevel:'高波动', sampleSize:'126次上榜', disclosureLag:'龙虎榜T+1', tags:['游资','题材主线','高换手'], followed:false, dnaFit:['fox','cheetah'], dnaDimensions:{decision:'intuitive',action:'active',returns:'aggressive',risk:'aggressive'}, fitReason:'题材主线敏感度高，适合对消息面反应快的用户',
+    logic:'紧跟市场最强题材主线，聚焦龙头票和容量票。操作以短线为主，快进快出，严格止损。重视盘面情绪周期和资金流向。',
+    allocation:[{sector:'AI算力',pct:'40%',stocks:'中际旭创、新易盛'},{sector:'半导体',pct:'30%',stocks:'北方华创、中芯国际'},{sector:'机器人',pct:'20%',stocks:'鸣志电器'},{sector:'现金',pct:'10%',stocks:'—'}],
+    holdings:[{name:'中际旭创',code:'300308',pct:'15%',change:'+6.12%',sector:'AI算力'},{name:'北方华创',code:'002371',pct:'12%',change:'+5.82%',sector:'半导体'},{name:'新易盛',code:'300502',pct:'8%',change:'+4.5%',sector:'AI算力'},{name:'鸣志电器',code:'603728',pct:'6%',change:'-2.1%',sector:'机器人'}]
+  },
+  { id:4, name:'高毅资产', avatar:'GY', successRate:'58%', maxDrawdown:'-20.3%', riskLevel:'中等波动', sampleSize:'31次披露', disclosureLag:'定报滞后60天', tags:['私募','深度调研','低估值'], followed:true, dnaFit:['turtle','owl'], dnaDimensions:{decision:'rational',action:'cautious',returns:'longterm',risk:'conservative'}, fitReason:'深度调研+低估值逻辑，适合相信"买得便宜"的用户',
+    logic:'坚持逆向投资，在市场恐慌时布局低估值标的。重视企业内在价值和现金流，不追热点，耐心持有等待价值回归。',
+    allocation:[{sector:'能源资源',pct:'30%',stocks:'中国神华、中国海油'},{sector:'银行保险',pct:'25%',stocks:'招商银行、中国平安'},{sector:'制造业',pct:'25%',stocks:'福耀玻璃、海尔智家'},{sector:'现金',pct:'20%',stocks:'—'}],
+    holdings:[{name:'中国神华',code:'601088',pct:'8%',change:'+1.8%',sector:'能源'},{name:'招商银行',code:'600036',pct:'7%',change:'+0.5%',sector:'银行'},{name:'福耀玻璃',code:'600660',pct:'6%',change:'+2.1%',sector:'制造'},{name:'中国平安',code:'601318',pct:'5.5%',change:'-0.3%',sector:'保险'}]
+  },
+  { id:5, name:'中欧医疗', avatar:'ZO', successRate:'52%', maxDrawdown:'-32.8%', riskLevel:'高波动', sampleSize:'36次调仓', disclosureLag:'季报滞后45天', tags:['大牛','医疗创新','行业集中'], followed:false, dnaFit:['cheetah','fox'], dnaDimensions:{decision:'intuitive',action:'active',returns:'aggressive',risk:'aggressive'}, fitReason:'高弹性医疗赛道，适合能承受大回撤的用户',
+    logic:'聚焦医疗创新产业链，从CXO到医疗器械全面布局。看好人口老龄化趋势下的长期机会，短期波动不改长期逻辑。',
+    allocation:[{sector:'CXO',pct:'35%',stocks:'药明康德、凯莱英'},{sector:'医疗器械',pct:'30%',stocks:'迈瑞医疗、联影医疗'},{sector:'创新药',pct:'25%',stocks:'恒瑞医药、百济神州'},{sector:'现金',pct:'10%',stocks:'—'}],
+    holdings:[{name:'药明康德',code:'603259',pct:'10%',change:'-2.3%',sector:'CXO'},{name:'迈瑞医疗',code:'300760',pct:'9%',change:'-1.5%',sector:'器械'},{name:'恒瑞医药',code:'600276',pct:'8%',change:'+1.1%',sector:'创新药'}]
+  }
+];
 
-        var animalNames = {owl:'猫头鹰', cheetah:'猎豹', turtle:'乌龟', fox:'狐狸', squirrel:'松鼠'};
+// ========== 灵感广场数据 ==========
+var squareData = [
+  { author:'趋势鲤鱼', avatar:'趋', avatarBg:'bg-orange-100', avatarColor:'text-secondary', time:'今天 14:30', winRate:'72%', title:'北向连续净买 + 行业低位', desc:'跟踪陆股通资金连续3日以上净买入的行业，在行业估值处于近3年30%分位以下时关注。', stocks:[{name:'中际旭创',code:'300308',change:'+6.12%'},{name:'阳光电源',code:'300274',change:'+4.76%'},{name:'通信ETF',code:'515880',change:'+2.48%'}], avgGain:'+4.8%', followers:'1,284', drawdown:'-3.2%', locked:false },
+  { author:'稳稳姐', avatar:'稳', avatarBg:'bg-pink-100', avatarColor:'text-pink-500', time:'昨天 17:20', winRate:'76%', title:'高股息低波动 + 月度再平衡', desc:'筛选股息率高于4%、波动率低于同类平均的基金，每月调仓一次，适合稳健型投资者。', stocks:[], avgGain:'+2.1%', followers:'3,412', drawdown:'-1.8%', locked:true, conditions:['股息率 ≥4%','波动率 ≤ 同类均值','规模 ≥20亿'] },
+  { author:'短线小算盘', avatar:'短', avatarBg:'bg-blue-100', avatarColor:'text-blue-500', time:'今天 10:55', winRate:'57%', title:'游资首板回流 + 成交额放大', desc:'寻找题材刚启动、成交额快速放大的短线机会，关注首板后第二天的回流确认信号。', stocks:[{name:'新易盛',code:'300502',change:'+7.2%'},{name:'拓荆科技',code:'688072',change:'+5.1%'}], avgGain:'+8.1%', followers:'1,084', drawdown:'-11.2%', locked:false, isPublic:true, publicConditions:['涨停结构：近3日首板','成交额 ≥ 20日均额 1.5x','换手率 5%-18%'] }
+];
 
-        function getUserAnimal() {
-            var raw = localStorage.getItem('investmentDna');
-            if (!raw) return null;
-            try { var parsed = JSON.parse(raw); return typeof parsed === 'object' ? parsed.animal : raw; }
-            catch(e) { return raw; }
-        }
+// ========== 作业本 (收藏) ==========
+var notebook = [];
+function loadNotebook() {
+  try { notebook = JSON.parse(localStorage.getItem('xiaojinli_notebook') || '[]'); } catch(e) { notebook = []; }
+}
+function saveNotebook() {
+  localStorage.setItem('xiaojinli_notebook', JSON.stringify(notebook));
+}
+function isInNotebook(stockCode) {
+  return notebook.some(function(s) { return s.code === stockCode; });
+}
+function toggleNotebook(stock) {
+  var idx = -1;
+  for (var i = 0; i < notebook.length; i++) {
+    if (notebook[i].code === stock.code) { idx = i; break; }
+  }
+  if (idx >= 0) {
+    notebook.splice(idx, 1);
+  } else {
+    notebook.push(stock);
+  }
+  saveNotebook();
+  renderNotebook();
+}
+function removeFromNotebook(code) {
+  notebook = notebook.filter(function(s) { return s.code !== code; });
+  saveNotebook();
+  renderNotebook();
+}
 
-        // Calculator collapse/expand
-        function toggleCalc(id) {
-            const el = document.getElementById(id);
-            const arrow = document.getElementById('arrow-' + id);
-            el.classList.toggle('hidden');
-            if (arrow) {
-                arrow.style.transform = el.classList.contains('hidden') ? '' : 'rotate(180deg)';
-            }
-        }
+// ========== DNA 匹配 ==========
+function getUserAnimal() {
+  var raw = localStorage.getItem('investmentDna');
+  if (!raw) return null;
+  try { var p = JSON.parse(raw); return typeof p === 'object' ? p.animal : raw; } catch(e) { return raw; }
+}
+function getDimensionMatches(itemDims) {
+  var ua = getUserAnimal();
+  if (!ua || !dnaDimensionMap[ua]) return [];
+  var ud = dnaDimensionMap[ua];
+  var labels = {decision:'决策',action:'行动',returns:'收益',risk:'风险'};
+  var matches = [];
+  for (var k in itemDims) { if (ud[k] === itemDims[k] && labels[k]) matches.push(labels[k]); }
+  return matches;
+}
 
-        // 灵感 Tab 切换
-        function switchIdeaTab(btn, panelId) {
-            var tabs = document.querySelectorAll('#idea-tabs button');
-            tabs.forEach(function(b) {
-                b.className = 'flex-1 text-xs py-2 rounded-lg text-textSub transition-all';
-            });
-            btn.className = 'idea-tab-active flex-1 text-xs py-2 rounded-lg font-bold transition-all';
-            ['panel-mine','panel-custom','panel-square'].forEach(function(id) {
-                var el = document.getElementById(id);
-                if (el) el.classList.add('hidden');
-            });
-            var target = document.getElementById(panelId);
-            if (target) target.classList.remove('hidden');
-        }
+// ========== 渲染: 高手作业 ==========
+function renderHomework() {
+  var c = document.getElementById('homework-list');
+  // DNA sort label
+  var ua = getUserAnimal();
+  var labelEl = document.getElementById('dna-sort-label');
+  if (ua && dnaConfig[ua]) { labelEl.textContent = '按 DNA 匹配排序：' + dnaConfig[ua].label; }
 
-        // 自定义灵感 - 显示 AI 生成结果
-        function generateCustomIdea() {
-            var result = document.getElementById('custom-idea-result');
-            if (result) {
-                result.classList.remove('hidden');
-                result.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
+  c.innerHTML = homeworkData.map(function(item, idx) {
+    var dimMatches = getDimensionMatches(item.dnaDimensions);
+    var medalClass = idx === 0 ? 'bg-yellow-400' : idx === 1 ? 'bg-gray-300' : idx === 2 ? 'bg-orange-400' : '';
+    return '<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden cursor-pointer" onclick="openDetail(' + idx + ')">'
+      + '<div class="px-4 pt-4 pb-3 relative">'
+      + (idx < 3 ? '<div class="absolute top-3 left-3 w-6 h-6 ' + medalClass + ' rounded-full flex items-center justify-center text-[10px] text-white font-bold border-2 border-white">' + (idx+1) + '</div>' : '')
+      + '<div class="flex items-center gap-3 mb-3 mt-1">'
+      + '<div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center font-bold text-primary text-sm flex-shrink-0 border-2 border-primary/30">' + item.avatar + '</div>'
+      + '<div class="flex-1 min-w-0"><div class="font-bold text-base truncate">' + item.name + '</div><div class="text-[10px] text-textAssist mt-0.5">' + item.sampleSize + ' · ' + item.disclosureLag + '</div></div>'
+      + '<div class="text-right flex-shrink-0 mr-2"><div class="text-3xl font-black text-up leading-none">' + item.successRate + '</div><div class="text-[9px] text-textAssist mt-1">胜率</div></div>'
+      + '<button onclick="event.stopPropagation(); toggleFollowBtn(this)" class="text-[10px] px-3 py-1.5 rounded-full border flex-shrink-0 ' + (item.followed ? 'bg-gray-100 text-textAssist border-gray-100' : 'border-primary text-primary font-medium') + '">' + (item.followed ? '已关注' : '+ 关注') + '</button>'
+      + '</div>'
+      + '<div class="flex items-center justify-between bg-bgMain rounded-lg px-3 py-2">'
+      + '<div class="flex items-center gap-2"><iconify-icon icon="solar:trending-down-linear" class="text-down text-lg"></iconify-icon><div><div class="text-[9px] text-textAssist">最大回撤</div><div class="text-xs font-bold text-down">' + item.maxDrawdown + '</div></div></div>'
+      + '<div class="h-8 w-px bg-gray-200"></div>'
+      + '<div class="flex items-center gap-2"><iconify-icon icon="solar:shield-linear" class="text-secondary text-lg"></iconify-icon><div><div class="text-[9px] text-textAssist">风险等级</div><div class="text-xs font-bold">' + item.riskLevel + '</div></div></div>'
+      + '</div></div>'
+      + '<div class="px-4 pb-3 flex flex-wrap gap-1.5 border-t border-gray-50 pt-3">' + item.tags.map(function(t){ return '<span class="text-[10px] bg-bgMain px-2 py-1 rounded-md text-textSub">' + t + '</span>'; }).join('') + '</div>'
+      + '<div class="px-4 pb-3"><div class="bg-primary/5 rounded-xl p-3 flex items-start gap-2"><iconify-icon icon="solar:star-bold" class="text-primary text-base mt-0.5 flex-shrink-0"></iconify-icon><span class="text-[11px] text-textSub leading-relaxed">' + item.fitReason + '</span></div></div>'
+      + (dimMatches.length > 0 ? '<div class="px-4 pb-3 flex flex-wrap gap-1.5">' + dimMatches.map(function(m){ return '<span class="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded-md font-medium">' + m + ' ✓</span>'; }).join('') + '</div>' : '')
+      + '<div class="px-4 pb-4 flex items-center justify-between border-t border-dashed border-gray-100 pt-3">'
+      + '<div class="text-[11px] text-primary flex items-center gap-1 font-bold">查看思路与持仓 <iconify-icon icon="solar:alt-arrow-right-linear" class="text-base"></iconify-icon></div>'
+      + '</div></div>';
+  }).join('');
+}
 
-        // 灵感广场筛选
-        function filterSquare(btn) {
-            var tabs = btn.parentNode.querySelectorAll('button');
-            tabs.forEach(function(b) {
-                b.className = 'bg-white text-textSub text-[10px] px-2.5 py-1 rounded-full border border-gray-100';
-            });
-            btn.className = 'square-filter-active text-[10px] px-2.5 py-1 rounded-full font-bold';
-        }
+// ========== 渲染: 灵感广场 ==========
+function renderSquare() {
+  var c = document.getElementById('square-list');
+  c.innerHTML = squareData.map(function(s) {
+    var stocksHtml = '';
+    if (s.locked) {
+      stocksHtml = '<div class="bg-bgMain rounded-xl p-3 mb-3 text-center"><div class="text-[10px] text-textAssist mb-2">当前选出标的</div>'
+        + '<div class="flex items-center justify-center gap-2 mb-2"><iconify-icon class="text-primary text-lg" icon="solar:lock-bold-duotone"></iconify-icon><span class="text-xs text-textSub">条件需打赏解锁</span></div>'
+        + '<div class="flex items-center justify-center gap-1 flex-wrap">' + (s.conditions||[]).map(function(c){ return '<span class="text-[10px] bg-bgMain text-textAssist px-2 py-0.5 rounded border border-gray-100">' + c + '</span>'; }).join('') + '</div></div>';
+    } else if (s.isPublic && s.publicConditions) {
+      stocksHtml = '<div class="bg-bgMain rounded-xl p-3 mb-3"><div class="text-[10px] text-textAssist font-medium mb-2">筛选条件（公开灵感）</div>'
+        + '<div class="flex flex-wrap gap-1.5 mb-2">' + s.publicConditions.map(function(c){ return '<span class="text-[10px] bg-white text-textSub px-2 py-0.5 rounded border border-gray-100">' + c + '</span>'; }).join('') + '</div>'
+        + '<div class="text-[10px] text-textAssist">当前选出：' + s.stocks.map(function(st){ return st.name; }).join('、') + '</div></div>';
+    } else {
+      stocksHtml = '<div class="bg-bgMain rounded-xl p-3 mb-3"><div class="text-[10px] text-textAssist font-medium mb-2">当前选出标的</div><div class="space-y-1.5">'
+        + s.stocks.map(function(st){ return '<div class="flex items-center justify-between"><span class="text-xs font-medium">' + st.name + ' <span class="text-textAssist text-[10px]">' + st.code + '</span></span><span class="text-xs font-bold text-up">' + st.change + '</span></div>'; }).join('')
+        + '</div></div>';
+    }
+    return '<div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden"><div class="p-4">'
+      + '<div class="flex items-center justify-between mb-2"><div class="flex items-center gap-2"><div class="w-6 h-6 rounded-full ' + s.avatarBg + ' flex items-center justify-center text-[10px] font-bold ' + s.avatarColor + '">' + s.avatar + '</div><span class="text-[11px] font-bold">@' + s.author + '</span><span class="text-[10px] text-textAssist">· ' + s.time + '</span></div><span class="text-[10px] text-down bg-down/10 px-2 py-0.5 rounded-full font-bold">胜率 ' + s.winRate + '</span></div>'
+      + '<h3 class="font-bold text-sm mb-1">' + s.title + '</h3>'
+      + '<p class="text-[11px] text-textSub mb-3">' + s.desc + '</p>'
+      + stocksHtml
+      + '<div class="flex items-center justify-between"><div class="flex gap-3"><span class="text-[10px] text-textAssist">均涨 <strong class="text-up">' + s.avgGain + '</strong></span><span class="text-[10px] text-textAssist">关注 <strong>' + s.followers + '</strong></span><span class="text-[10px] text-textAssist">回撤 <strong class="text-down">' + s.drawdown + '</strong></span></div>'
+      + '<button class="' + (s.locked ? 'bg-secondary' : 'bg-primary') + ' text-white text-[10px] font-bold px-3 py-1.5 rounded-lg active:scale-95 transition-transform">' + (s.locked ? '打赏查看' : '关注') + '</button></div>'
+      + '</div></div>';
+  }).join('');
+}
 
-        // 重新运行筛选（模拟）
-        function runInspFilter() {
-            var results = document.getElementById('insp-stock-results');
-            if (results) {
-                results.style.opacity = '0.3';
-                setTimeout(function() {
-                    results.style.opacity = '1';
-                    results.scrollIntoView({ behavior: 'smooth' });
-                }, 600);
-            }
-        }
+// ========== 渲染: 作业本 ==========
+function renderNotebook() {
+  loadNotebook();
+  var list = document.getElementById('notebook-list');
+  var empty = document.getElementById('notebook-empty');
+  var countEl = document.getElementById('notebook-count');
+  countEl.textContent = notebook.length + ' 只';
+  if (notebook.length === 0) {
+    list.classList.add('hidden');
+    empty.classList.remove('hidden');
+    return;
+  }
+  list.classList.remove('hidden');
+  empty.classList.add('hidden');
+  list.innerHTML = notebook.map(function(s) {
+    var isFav = true;
+    return '<div class="stock-row bg-white rounded-xl p-3 shadow-sm border border-gray-50 flex items-center justify-between">'
+      + '<div class="flex items-center gap-3 cursor-pointer" onclick="location.href=\'stock_detail.html\'">'
+      + '<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">' + s.name.charAt(0) + '</div>'
+      + '<div><div class="text-sm font-bold">' + s.name + '</div><div class="text-[10px] text-textAssist">' + s.code + ' · ' + (s.sector||'') + '</div></div>'
+      + '</div>'
+      + '<div class="flex items-center gap-2">'
+      + '<div class="text-right mr-1"><div class="text-xs font-bold ' + ((s.change||'').indexOf('-')===0?'text-down':'text-up') + '">' + (s.change||'—') + '</div>'
+      + (s.from ? '<div class="text-[9px] text-textAssist">来自 ' + s.from + '</div>' : '') + '</div>'
+      + '<button class="remove-btn w-7 h-7 rounded-full bg-red-50 flex items-center justify-center text-up" onclick="removeFromNotebook(\'' + s.code + '\')"><iconify-icon class="text-sm" icon="solar:trash-bin-trash-linear"></iconify-icon></button>'
+      + '</div></div>';
+  }).join('');
+}
 
-        // Format number with commas
-        function fmtNum(n) {
-            return n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        }
+// ========== 作业详情 Modal ==========
+function openDetail(idx) {
+  var item = homeworkData[idx];
+  if (!item) return;
+  document.getElementById('detail-avatar').textContent = item.avatar;
+  document.getElementById('detail-name').textContent = item.name;
+  document.getElementById('detail-meta').textContent = '胜率 ' + item.successRate + ' · 最大回撤 ' + item.maxDrawdown;
+  document.getElementById('detail-logic').querySelector('p').textContent = item.logic;
 
-        // 复利计算器
-        function calcCompound() {
-            const P = parseFloat(document.getElementById('compound-principal').value) || 0;
-            const M = parseFloat(document.getElementById('compound-monthly').value) || 0;
-            const r = (parseFloat(document.getElementById('compound-rate').value) || 0) / 100;
-            const Y = parseInt(document.getElementById('compound-years').value) || 0;
-            const monthlyRate = r / 12;
-            const months = Y * 12;
-            let total = P;
-            for (let i = 0; i < months; i++) {
-                total = total * (1 + monthlyRate) + M;
-            }
-            const profit = total - P - M * months;
-            document.getElementById('compound-total').innerText = '¥' + fmtNum(total);
-            document.getElementById('compound-profit').innerText = '¥' + fmtNum(profit);
-            document.getElementById('compound-result').classList.remove('hidden');
-        }
+  // 产业配置
+  var allocHtml = item.allocation.map(function(a) {
+    return '<div class="bg-bgMain rounded-xl p-3"><div class="text-xs font-bold mb-1">' + a.sector + ' <span class="text-primary">' + a.pct + '</span></div><div class="text-[10px] text-textAssist">' + a.stocks + '</div></div>';
+  }).join('');
+  document.getElementById('detail-allocation').innerHTML = allocHtml;
 
-        // 定投收益计算器
-        function calcInvest() {
-            const M = parseFloat(document.getElementById('invest-monthly').value) || 0;
-            const N = parseInt(document.getElementById('invest-months').value) || 0;
-            const annualRate = 0.08;
-            const monthlyRate = annualRate / 12;
-            let balance = 0;
-            let totalInput = 0;
-            let rows = '';
-            for (let i = 1; i <= N; i++) {
-                balance = balance * (1 + monthlyRate) + M;
-                totalInput += M;
-                const monthProfit = balance - totalInput;
-                rows += '<div class="flex justify-between px-3 py-1.5 text-[10px] border-b border-gray-50">'
-                    + '<span class="text-textAssist">第' + i + '月</span>'
-                    + '<span class="font-medium">¥' + fmtNum(balance) + '</span>'
-                    + '<span class="' + (monthProfit >= 0 ? 'text-up' : 'text-down') + '">¥' + fmtNum(monthProfit) + '</span>'
-                    + '</div>';
-            }
-            document.getElementById('invest-total-input').innerText = '¥' + fmtNum(totalInput);
-            document.getElementById('invest-profit').innerText = '¥' + fmtNum(balance - totalInput);
-            document.getElementById('invest-table').innerHTML = rows;
-            document.getElementById('invest-result').classList.remove('hidden');
-        }
+  // 持仓明细
+  var holdHtml = item.holdings.map(function(h) {
+    var inNb = isInNotebook(h.code);
+    var changeClass = (h.change||'').indexOf('-') === 0 ? 'text-down' : 'text-up';
+    return '<div class="flex items-center justify-between p-3 bg-bgMain rounded-xl">'
+      + '<div class="flex items-center gap-2 cursor-pointer" onclick="location.href=\'stock_detail.html\'">'
+      + '<div class="w-7 h-7 rounded-lg bg-white flex items-center justify-center text-[10px] font-bold text-primary">' + h.name.charAt(0) + '</div>'
+      + '<div><div class="text-xs font-bold">' + h.name + '</div><div class="text-[9px] text-textAssist">' + h.code + ' · ' + h.sector + ' · 占比' + h.pct + '</div></div>'
+      + '</div>'
+      + '<div class="flex items-center gap-2">'
+      + '<span class="text-xs font-bold ' + changeClass + '">' + h.change + '</span>'
+      + '<button class="fav-btn w-7 h-7 rounded-full flex items-center justify-center ' + (inNb ? 'bg-primary text-white' : 'bg-white text-textAssist border border-gray-200') + '" onclick="event.stopPropagation(); toggleNotebook({name:\'' + h.name + '\',code:\'' + h.code + '\',change:\'' + h.change + '\',sector:\'' + h.sector + '\',from:\'' + item.name + '\'}); refreshDetailFavs(' + idx + ')">'
+      + '<iconify-icon class="text-sm" icon="' + (inNb ? 'solar:star-bold' : 'solar:star-linear') + '"></iconify-icon></button>'
+      + '</div></div>';
+  }).join('');
+  document.getElementById('detail-holdings').innerHTML = holdHtml;
 
-        // 回撤计算器
-        function calcDrawdown() {
-            const cost = parseFloat(document.getElementById('drawdown-cost').value) || 0;
-            const current = parseFloat(document.getElementById('drawdown-current').value) || 0;
-            const diff = current - cost;
-            const pct = cost > 0 ? (diff / cost) * 100 : 0;
-            const amountEl = document.getElementById('drawdown-amount');
-            const pctEl = document.getElementById('drawdown-percent');
-            const statusEl = document.getElementById('drawdown-status');
-            amountEl.innerText = (diff >= 0 ? '+' : '') + '¥' + fmtNum(diff);
-            amountEl.className = 'text-lg font-bold ' + (diff >= 0 ? 'text-up' : 'text-down');
-            pctEl.innerText = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
-            pctEl.className = 'text-lg font-bold ' + (pct >= 0 ? 'text-up' : 'text-down');
-            if (diff >= 0) {
-                statusEl.innerHTML = '<span class="inline-block bg-down/10 text-down text-xs font-bold px-3 py-1 rounded-full">浮盈中，继续持有</span>';
-            } else {
-                statusEl.innerHTML = '<span class="inline-block bg-up/10 text-up text-xs font-bold px-3 py-1 rounded-full">浮亏中，注意风险</span>';
-            }
-            document.getElementById('drawdown-result').classList.remove('hidden');
-        }
+  document.getElementById('detail-modal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+function closeDetail() {
+  document.getElementById('detail-modal').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+function refreshDetailFavs(idx) {
+  // re-render holdings in the modal
+  var item = homeworkData[idx];
+  var holdHtml = item.holdings.map(function(h) {
+    var inNb = isInNotebook(h.code);
+    var changeClass = (h.change||'').indexOf('-') === 0 ? 'text-down' : 'text-up';
+    return '<div class="flex items-center justify-between p-3 bg-bgMain rounded-xl">'
+      + '<div class="flex items-center gap-2 cursor-pointer" onclick="location.href=\'stock_detail.html\'">'
+      + '<div class="w-7 h-7 rounded-lg bg-white flex items-center justify-center text-[10px] font-bold text-primary">' + h.name.charAt(0) + '</div>'
+      + '<div><div class="text-xs font-bold">' + h.name + '</div><div class="text-[9px] text-textAssist">' + h.code + ' · ' + h.sector + ' · 占比' + h.pct + '</div></div>'
+      + '</div>'
+      + '<div class="flex items-center gap-2">'
+      + '<span class="text-xs font-bold ' + changeClass + '">' + h.change + '</span>'
+      + '<button class="fav-btn w-7 h-7 rounded-full flex items-center justify-center ' + (inNb ? 'bg-primary text-white' : 'bg-white text-textAssist border border-gray-200') + '" onclick="event.stopPropagation(); toggleNotebook({name:\'' + h.name + '\',code:\'' + h.code + '\',change:\'' + h.change + '\',sector:\'' + h.sector + '\',from:\'' + item.name + '\'}); refreshDetailFavs(' + idx + ')">'
+      + '<iconify-icon class="text-sm" icon="' + (inNb ? 'solar:star-bold' : 'solar:star-linear') + '"></iconify-icon></button>'
+      + '</div></div>';
+  }).join('');
+  document.getElementById('detail-holdings').innerHTML = holdHtml;
+}
 
-        // ========== 首次访问引导 ==========
-        function dismissGuide(page) {
-            localStorage.setItem('guide_' + page + '_shown', '1');
-            var el = document.getElementById('guide-' + page);
-            if (el) el.classList.add('hidden');
-        }
-        if (!localStorage.getItem('guide_toolbox_shown')) {
-            document.getElementById('guide-toolbox').classList.remove('hidden');
-        }
-    </script>
+// ========== Tab 切换 ==========
+function switchTab(btn, tabId) {
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  ['tab-homework','tab-square','tab-notebook'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) { if (id === tabId) { el.classList.remove('hidden'); } else { el.classList.add('hidden'); } }
+  });
+  if (tabId === 'tab-notebook') renderNotebook();
+}
+
+// ========== 关注按钮 ==========
+function toggleFollowBtn(btn) {
+  if (btn.textContent.trim() === '+ 关注') {
+    btn.textContent = '已关注';
+    btn.classList.remove('border-primary','text-primary','font-medium');
+    btn.classList.add('bg-gray-100','text-textAssist','border-gray-100');
+  } else {
+    btn.textContent = '+ 关注';
+    btn.classList.add('border-primary','text-primary','font-medium');
+    btn.classList.remove('bg-gray-100','text-textAssist','border-gray-100');
+  }
+}
+
+// ========== 灵感广场筛选 ==========
+function filterSquare(btn) {
+  btn.parentNode.querySelectorAll('button').forEach(function(b) {
+    b.className = 'bg-white text-textSub text-[10px] px-2.5 py-1 rounded-full border border-gray-100';
+  });
+  btn.className = 'bg-textMain text-white text-[10px] px-2.5 py-1 rounded-full font-bold';
+}
+
+// ========== 引导 ==========
+function dismissGuide(page) {
+  localStorage.setItem('guide_' + page + '_shown', '1');
+  var el = document.getElementById('guide-' + page);
+  if (el) el.classList.add('hidden');
+}
+if (!localStorage.getItem('guide_toolbox_shown')) {
+  document.getElementById('guide-toolbox').classList.remove('hidden');
+}
+
+// ========== 初始化 ==========
+renderHomework();
+renderSquare();
+renderNotebook();
+</script>
 <script id="__tailwind_fouc_fix">
 (function(){
   function reveal(){ document.body.style.opacity = '1'; }
-  // Tailwind Play CDN sets this after processing
   if (document.readyState === 'complete') { setTimeout(reveal, 100); }
   else { window.addEventListener('load', function(){ setTimeout(reveal, 100); }); }
-  // Fallback: force reveal after 1.5s no matter what
   setTimeout(reveal, 1500);
 })();
 </script>

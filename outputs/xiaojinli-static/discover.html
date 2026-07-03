@@ -118,72 +118,6 @@
     transform: scale(0.96);
   }
 
-  /* 弹幕气泡 - 错落排列，带头像 */
-  .dm-row {
-    display: flex;
-    margin-bottom: 8px;
-  }
-  .dm-row.dm-left  { justify-content: flex-start; }
-  .dm-row.dm-right { justify-content: flex-end; }
-  .dm-row.dm-center{ justify-content: center; }
-
-  .dm-bubble {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: white;
-    border-radius: 20px;
-    padding: 6px 12px 6px 6px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-    cursor: pointer;
-    transition: all 0.15s;
-    max-width: 80%;
-  }
-  .dm-bubble:active { transform: scale(0.97); }
-
-  .dm-avatar {
-    width: 26px; height: 26px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px;
-    flex-shrink: 0;
-  }
-
-  .dm-text {
-    font-size: 12px;
-    font-weight: 600;
-    color: #5C3D1A;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 120px;
-  }
-
-  .dm-likes {
-    display: flex; align-items: center; gap: 2px;
-    font-size: 11px; color: #C4956A; font-weight: 500;
-    flex-shrink: 0;
-  }
-
-  .dm-say {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: white; border-radius: 20px;
-    padding: 6px 12px;
-    font-size: 12px; color: #999;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  }
-  .dm-say-icon {
-    width: 20px; height: 20px; border-radius: 50%;
-    background: #FFD666; display: flex; align-items: center; justify-content: center;
-  }
-
-  .dm-sparkle {
-    text-align: center; font-size: 16px; color: #FFD666;
-    letter-spacing: 4px; margin-top: 2px;
-  }
-
-  /* 两个 tab 内容等高 */
-  .dna-tab-content { min-height: 280px; }
 
   .calendar-dot {
     width: 4px;
@@ -263,8 +197,8 @@
   <!-- Main Content -->
   <main class="flex-1 pb-24">
 
-    <!-- 2. DNA Profile Section (moved before rankings) -->
-    <section class="mt-4 animate-fade-in delay-2" id="dna-profile-section">
+    <!-- 2. 我的今日 (Compact) -->
+    <section class="mt-4 animate-fade-in delay-2 px-4" id="dna-profile-section">
       <!-- Dynamic content injected by JS -->
     </section>
 
@@ -275,7 +209,7 @@
           <iconify-icon class="text-secondary" icon="solar:chart-square-bold-duotone"></iconify-icon>
           今天谁赚了大钱
         </h2>
-        <a href="copytrade.html" class="text-xs text-textAssist flex items-center gap-0.5">
+        <a href="toolbox.html" class="text-xs text-textAssist flex items-center gap-0.5">
           查看更多
           <iconify-icon class="text-sm" icon="solar:alt-arrow-right-linear"></iconify-icon>
         </a>
@@ -305,22 +239,18 @@
   </main>
 
   <!-- Bottom Navigation -->
-  <nav class="fixed bottom-0 w-full max-w-[414px] glass-effect border-t border-gray-100 px-4 py-3 flex justify-between items-center z-50 safe-bottom">
+  <nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-4 py-3 flex justify-between items-center z-50 safe-bottom">
     <a class="flex flex-col items-center gap-1 text-primary" href="discover.html">
       <iconify-icon class="text-2xl" icon="solar:home-smile-angle-bold"></iconify-icon>
       <span class="text-[10px] font-bold">发现</span>
     </a>
-    <a class="flex flex-col items-center gap-1 text-textAssist" href="copytrade.html">
-      <iconify-icon class="text-2xl" icon="solar:copy-bold"></iconify-icon>
-      <span class="text-[10px]">广场</span>
-    </a>
     <a class="flex flex-col items-center gap-1 text-textAssist" href="toolbox.html">
-      <iconify-icon class="text-2xl" icon="solar:lightbulb-bold"></iconify-icon>
-      <span class="text-[10px]">灵感</span>
+      <iconify-icon class="text-2xl" icon="solar:lightbulb-linear"></iconify-icon>
+      <span class="text-[10px] ">灵感</span>
     </a>
     <a class="flex flex-col items-center gap-1 text-textAssist" href="profile.html">
-      <iconify-icon class="text-2xl" icon="solar:user-bold"></iconify-icon>
-      <span class="text-[10px]">我的</span>
+      <iconify-icon class="text-2xl" icon="solar:user-linear"></iconify-icon>
+      <span class="text-[10px] ">我的</span>
     </a>
   </nav>
 
@@ -384,196 +314,6 @@
 </div>
 
 <script>
-  // ========== DNA Tag System (Layer 2) ==========
-  const dnaTagSystem = {
-    dimensions: {
-      decision: {
-        label: '决策思维', emoji: '🧠',
-        categories: {
-          rational: { label: '理性分析', tags: [
-            {emoji:'📊', text:'数据不会骗人'}, {emoji:'🧠', text:'独立判断'},
-            {emoji:'🔍', text:'多方验证'}, {emoji:'📚', text:'喜欢做功课'},
-            {emoji:'📈', text:'理性研究派'}, {emoji:'💡', text:'爱问为什么'},
-            {emoji:'📑', text:'财报爱好者'}, {emoji:'📉', text:'看估值再行动'}
-          ]},
-          intuitive: { label: '经验直觉', tags: [
-            {emoji:'✨', text:'感觉也重要'}, {emoji:'🎯', text:'相信经验'},
-            {emoji:'⚡', text:'快速拍板'}, {emoji:'👀', text:'凭第一感觉'}
-          ]},
-          following: { label: '跟随决策', tags: [
-            {emoji:'🌟', text:'容易被种草'}, {emoji:'🤝', text:'喜欢参考高手'},
-            {emoji:'📋', text:'抄作业达人'}, {emoji:'👥', text:'相信大众选择'}
-          ]}
-        }
-      },
-      action: {
-        label: '行动风格', emoji: '🚀',
-        categories: {
-          active: { label: '行动派', tags: [
-            {emoji:'⚡', text:'看准就出手'}, {emoji:'🚀', text:'行动力MAX'},
-            {emoji:'🔥', text:'不喜欢等待'}, {emoji:'🎯', text:'机会来了就上'}
-          ]},
-          cautious: { label: '谨慎派', tags: [
-            {emoji:'👀', text:'先看看再说'}, {emoji:'🌱', text:'喜欢先试仓'},
-            {emoji:'🐢', text:'想清楚再买'}, {emoji:'⏳', text:'等机会成熟'}
-          ]},
-          rhythmic: { label: '节奏型', tags: [
-            {emoji:'🏃', text:'小步快跑'}, {emoji:'⚖️', text:'节奏感很好'},
-            {emoji:'🌊', text:'顺势而为'}, {emoji:'🧩', text:'灵活调整'}
-          ]}
-        }
-      },
-      returns: {
-        label: '收益观', emoji: '💰',
-        categories: {
-          longterm: { label: '长期财富', tags: [
-            {emoji:'🌱', text:'慢慢变富'}, {emoji:'🌳', text:'长期复利派'},
-            {emoji:'💎', text:'财富积累者'}, {emoji:'🏦', text:'时间的朋友'}
-          ]},
-          aggressive: { label: '收益优先', tags: [
-            {emoji:'📈', text:'收益优先'}, {emoji:'💰', text:'喜欢高弹性'},
-            {emoji:'🚀', text:'财富加速器'}, {emoji:'🎯', text:'收益目标明确'}
-          ]},
-          stable: { label: '稳健收益', tags: [
-            {emoji:'🛡️', text:'稳稳赚钱'}, {emoji:'💵', text:'落袋为安'},
-            {emoji:'☀️', text:'睡得安心'}, {emoji:'📦', text:'保值优先'}
-          ]}
-        }
-      },
-      risk: {
-        label: '风险态度', emoji: '⚠️',
-        categories: {
-          aggressive: { label: '激进型', tags: [
-            {emoji:'🔥', text:'能扛大波动'}, {emoji:'💥', text:'不怕下跌'},
-            {emoji:'⚡', text:'高收益高风险'}, {emoji:'🎢', text:'波动无压力'}
-          ]},
-          balanced: { label: '平衡型', tags: [
-            {emoji:'⚖️', text:'胆大心细'}, {emoji:'📊', text:'风险收益兼顾'},
-            {emoji:'🎯', text:'合理配置'}, {emoji:'🧭', text:'风险可控'}
-          ]},
-          conservative: { label: '保守型', tags: [
-            {emoji:'🛡️', text:'安全感优先'}, {emoji:'🌂', text:'本金保护欲强'},
-            {emoji:'🚧', text:'风险雷达'}, {emoji:'🙅', text:'宁可少赚'}
-          ]}
-        }
-      },
-      learning: {
-        label: '学习成长', emoji: '📚',
-        categories: {
-          scholar: { label: '学霸型', tags: [
-            {emoji:'📚', text:'越学越开心'}, {emoji:'🧠', text:'学习型投资者'},
-            {emoji:'🎓', text:'投资优等生'}, {emoji:'🔬', text:'喜欢研究'}
-          ]},
-          practical: { label: '实践型', tags: [
-            {emoji:'🛠️', text:'边做边学'}, {emoji:'📖', text:'喜欢复盘'},
-            {emoji:'🎯', text:'学以致用'}, {emoji:'🌱', text:'每天进步一点'}
-          ]},
-          growing: { label: '成长型', tags: [
-            {emoji:'🚀', text:'正在进化中'}, {emoji:'🌟', text:'潜力无限'},
-            {emoji:'🌱', text:'成长速度快'}, {emoji:'💪', text:'不断升级'}
-          ]}
-        }
-      },
-      info: {
-        label: '信息偏好', emoji: '📰',
-        categories: {
-          data: { label: '数据流', tags: [
-            {emoji:'📊', text:'数据控'}, {emoji:'📈', text:'相信数据'},
-            {emoji:'📑', text:'财报党'}, {emoji:'📉', text:'看指标'}
-          ]},
-          news: { label: '消息流', tags: [
-            {emoji:'📡', text:'消息雷达'}, {emoji:'🔥', text:'热点捕手'},
-            {emoji:'📰', text:'新闻党'}, {emoji:'⚡', text:'第一时间知道'}
-          ]},
-          ai: { label: 'AI辅助', tags: [
-            {emoji:'🤖', text:'AI辅助决策'}, {emoji:'🧠', text:'智能分析派'},
-            {emoji:'🔍', text:'善用工具'}, {emoji:'📲', text:'效率达人'}
-          ]}
-        }
-      },
-      emotion: {
-        label: '情绪管理', emoji: '❤️',
-        categories: {
-          stable: { label: '稳定型', tags: [
-            {emoji:'❤️', text:'心态超稳'}, {emoji:'🌊', text:'波动免疫'},
-            {emoji:'🪨', text:'拿得住'}, {emoji:'😌', text:'越跌越冷静'}
-          ]},
-          normal: { label: '普通型', tags: [
-            {emoji:'🙂', text:'偶尔焦虑'}, {emoji:'🤔', text:'会犹豫'},
-            {emoji:'⚖️', text:'慢慢调整'}, {emoji:'🌤️', text:'情绪平衡'}
-          ]},
-          volatile: { label: '情绪型', tags: [
-            {emoji:'😰', text:'有点容易慌'}, {emoji:'📉', text:'容易受行情影响'},
-            {emoji:'😵', text:'FOMO体质'}, {emoji:'🎢', text:'情绪起伏大'}
-          ]}
-        }
-      },
-      goals: {
-        label: '投资目标', emoji: '🎯',
-        categories: {
-          wealth: { label: '财富增长', tags: [
-            {emoji:'💰', text:'财富自由派'}, {emoji:'🚀', text:'第一桶金'},
-            {emoji:'📈', text:'资产增长'}, {emoji:'💎', text:'财务升级'}
-          ]},
-          life: { label: '生活目标', tags: [
-            {emoji:'🏠', text:'买房计划'}, {emoji:'👨‍👩‍👧', text:'家庭守护者'},
-            {emoji:'🎓', text:'教育基金'}, {emoji:'🌴', text:'提前退休梦'}
-          ]},
-          selfgrowth: { label: '自我成长', tags: [
-            {emoji:'📚', text:'学会投资'}, {emoji:'🧠', text:'建立体系'},
-            {emoji:'💪', text:'提升认知'}, {emoji:'🌱', text:'成为长期投资者'}
-          ]}
-        }
-      },
-      horizon: {
-        label: '投资周期', emoji: '⏳',
-        categories: {
-          long: { label: '长线', tags: [
-            {emoji:'🌳', text:'长期主义'}, {emoji:'🕰️', text:'时间的朋友'},
-            {emoji:'📅', text:'长期持有'}, {emoji:'🐢', text:'耐心十足'}
-          ]},
-          medium: { label: '中线', tags: [
-            {emoji:'📈', text:'趋势布局'}, {emoji:'🌊', text:'波段节奏'},
-            {emoji:'🎯', text:'中期规划'}, {emoji:'⚖️', text:'灵活持仓'}
-          ]},
-          short: { label: '短线', tags: [
-            {emoji:'⚡', text:'短线体验派'}, {emoji:'🎢', text:'波段高手'},
-            {emoji:'🚀', text:'快进快出'}, {emoji:'🔥', text:'捕捉热点'}
-          ]}
-        }
-      },
-      growth: {
-        label: '成长人格', emoji: '🐟',
-        categories: {
-          squirrel: { label: '松鼠', tags: [
-            {emoji:'🌰', text:'喜欢先囤一点'}, {emoji:'📚', text:'越学越开心'},
-            {emoji:'🌱', text:'慢慢变富'}, {emoji:'👀', text:'先看看再说'},
-            {emoji:'🛡️', text:'本金保护欲强'}, {emoji:'💪', text:'成长潜力MAX'}
-          ]},
-          owl: { label: '猫头鹰', tags: [
-            {emoji:'📊', text:'数据不会骗人'}, {emoji:'🧠', text:'独立判断'},
-            {emoji:'📑', text:'财报爱好者'}, {emoji:'🔍', text:'多方验证'},
-            {emoji:'🌳', text:'长期复利派'}, {emoji:'❤️', text:'心态超稳'}
-          ]},
-          fox: { label: '狐狸', tags: [
-            {emoji:'📡', text:'消息雷达'}, {emoji:'🔥', text:'热点捕手'},
-            {emoji:'📈', text:'趋势敏锐'}, {emoji:'🧩', text:'灵活调整'},
-            {emoji:'🤝', text:'善于借鉴高手'}, {emoji:'⚖️', text:'风险收益兼顾'}
-          ]},
-          cheetah: { label: '猎豹', tags: [
-            {emoji:'⚡', text:'看准就出手'}, {emoji:'🚀', text:'行动力MAX'},
-            {emoji:'💥', text:'不怕波动'}, {emoji:'🎯', text:'收益优先'},
-            {emoji:'🔥', text:'高收益追求者'}, {emoji:'🌊', text:'顺势而为'}
-          ]},
-          turtle: { label: '乌龟', tags: [
-            {emoji:'🌳', text:'长期主义'}, {emoji:'🌱', text:'慢慢变富'},
-            {emoji:'🛡️', text:'稳健第一'}, {emoji:'🪨', text:'拿得住'},
-            {emoji:'💵', text:'落袋为安'}, {emoji:'🕰️', text:'时间的朋友'}
-          ]}
-        }
-      }
-    }
-  };
 
   // ========== DNA Config ==========
   const dnaConfig = {
@@ -766,194 +506,87 @@
     return raw;
   }
 
-  // ========== Current DNA mode state ==========
-  let currentDnaMode = 'solo';
-
-  // ========== Render DNA Profile Section ==========
+  // ========== Render DNA Profile (Compact) ==========
   function renderDNAProfile(dnaType) {
     var section = document.getElementById('dna-profile-section');
     var dna = dnaType && dnaConfig[dnaType] ? dnaConfig[dnaType] : null;
 
     if (!dna) {
       section.innerHTML = ''
-        + '<div class="px-4">'
-        +   '<a href="onboarding.html" class="block bg-gradient-to-r from-primary/10 via-white to-secondary/10 rounded-2xl p-4 border border-primary/20 dna-card-glow">'
-        +     '<div class="flex items-center gap-3">'
-        +       '<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-xl flex-shrink-0">'
-        +         '<iconify-icon icon="solar:dna-bold-duotone"></iconify-icon>'
-        +       '</div>'
-        +       '<div class="flex-1 min-w-0">'
-        +         '<div class="font-bold text-sm text-textMain mb-0.5">找到你的投资 DNA</div>'
-        +         '<div class="text-xs text-textSub">3 分钟测试，解锁个性化推荐</div>'
-        +       '</div>'
-        +       '<div class="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full flex-shrink-0">去测试</div>'
+        + '<a href="onboarding.html" class="block bg-gradient-to-r from-primary/10 via-white to-secondary/10 rounded-2xl p-4 border border-primary/20 dna-card-glow">'
+        +   '<div class="flex items-center gap-3">'
+        +     '<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-xl flex-shrink-0">'
+        +       '<iconify-icon icon="solar:dna-bold-duotone"></iconify-icon>'
         +     '</div>'
-        +   '</a>'
-        + '</div>';
+        +     '<div class="flex-1 min-w-0">'
+        +       '<div class="font-bold text-sm text-textMain mb-0.5">找到你的投资 DNA</div>'
+        +       '<div class="text-xs text-textSub">3 分钟测试，解锁个性化推荐</div>'
+        +     '</div>'
+        +     '<div class="bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full flex-shrink-0">去测试</div>'
+        +   '</div>'
+        + '</a>';
       return;
     }
 
-    // Build solo mode content - auto-generate from dimensionMap
-    var soloTraitKeys = ['decision', 'action', 'risk', 'returns'];
-    var traitsHTML = '';
-    if (dna.dimensionMap) {
-      soloTraitKeys.forEach(function(dimKey) {
-        var dim = dnaTagSystem.dimensions[dimKey];
-        var catKey = dna.dimensionMap[dimKey];
-        var cat = dim.categories[catKey];
-        traitsHTML += '<div class="trait-card">'
-          + '<div class="text-[10px] font-bold text-textMain leading-tight">' + cat.label + '</div>'
-          + '<div class="text-[8px] text-textAssist mt-0">' + dim.label + '</div>'
-          + '</div>';
-      });
-    } else {
-      // Fallback to hardcoded traits if no dimensionMap
-      dna.traits.forEach(function(t) {
-        traitsHTML += '<div class="trait-card">'
-          + '<div class="text-[10px] font-bold text-textMain leading-tight">' + t.label + '</div>'
-          + (t.sub ? '<div class="text-[8px] text-textAssist mt-0">' + t.sub + '</div>' : '')
-          + '</div>';
-      });
-    }
-
-    // Build DNA tags as compact bubbles
-    var tagsHTML = '';
-    if (dna.tags && dna.tags.length) {
-      dna.tags.forEach(function(tag) {
-        tagsHTML += '<span class="inline-block bg-white/80 border border-primary/10 text-[10px] text-textSub font-medium px-2 py-0.5 rounded-full">' + tag + '</span>';
-      });
-    }
-
-    var soloHTML = ''
-      + '<div class="bg-white rounded-2xl p-4 dna-card-glow">'
-      +   '<div class="text-center mb-2">'
-      +     '<div class="text-3xl mb-1">' + dna.emoji + '</div>'
-      +     '<div class="font-bold text-base text-textMain">' + dna.emoji + ' 小' + dna.name + '｜' + dna.investorType + '｜全国仅有' + dna.percent + '</div>'
-      +   '</div>'
-      +   '<div class="text-center text-xs text-textSub mb-4 leading-relaxed px-2">' + dna.subtitle + '</div>'
-      +   '<div class="grid grid-cols-4 gap-1 mb-3">'
-      +     traitsHTML
-      +   '</div>'
-      // 日签融合区 — compact inline
-      +   '<div class="bg-gradient-to-r from-primary/5 via-amber-50/60 to-secondary/5 rounded-xl px-4 py-3 mb-3 border border-primary/10">'
-      +     '<div class="flex items-center justify-center gap-5 mb-2">'
-      +       '<div class="flex items-center gap-2">'
-      +         '<span class="text-base font-black text-primary">宜</span>'
-      +         '<span class="text-sm font-bold text-textMain">' + dna.yi + '</span>'
-      +       '</div>'
-      +       '<div class="w-px h-5 bg-primary/20"></div>'
-      +       '<div class="flex items-center gap-2">'
-      +         '<span class="text-base font-black text-textAssist">忌</span>'
-      +         '<span class="text-sm font-bold text-textSub">' + dna.ji + '</span>'
-      +       '</div>'
-      +     '</div>'
-      +     '<div class="text-center text-[11px] text-textAssist italic">' + dna.subtitle.slice(0, 18) + '</div>'
-      +   '</div>'
-      +   '<a href="ai_assistant.html?q=' + encodeURIComponent('根据我的投资DNA画像，帮我解读一下我的投资风格，以及我可以成为怎样的大神') + '" class="flex items-center justify-between bg-gradient-to-r from-primary/10 to-secondary/5 rounded-lg px-3 py-2 border border-primary/15">'
-      +     '<div class="flex items-center gap-2">'
-      +       '<span class="text-sm">🐟</span>'
-      +       '<span class="text-xs font-medium text-textMain">问问小金鲤：我的投资风格解读</span>'
-      +     '</div>'
-      +     '<iconify-icon class="text-textAssist text-sm" icon="solar:alt-arrow-right-linear"></iconify-icon>'
-      +   '</a>'
-      + '</div>';
-
-    // Build discuss mode content - scattered danmaku bubbles with avatars
-    var positions = ['dm-left', 'dm-right', 'dm-center', 'dm-left', 'dm-right'];
-    var avatarBgs = ['bg-pink-100', 'bg-blue-100', 'bg-amber-100', 'bg-green-100', 'bg-purple-100'];
-    var bubblesHTML = '';
-    var posts = dna.posts || [];
-    posts.forEach(function(post, i) {
-      bubblesHTML += '<div class="dm-row ' + positions[i % positions.length] + '">'
-        + '<div class="dm-bubble">'
-        +   '<div class="dm-avatar ' + (post.avatarBg || avatarBgs[i % avatarBgs.length]) + '">' + (post.avatar || '👤') + '</div>'
-        +   '<span class="dm-text">' + post.text + '</span>'
-        +   '<span class="dm-likes"><iconify-icon class="text-sm" icon="solar:like-bold"></iconify-icon>' + post.likes + '</span>'
-        + '</div>'
-        + '</div>';
-    });
-    // "我也想说" bubble
-    bubblesHTML += '<div class="dm-row dm-left">'
-      + '<div class="dm-say">'
-      +   '<div class="dm-say-icon"><iconify-icon class="text-sm text-white" icon="solar:add-circle-bold"></iconify-icon></div>'
-      +   '<span>我也想说说...</span>'
-      + '</div>'
-      + '</div>';
-    // Sparkle decoration
-    bubblesHTML += '<div class="dm-sparkle">✦  ✦</div>';
-
-    var discussHTML = ''
-      + '<div class="rounded-2xl p-4 dna-card-glow" style="background:linear-gradient(180deg,#FFF9EC 0%,#FFF5E0 100%);">'
-      +   '<div class="flex items-center justify-between mb-4">'
-      +     '<div class="font-bold text-sm" style="color:#5C3D1A">小' + dna.name + '们的日常</div>'
-      +     '<div class="flex items-center gap-1 bg-primary/10 text-primary text-[10px] font-bold px-2.5 py-1 rounded-full">'
-      +       '<iconify-icon class="text-xs" icon="solar:users-group-rounded-bold-duotone"></iconify-icon>'
-      +       '<span>9121鲤友</span>'
-      +       '<iconify-icon class="text-xs" icon="solar:alt-arrow-right-linear"></iconify-icon>'
-      +     '</div>'
-      +   '</div>'
-      // Bubbles
-      +   '<div class="mb-3">'
-      +     bubblesHTML
-      +   '</div>'
-      // Merged returns strip — compact, inline with the card
-      +   '<div class="flex items-center gap-2 bg-bgMain rounded-xl px-3 py-2 mb-3">'
-      +     '<span class="text-[10px] text-textAssist flex-shrink-0">今天' + dna.emoji + '加关注最多</span>'
-      +     '<div class="flex items-center gap-2 flex-1">'
-      +       '<span class="text-xs font-bold text-textMain">银行 ETF</span>'
-      +       '<span class="text-xs font-bold text-up">+7.8%</span>'
-      +     '</div>'
-      +   '</div>'
-      +   '<div class="border-t border-gray-100 pt-3 mb-3">'
-      +     '<div class="text-xs font-bold text-textMain mb-2">与其他类型的关系</div>'
-      +     '<div class="flex gap-3">'
-      +       '<div class="flex-1 bg-bgMain rounded-xl p-2.5 flex items-center gap-2">'
-      +         '<div class="text-[10px] text-textAssist">和我是同类</div>'
-      +         '<div class="text-sm font-bold text-textMain">' + dna.sameType + '</div>'
-      +       '</div>'
-      +       '<div class="flex-1 bg-bgMain rounded-xl p-2.5 flex items-center gap-2">'
-      +         '<div class="text-[10px] text-textAssist">不打不相识</div>'
-      +         '<div class="text-sm font-bold text-textMain">' + dna.relationType + ' ' + dna.relationEmoji + '</div>'
-      +       '</div>'
-      +     '</div>'
-      +   '</div>'
-      + '</div>';
-
     section.innerHTML = ''
-      + '<div class="px-4">'
-      +   '<div class="flex items-center justify-center gap-2 mb-3">'
-      +     '<div class="dna-mode-tab active" id="tab-solo" onclick="switchDnaMode(\'solo\')">我的今日</div>'
-      +     '<div class="dna-mode-tab" id="tab-discuss" onclick="switchDnaMode(\'discuss\')">投小圈</div>'
+      // 画像 + 日签 卡片
+      + '<div class="bg-white rounded-2xl p-3 dna-card-glow mb-3">'
+      +   '<div class="flex items-center gap-2.5 mb-2.5">'
+      +     '<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-xl flex-shrink-0">' + dna.emoji + '</div>'
+      +     '<div class="flex-1 min-w-0">'
+      +       '<div class="font-bold text-sm text-textMain truncate">小' + dna.name + ' · ' + dna.investorType + '</div>'
+      +       '<div class="text-[10px] text-textAssist">全国 ' + dna.percent + ' · ' + dna.headline + '</div>'
+      +     '</div>'
+      +     '<a href="profile.html" class="text-[10px] text-primary font-bold flex-shrink-0">详情 &gt;</a>'
       +   '</div>'
-      +   '<div id="dna-solo-content" class="dna-tab-content">'
-      +     soloHTML
+      +   '<div class="flex items-center gap-3 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-lg px-3 py-2">'
+      +     '<div class="flex items-center gap-1.5"><span class="text-xs font-black text-primary">宜</span><span class="text-[11px] font-bold text-textMain">' + dna.yi + '</span></div>'
+      +     '<div class="w-px h-4 bg-primary/15"></div>'
+      +     '<div class="flex items-center gap-1.5"><span class="text-xs font-black text-textAssist">忌</span><span class="text-[11px] font-bold text-textSub">' + dna.ji + '</span></div>'
       +   '</div>'
-      +   '<div id="dna-discuss-content" class="hidden dna-tab-content">'
-      +     discussHTML
+      + '</div>'
+      // 大盘走势
+      + '<div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-50 mb-3">'
+      +   '<div class="flex items-center justify-between mb-2">'
+      +     '<span class="text-[11px] font-bold text-textMain">大盘走势</span>'
+      +     '<span class="text-[9px] text-textAssist">实时更新</span>'
+      +   '</div>'
+      +   '<div class="flex justify-between">'
+      +     '<div class="text-center flex-1">'
+      +       '<div class="text-[10px] text-textAssist mb-0.5">上证指数</div>'
+      +       '<div class="text-sm font-bold text-up">3,286.53</div>'
+      +       '<div class="text-[10px] text-up font-bold">+0.62%</div>'
+      +     '</div>'
+      +     '<div class="text-center flex-1 border-x border-gray-100">'
+      +       '<div class="text-[10px] text-textAssist mb-0.5">深证成指</div>'
+      +       '<div class="text-sm font-bold text-up">10,852.40</div>'
+      +       '<div class="text-[10px] text-up font-bold">+0.85%</div>'
+      +     '</div>'
+      +     '<div class="text-center flex-1">'
+      +       '<div class="text-[10px] text-textAssist mb-0.5">创业板指</div>'
+      +       '<div class="text-sm font-bold text-down">2,156.72</div>'
+      +       '<div class="text-[10px] text-down font-bold">-0.31%</div>'
+      +     '</div>'
+      +   '</div>'
+      + '</div>'
+      // 异动
+      + '<div class="bg-white rounded-2xl px-3 py-2.5 shadow-sm border border-gray-50 overflow-hidden">'
+      +   '<div class="flex items-center gap-2">'
+      +     '<span class="text-[10px] font-bold text-textMain flex-shrink-0 bg-up/10 text-up px-1.5 py-0.5 rounded">异动</span>'
+      +     '<div class="overflow-hidden flex-1 relative h-5">'
+      +       '<div class="ticker-track flex gap-6 whitespace-nowrap">'
+      +         '<span class="text-[11px] text-textSub inline-flex items-center gap-1"><span class="text-up font-bold">比亚迪</span> 大笔买入 +5.2%</span>'
+      +         '<span class="text-[11px] text-textSub inline-flex items-center gap-1"><span class="text-down font-bold">宁德时代</span> 机构减仓 -2.1%</span>'
+      +         '<span class="text-[11px] text-textSub inline-flex items-center gap-1"><span class="text-up font-bold">中际旭创</span> 涨停 +10.0%</span>'
+      +         '<span class="text-[11px] text-textSub inline-flex items-center gap-1"><span class="text-up font-bold">银行ETF</span> 资金流入 +3.8%</span>'
+      +         '<span class="text-[11px] text-textSub inline-flex items-center gap-1"><span class="text-up font-bold">比亚迪</span> 大笔买入 +5.2%</span>'
+      +         '<span class="text-[11px] text-textSub inline-flex items-center gap-1"><span class="text-down font-bold">宁德时代</span> 机构减仓 -2.1%</span>'
+      +       '</div>'
+      +     '</div>'
       +   '</div>'
       + '</div>';
   }
 
-  // ========== Switch DNA Mode ==========
-  function switchDnaMode(mode) {
-    currentDnaMode = mode;
-    var tabSolo = document.getElementById('tab-solo');
-    var tabDiscuss = document.getElementById('tab-discuss');
-    var soloContent = document.getElementById('dna-solo-content');
-    var discussContent = document.getElementById('dna-discuss-content');
-
-    if (mode === 'solo') {
-      tabSolo.classList.add('active');
-      tabDiscuss.classList.remove('active');
-      soloContent.classList.remove('hidden');
-      discussContent.classList.add('hidden');
-    } else {
-      tabDiscuss.classList.add('active');
-      tabSolo.classList.remove('active');
-      discussContent.classList.remove('hidden');
-      soloContent.classList.add('hidden');
-    }
-  }
 
   // ========== Render Rankings ==========
   function renderRankings(dnaType) {

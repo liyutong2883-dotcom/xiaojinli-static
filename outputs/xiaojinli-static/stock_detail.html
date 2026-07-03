@@ -35,6 +35,9 @@
         }
         .animate-slide-up { animation: slide-up 0.3s ease-out forwards; }
         .modal-backdrop { transition: opacity 0.3s ease; }
+  .kline-period { transition: all 0.15s; }
+  .kline-period:active { transform: scale(0.95); }
+
     </style>
 </head>
 <body class="bg-bgMain text-textMain">
@@ -61,6 +64,25 @@
 </div>
 </div>
 </section>
+<!-- K线图 -->
+<section class="mt-4 px-4">
+<div class="bg-white rounded-2xl p-4 shadow-sm">
+<div class="flex items-center justify-between mb-3">
+<h2 class="text-sm font-bold">K线走势</h2>
+<div class="flex gap-1">
+<button class="kline-period active text-[10px] px-2 py-0.5 rounded-full bg-primary text-white font-bold" onclick="switchKline(this,'day')">日K</button>
+<button class="kline-period text-[10px] px-2 py-0.5 rounded-full bg-bgMain text-textAssist" onclick="switchKline(this,'week')">周K</button>
+<button class="kline-period text-[10px] px-2 py-0.5 rounded-full bg-bgMain text-textAssist" onclick="switchKline(this,'month')">月K</button>
+</div>
+</div>
+<div class="w-full h-56" id="klineChart"></div>
+<div class="flex items-center justify-between mt-2 text-[10px] text-textAssist">
+<span>成交量</span>
+<span>MA5: 185.2 | MA10: 182.8 | MA20: 179.5</span>
+</div>
+</div>
+</section>
+
 <!-- 公司利润来源 (ECharts) -->
 <section class="mt-4 px-4">
 <div class="bg-white rounded-2xl p-4 shadow-sm">
@@ -94,6 +116,31 @@
 <div class="text-[10px] text-textAssist">行业龙头</div>
 </div>
 </section>
+<!-- 财务数据趋势 -->
+<section class="mt-4 px-4">
+<div class="bg-white rounded-2xl p-4 shadow-sm">
+<h2 class="text-sm font-bold mb-3">财务数据趋势</h2>
+<div class="w-full h-48" id="financeChart"></div>
+<div class="grid grid-cols-3 gap-2 mt-3">
+<div class="text-center bg-bgMain rounded-lg p-2">
+<div class="text-[10px] text-textAssist">营收(亿)</div>
+<div class="text-xs font-bold">4009</div>
+<div class="text-[9px] text-up">+22%</div>
+</div>
+<div class="text-center bg-bgMain rounded-lg p-2">
+<div class="text-[10px] text-textAssist">净利(亿)</div>
+<div class="text-xs font-bold">441</div>
+<div class="text-[9px] text-up">+44%</div>
+</div>
+<div class="text-center bg-bgMain rounded-lg p-2">
+<div class="text-[10px] text-textAssist">毛利率</div>
+<div class="text-xs font-bold">22.9%</div>
+<div class="text-[9px] text-up">+1.8pp</div>
+</div>
+</div>
+</div>
+</section>
+
 <!-- 哪些大牛持有 -->
 <section class="mt-6 px-4">
 <h2 class="text-sm font-bold mb-3 px-1">哪些大牛/机构持有？</h2>
@@ -168,21 +215,17 @@
 </main>
 <!-- 底部导航 -->
 <nav class="fixed bottom-0 w-full max-w-[414px] bg-white/80 backdrop-blur-md border-t border-gray-100 px-4 py-3 flex justify-between items-center z-50 safe-bottom">
-<a class="flex flex-col items-center gap-1 text-textAssist" href="discover.html">
-<iconify-icon class="text-2xl" icon="solar:home-smile-angle-linear"></iconify-icon>
-<span class="text-[10px]">发现</span>
-</a>
-<a class="flex flex-col items-center gap-1 text-primary" href="copytrade.html">
-<iconify-icon class="text-2xl" icon="solar:copy-bold"></iconify-icon>
-<span class="text-[10px] font-bold">广场</span>
+<a class="flex flex-col items-center gap-1 text-primary" href="discover.html">
+<iconify-icon class="text-2xl" icon="solar:home-smile-angle-bold"></iconify-icon>
+<span class="text-[10px] font-bold">发现</span>
 </a>
 <a class="flex flex-col items-center gap-1 text-textAssist" href="toolbox.html">
-<iconify-icon class="text-2xl" icon="solar:box-linear"></iconify-icon>
-<span class="text-[10px]">灵感</span>
+<iconify-icon class="text-2xl" icon="solar:lightbulb-linear"></iconify-icon>
+<span class="text-[10px] ">灵感</span>
 </a>
 <a class="flex flex-col items-center gap-1 text-textAssist" href="profile.html">
 <iconify-icon class="text-2xl" icon="solar:user-linear"></iconify-icon>
-<span class="text-[10px]">我的</span>
+<span class="text-[10px] ">我的</span>
 </a>
 </nav>
 <!-- 估值助手 Modal -->
@@ -425,6 +468,99 @@
             ]
         };
         myChart.setOption(option);
+
+
+        // ========== K线图 ==========
+        var klineDom = document.getElementById('klineChart');
+        var klineChart = echarts.init(klineDom);
+
+        // Generate mock K-line data
+        function genKlineData(count) {
+            var data = [], basePrice = 160, dates = [];
+            var baseDate = new Date(2024, 0, 2);
+            for (var i = 0; i < count; i++) {
+                var d = new Date(baseDate);
+                d.setDate(d.getDate() + i);
+                if (d.getDay() === 0 || d.getDay() === 6) continue;
+                var open = basePrice + (Math.random() - 0.48) * 6;
+                var close = open + (Math.random() - 0.45) * 8;
+                var low = Math.min(open, close) - Math.random() * 3;
+                var high = Math.max(open, close) + Math.random() * 3;
+                var vol = Math.floor(50000 + Math.random() * 80000);
+                data.push([+open.toFixed(2), +close.toFixed(2), +low.toFixed(2), +high.toFixed(2), vol]);
+                dates.push((d.getMonth()+1) + '/' + d.getDate());
+                basePrice = close;
+            }
+            return { data: data, dates: dates };
+        }
+
+        var klineDay = genKlineData(90);
+        var klineWeek = genKlineData(180);
+        var klineMonth = genKlineData(365);
+
+        function getKlineOption(kd) {
+            return {
+                animation: false,
+                tooltip: { trigger: 'axis', axisPointer: { type: 'cross' }, textStyle: { fontSize: 10 } },
+                grid: [
+                    { left: '10%', right: '4%', top: '4%', height: '58%' },
+                    { left: '10%', right: '4%', top: '70%', height: '22%' }
+                ],
+                xAxis: [
+                    { type: 'category', data: kd.dates, gridIndex: 0, axisLabel: { fontSize: 9 }, boundaryGap: true, axisLine: { lineStyle: { color: '#eee' } } },
+                    { type: 'category', data: kd.dates, gridIndex: 1, axisLabel: { show: false }, boundaryGap: true }
+                ],
+                yAxis: [
+                    { scale: true, gridIndex: 0, splitLine: { lineStyle: { color: '#f5f5f5' } }, axisLabel: { fontSize: 9 } },
+                    { scale: true, gridIndex: 1, splitLine: { show: false }, axisLabel: { show: false } }
+                ],
+                series: [
+                    {
+                        type: 'candlestick',
+                        data: kd.data.map(function(d) { return [d[0],d[1],d[2],d[3]]; }),
+                        xAxisIndex: 0, yAxisIndex: 0,
+                        itemStyle: { color: '#FF4D4F', color0: '#52C41A', borderColor: '#FF4D4F', borderColor0: '#52C41A' }
+                    },
+                    {
+                        type: 'bar',
+                        data: kd.data.map(function(d) { return d[4]; }),
+                        xAxisIndex: 1, yAxisIndex: 1,
+                        itemStyle: { color: function(p) { var d = kd.data[p.dataIndex]; return d[1] >= d[0] ? '#FF4D4F' : '#52C41A'; } }
+                    }
+                ]
+            };
+        }
+        klineChart.setOption(getKlineOption(klineDay));
+
+        function switchKline(btn, period) {
+            document.querySelectorAll('.kline-period').forEach(function(b) {
+                b.className = 'kline-period text-[10px] px-2 py-0.5 rounded-full bg-bgMain text-textAssist';
+            });
+            btn.className = 'kline-period active text-[10px] px-2 py-0.5 rounded-full bg-primary text-white font-bold';
+            var kd = period === 'week' ? klineWeek : period === 'month' ? klineMonth : klineDay;
+            klineChart.setOption(getKlineOption(kd));
+        }
+
+        // ========== 财务数据趋势图 ==========
+        var finDom = document.getElementById('financeChart');
+        var finChart = echarts.init(finDom);
+        finChart.setOption({
+            tooltip: { trigger: 'axis', textStyle: { fontSize: 10 } },
+            legend: { data: ['营业收入(亿)', '净利润(亿)'], bottom: 0, textStyle: { fontSize: 10 }, itemWidth: 12, itemHeight: 8 },
+            grid: { left: '12%', right: '4%', top: '8%', bottom: '18%' },
+            xAxis: { type: 'category', data: ['2020', '2021', '2022', '2023'], axisLabel: { fontSize: 10 } },
+            yAxis: { type: 'value', axisLabel: { fontSize: 9 }, splitLine: { lineStyle: { color: '#f5f5f5' } } },
+            series: [
+                { name: '营业收入(亿)', type: 'bar', data: [503, 1304, 3286, 4009], itemStyle: { color: '#FFB800', borderRadius: [4,4,0,0] }, barWidth: '30%' },
+                { name: '净利润(亿)', type: 'line', data: [55, 159, 307, 441], smooth: true, symbol: 'circle', symbolSize: 6, lineStyle: { color: '#FF6B00', width: 2 }, itemStyle: { color: '#FF6B00' } }
+            ]
+        });
+
+        // Resize handler
+        window.addEventListener('resize', function() {
+            klineChart.resize();
+            finChart.resize();
+        });
 
         // Modal functions
         function openModal(id) {

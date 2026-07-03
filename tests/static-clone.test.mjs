@@ -30,20 +30,21 @@ test("static clone exposes all expected pages", async () => {
   }
 });
 
-// ── 2. 底部导航使用新 4-tab 结构（发现/广场/仓库/我的） ──
-test("bottom nav uses new 4-tab structure with correct labels", async () => {
+// ── 2. 底部导航使用 3-tab 结构（发现/灵感/我的） ──
+test("bottom nav uses 3-tab structure with correct labels", async () => {
   const navPages = ["discover.html", "copytrade.html", "toolbox.html", "profile.html",
                     "index.html", "portfolio.html", "stock_detail.html",
                     "onboarding.html", "dna_result.html", "video_detail.html"];
-  const navTargets = ["discover.html", "copytrade.html", "toolbox.html", "profile.html"];
+  const navTargets = ["discover.html", "toolbox.html", "profile.html"];
   for (const page of navPages) {
     const html = await readPage(page);
     for (const target of navTargets) {
       assert.match(html, new RegExp(`href=["']${target}`), `${page} should link to ${target}`);
     }
-    // 不再使用"仓库"标签，已改名为"灵感"
+    // 3-tab labels
+    assert.match(html, /发现/, `${page} should show 发现 label`);
     assert.match(html, /灵感/, `${page} should show 灵感 label`);
-    assert.doesNotMatch(html, /工具箱/, `${page} should not contain old 工具箱 label`);
+    assert.match(html, /我的/, `${page} should show 我的 label`);
   }
 });
 
@@ -62,8 +63,10 @@ test("core interaction functions remain available", async () => {
   assert.match(copytrade, /function toggleFollow\(btn\)/);
 
   const toolbox = await readPage("toolbox.html");
-  assert.match(toolbox, /function showResults\(\)/);
-  assert.match(toolbox, /function toggleCalc\(/);
+  assert.match(toolbox, /function switchTab\(/);
+  assert.match(toolbox, /function openDetail\(/);
+  assert.match(toolbox, /function loadNotebook\(/);
+  assert.match(toolbox, /function toggleNotebook\(/);
 
   const assistant = await readPage("ai_assistant.html");
   assert.match(assistant, /function sendMessage\(text\)/);
@@ -72,9 +75,15 @@ test("core interaction functions remain available", async () => {
   const stockDetail = await readPage("stock_detail.html");
   assert.match(stockDetail, /function openModal\(/);
   assert.match(stockDetail, /function closeModal\(/);
+  assert.match(stockDetail, /function switchKline\(/);
 
   const discover = await readPage("discover.html");
-  assert.match(discover, /function switchDnaMode\(/);
+  assert.match(discover, /function getUserDNA\(/);
+  assert.match(discover, /function renderRankings\(/);
+
+  const profile = await readPage("profile.html");
+  assert.match(profile, /function toggleCalc\(/);
+  assert.match(profile, /function calcCompound\(/);
 });
 
 // ── 5. 投资 DNA 测试页（onboarding）结构正确 ────────────
@@ -131,29 +140,31 @@ test("all pages use consistent localStorage key 'investmentDna'", async () => {
   assert.match(onboarding, /dimensions/, "onboarding should include dimensions in saved data");
 });
 
-// ── 8. 发现页包含新内容结构 ──────────────────────────────
-test("discover page has redesigned content with ranking and DNA banner", async () => {
+// ── 8. 发现页包含新内容结构（紧凑版） ──────────────────────────────
+test("discover page has compact layout with rankings and daily sign", async () => {
   const html = await readPage("discover.html");
   // 今天谁赚了大钱排行榜
   assert.match(html, /今天谁赚了大钱/, "should have ranking section");
-  // DNA 画像 banner
+  // DNA 画像 banner（紧凑版）
   assert.match(html, /DNA|画像|投资性格/, "should reference DNA/profile section");
-  // 日签宜/忌（放大显示）
+  // 日签宜/忌
   assert.match(html, /宜/, "should have 宜 in daily sign");
   assert.match(html, /忌/, "should have 忌 in daily sign");
-  // 我的今日/投小圈两种模式
-  assert.match(html, /我的今日/, "should have 我的今日 tab");
-  assert.match(html, /投小圈/, "should have 投小圈 tab");
-  assert.match(html, /switchDnaMode/, "should have mode switching function");
+  // 我的今日（不再有投小圈 tab）
+  assert.match(html, /我的今日/, "should have 我的今日 section");
+  assert.doesNotMatch(html, /投小圈/, "should NOT have 投小圈 tab anymore");
+  assert.doesNotMatch(html, /switchDnaMode/, "should NOT have switchDnaMode function");
+  // 大盘走势（3个指数）
+  assert.match(html, /大盘走势|上证指数|深证成指|创业板/, "should have market indices");
+  // 异动滚动文字
+  assert.match(html, /异动/, "should have market alerts/ticker");
   // 大咖投研
   assert.match(html, /大咖投研/, "should have expert research section");
   // 视频链接到 video_detail
   assert.match(html, /video_detail/, "should link videos to video_detail page");
   // DNA 排序逻辑
-  assert.match(html, /dnaFit/, "should have dnaFit field for DNA-based sorting");
   assert.match(html, /getUserDNA/, "should read user DNA for personalization");
-  assert.match(html, /dnaTagSystem/, "should have dnaTagSystem with full tag library");
-  assert.match(html, /dimensionMap/, "should have dimensionMap for each animal");
+  assert.match(html, /renderRankings/, "should have ranking render function");
 });
 
 // ── 9. 广场页：数据来源作为标签 + DNA 推荐字段 ───────────────────
@@ -177,26 +188,35 @@ test("copytrade page has source tags and DNA recommendation fields", async () =>
   assert.match(html, /不构成投资建议/);
 });
 
-// ── 10. 灵感页包含灵感卡片 + 投资计算器 ────────────────────
-test("toolbox page repurposed as 灵感 with ideas and calculator", async () => {
+// ── 10. 灵感页重构为 高手作业/灵感广场/作业本 三合一 ────────────────────
+test("toolbox page restructured as 高手作业 + 灵感广场 + 作业本", async () => {
   const html = await readPage("toolbox.html");
-  // 灵感区块 (三合一)
-  assert.match(html, /我的灵感/, "should have my inspiration tab");
-  assert.match(html, /一句话灵感/, "should have one-sentence inspiration tab");
-  assert.match(html, /灵感广场/, "should have inspiration marketplace tab");
-  assert.match(html, /评级上调数量/, "should have editable conditions");
+  // 三个 tab
+  assert.match(html, /高手作业/, "should have 高手作业 tab");
+  assert.match(html, /灵感广场/, "should have 灵感广场 tab");
+  assert.match(html, /作业本/, "should have 作业本 tab");
+  // 高手作业：大佬思路 + 产业配置 + 持仓明细
+  assert.match(html, /大佬的思路/, "should show investor logic section");
+  assert.match(html, /产业配置/, "should show industry allocation");
+  assert.match(html, /持仓明细/, "should show holdings detail");
+  // 灵感广场卡片
   assert.match(html, /北向连续净买/, "should have marketplace inspiration cards");
-  // 投资计算器
-  assert.match(html, /投资计算器/, "should have calculator section");
-  assert.match(html, /复利计算器/, "should have compound interest calculator");
-  assert.match(html, /定投收益计算器/, "should have DCA calculator");
-  assert.match(html, /回撤计算器/, "should have drawdown calculator");
-  assert.match(html, /function calcCompound/, "should have compound calculation function");
-  assert.match(html, /function calcDrawdown/, "should have drawdown calculation function");
+  assert.match(html, /胜率/, "should have win rate display");
+  // 作业本功能
+  assert.match(html, /function loadNotebook/, "should have notebook load function");
+  assert.match(html, /function toggleNotebook/, "should have notebook toggle function");
+  assert.match(html, /function removeFromNotebook/, "should have notebook remove function");
+  assert.match(html, /xiaojinli_notebook/, "should use notebook localStorage key");
+  // 收藏/星标功能
+  assert.match(html, /收藏|star|solar:star/, "should have favorite/star functionality");
+  // DNA 匹配
+  assert.match(html, /getUserAnimal/, "should have DNA animal matching");
+  // switchTab 函数
+  assert.match(html, /function switchTab/, "should have tab switching function");
 });
 
-// ── 11. 我的页展示 DNA 画像 ──────────────────────────────
-test("profile page renders DNA animal profile from localStorage", async () => {
+// ── 11. 我的页展示 DNA 画像 + 投资计算器 ──────────────────────────────
+test("profile page renders DNA animal profile and has investment calculators", async () => {
   const html = await readPage("profile.html");
   // 投资画像区域
   assert.match(html, /投资.*画像|画像|DNA/, "should have investment profile section");
@@ -208,6 +228,13 @@ test("profile page renders DNA animal profile from localStorage", async () => {
   assert.match(html, /investmentDna/, "should read investmentDna from localStorage");
   // 维度映射
   assert.match(html, /dimensionMap/, "should have dimension mappings");
+  // 投资计算器（从 toolbox 迁移过来）
+  assert.match(html, /复利计算器/, "should have compound interest calculator");
+  assert.match(html, /定投收益计算器/, "should have DCA calculator");
+  assert.match(html, /回撤计算器/, "should have drawdown calculator");
+  assert.match(html, /function calcCompound/, "should have compound calculation function");
+  assert.match(html, /function calcDrawdown/, "should have drawdown calculation function");
+  assert.match(html, /function toggleCalc/, "should have calculator toggle function");
 });
 
 // ── 12. 小金鲤浮窗全局可达 ───────────────────────────────
@@ -269,8 +296,8 @@ test("portfolio page has charts and compact stock table", async () => {
   assert.match(html, /stock_detail\.html/, "should link to stock detail pages");
 });
 
-// ── 17. 个股详情页有可点击的模态弹窗 ────────────────────
-test("stock_detail page has clickable modal overlays for research tools", async () => {
+// ── 17. 个股详情页：模态弹窗 + K线图 + 财务趋势图 ────────────────────
+test("stock_detail page has modals, K-line chart, and financial trend chart", async () => {
   const html = await readPage("stock_detail.html");
   // 三个模态弹窗
   assert.match(html, /modal-valuation|估值助手/, "should have valuation modal");
@@ -283,6 +310,14 @@ test("stock_detail page has clickable modal overlays for research tools", async 
   assert.match(html, /市盈率|PE/, "valuation modal should have PE content");
   assert.match(html, /营收|利润/, "finance modal should have revenue/profit content");
   assert.match(html, /比亚迪|亿纬锂能/, "compare modal should have peer companies");
+  // K线图
+  assert.match(html, /K线走势|klineChart/, "should have K-line chart section");
+  assert.match(html, /function switchKline/, "should have K-line period switch function");
+  assert.match(html, /日K|周K|月K/, "should have day/week/month period buttons");
+  assert.match(html, /candlestick/, "should use candlestick chart type");
+  // 财务趋势图
+  assert.match(html, /财务数据趋势|financeTrendChart/, "should have financial trend chart");
+  assert.match(html, /营业收入|净利润/, "should show revenue and profit data");
 });
 
 // ── 18. DNA localStorage backward compatibility ──────────────

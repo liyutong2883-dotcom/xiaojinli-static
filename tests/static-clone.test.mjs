@@ -150,12 +150,13 @@ test("discover page has compact layout with rankings and daily sign", async () =
   // 日签宜/忌
   assert.match(html, /宜/, "should have 宜 in daily sign");
   assert.match(html, /忌/, "should have 忌 in daily sign");
-  // 我的今日（不再有投小圈 tab）
-  assert.match(html, /我的今日/, "should have 我的今日 section");
-  assert.doesNotMatch(html, /投小圈/, "should NOT have 投小圈 tab anymore");
-  assert.doesNotMatch(html, /switchDnaMode/, "should NOT have switchDnaMode function");
+  // 我的今日 + 投小圈 两个 tab
+  assert.match(html, /我的今日/, "should have 我的今日 tab");
+  assert.match(html, /投小圈/, "should have 投小圈 tab");
+  assert.match(html, /switchDiscoverTab/, "should have tab switching function");
+  assert.doesNotMatch(html, /switchDnaMode/, "should NOT have old switchDnaMode function");
   // 大盘走势（3个指数）
-  assert.match(html, /大盘走势|上证指数|深证成指|创业板/, "should have market indices");
+  assert.match(html, /上证|深证|创业板/, "should have market indices");
   // 异动滚动文字
   assert.match(html, /异动/, "should have market alerts/ticker");
   // 大咖投研

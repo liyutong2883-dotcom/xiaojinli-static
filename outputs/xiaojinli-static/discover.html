@@ -197,8 +197,19 @@
   <!-- Main Content -->
   <main class="flex-1 pb-24">
 
-    <!-- 2. 我的今日 (Compact) -->
-    <section class="mt-4 animate-fade-in delay-2 px-4" id="dna-profile-section">
+    <!-- Tab 切换 -->
+    <div class="mt-4 px-4 flex gap-2" id="discover-tabs">
+      <button class="dna-mode-tab active" onclick="switchDiscoverTab(this,'today')">我的今日</button>
+      <button class="dna-mode-tab" onclick="switchDiscoverTab(this,'circle')">投小圈</button>
+    </div>
+
+    <!-- Tab 1: 我的今日 (全部合一) -->
+    <section class="mt-3 animate-fade-in delay-2 px-4" id="dna-profile-section">
+      <!-- Dynamic content injected by JS -->
+    </section>
+
+    <!-- Tab 2: 投小圈 -->
+    <section class="mt-3 px-4 hidden" id="circle-section">
       <!-- Dynamic content injected by JS -->
     </section>
 
@@ -506,7 +517,7 @@
     return raw;
   }
 
-  // ========== Render DNA Profile (Compact) ==========
+  // ========== Render DNA Profile (All-in-one compact card) ==========
   function renderDNAProfile(dnaType) {
     var section = document.getElementById('dna-profile-section');
     var dna = dnaType && dnaConfig[dnaType] ? dnaConfig[dnaType] : null;
@@ -529,61 +540,111 @@
     }
 
     section.innerHTML = ''
-      // 画像 + 日签 卡片
-      + '<div class="bg-white rounded-2xl p-3 dna-card-glow mb-3">'
-      +   '<div class="flex items-center gap-2.5 mb-2.5">'
-      +     '<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-xl flex-shrink-0">' + dna.emoji + '</div>'
+      // 合一卡片：画像 + 日签 + 大盘 + 异动
+      + '<div class="bg-white rounded-2xl p-3 dna-card-glow">'
+      // -- 画像 + 日签 --
+      +   '<div class="flex items-center gap-2.5 mb-2">'
+      +     '<div class="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-lg flex-shrink-0">' + dna.emoji + '</div>'
       +     '<div class="flex-1 min-w-0">'
-      +       '<div class="font-bold text-sm text-textMain truncate">小' + dna.name + ' · ' + dna.investorType + '</div>'
-      +       '<div class="text-[10px] text-textAssist">全国 ' + dna.percent + ' · ' + dna.headline + '</div>'
+      +       '<div class="font-bold text-xs text-textMain truncate">小' + dna.name + ' · ' + dna.investorType + '</div>'
+      +       '<div class="text-[10px] text-textAssist">全国 ' + dna.percent + '</div>'
       +     '</div>'
-      +     '<a href="profile.html" class="text-[10px] text-primary font-bold flex-shrink-0">详情 &gt;</a>'
+      +     '<div class="flex items-center gap-2 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-lg px-2 py-1">'
+      +       '<span class="text-[10px] font-black text-primary">宜</span><span class="text-[10px] font-bold text-textMain">' + dna.yi + '</span>'
+      +       '<span class="w-px h-3 bg-primary/15"></span>'
+      +       '<span class="text-[10px] font-black text-textAssist">忌</span><span class="text-[10px] font-bold text-textSub">' + dna.ji + '</span>'
+      +     '</div>'
       +   '</div>'
-      +   '<div class="flex items-center gap-3 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-lg px-3 py-2">'
-      +     '<div class="flex items-center gap-1.5"><span class="text-xs font-black text-primary">宜</span><span class="text-[11px] font-bold text-textMain">' + dna.yi + '</span></div>'
-      +     '<div class="w-px h-4 bg-primary/15"></div>'
-      +     '<div class="flex items-center gap-1.5"><span class="text-xs font-black text-textAssist">忌</span><span class="text-[11px] font-bold text-textSub">' + dna.ji + '</span></div>'
-      +   '</div>'
-      + '</div>'
-      // 大盘走势
-      + '<div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-50 mb-3">'
-      +   '<div class="flex items-center justify-between mb-2">'
-      +     '<span class="text-[11px] font-bold text-textMain">大盘走势</span>'
-      +     '<span class="text-[9px] text-textAssist">实时更新</span>'
-      +   '</div>'
-      +   '<div class="flex justify-between">'
+      // -- 大盘走势 --
+      +   '<div class="flex justify-between border-t border-gray-50 pt-2 mt-1 mb-2">'
       +     '<div class="text-center flex-1">'
-      +       '<div class="text-[10px] text-textAssist mb-0.5">上证指数</div>'
-      +       '<div class="text-sm font-bold text-up">3,286.53</div>'
-      +       '<div class="text-[10px] text-up font-bold">+0.62%</div>'
+      +       '<div class="text-[9px] text-textAssist">上证</div>'
+      +       '<div class="text-xs font-bold text-up">3,286.53</div>'
+      +       '<div class="text-[9px] text-up font-bold">+0.62%</div>'
       +     '</div>'
       +     '<div class="text-center flex-1 border-x border-gray-100">'
-      +       '<div class="text-[10px] text-textAssist mb-0.5">深证成指</div>'
-      +       '<div class="text-sm font-bold text-up">10,852.40</div>'
-      +       '<div class="text-[10px] text-up font-bold">+0.85%</div>'
+      +       '<div class="text-[9px] text-textAssist">深证</div>'
+      +       '<div class="text-xs font-bold text-up">10,852.40</div>'
+      +       '<div class="text-[9px] text-up font-bold">+0.85%</div>'
       +     '</div>'
       +     '<div class="text-center flex-1">'
-      +       '<div class="text-[10px] text-textAssist mb-0.5">创业板指</div>'
-      +       '<div class="text-sm font-bold text-down">2,156.72</div>'
-      +       '<div class="text-[10px] text-down font-bold">-0.31%</div>'
+      +       '<div class="text-[9px] text-textAssist">创业板</div>'
+      +       '<div class="text-xs font-bold text-down">2,156.72</div>'
+      +       '<div class="text-[9px] text-down font-bold">-0.31%</div>'
       +     '</div>'
       +   '</div>'
-      + '</div>'
-      // 异动
-      + '<div class="bg-white rounded-2xl px-3 py-2.5 shadow-sm border border-gray-50 overflow-hidden">'
-      +   '<div class="flex items-center gap-2">'
-      +     '<span class="text-[10px] font-bold text-textMain flex-shrink-0 bg-up/10 text-up px-1.5 py-0.5 rounded">异动</span>'
-      +     '<div class="overflow-hidden flex-1 relative h-5">'
-      +       '<div class="ticker-track flex gap-6 whitespace-nowrap">'
-      +         '<span class="text-[11px] text-textSub inline-flex items-center gap-1"><span class="text-up font-bold">比亚迪</span> 大笔买入 +5.2%</span>'
-      +         '<span class="text-[11px] text-textSub inline-flex items-center gap-1"><span class="text-down font-bold">宁德时代</span> 机构减仓 -2.1%</span>'
-      +         '<span class="text-[11px] text-textSub inline-flex items-center gap-1"><span class="text-up font-bold">中际旭创</span> 涨停 +10.0%</span>'
-      +         '<span class="text-[11px] text-textSub inline-flex items-center gap-1"><span class="text-up font-bold">银行ETF</span> 资金流入 +3.8%</span>'
-      +         '<span class="text-[11px] text-textSub inline-flex items-center gap-1"><span class="text-up font-bold">比亚迪</span> 大笔买入 +5.2%</span>'
-      +         '<span class="text-[11px] text-textSub inline-flex items-center gap-1"><span class="text-down font-bold">宁德时代</span> 机构减仓 -2.1%</span>'
+      // -- 异动 --
+      +   '<div class="border-t border-gray-50 pt-2 flex items-center gap-2 overflow-hidden">'
+      +     '<span class="text-[9px] font-bold text-white flex-shrink-0 bg-up px-1.5 py-0.5 rounded">异动</span>'
+      +     '<div class="overflow-hidden flex-1 relative h-4">'
+      +       '<div class="flex gap-5 whitespace-nowrap">'
+      +         '<span class="text-[10px] text-textSub inline-flex items-center gap-1"><span class="text-up font-bold">比亚迪</span> 大笔买入 +5.2%</span>'
+      +         '<span class="text-[10px] text-textSub inline-flex items-center gap-1"><span class="text-down font-bold">宁德时代</span> 减仓 -2.1%</span>'
+      +         '<span class="text-[10px] text-textSub inline-flex items-center gap-1"><span class="text-up font-bold">中际旭创</span> 涨停 +10.0%</span>'
+      +         '<span class="text-[10px] text-textSub inline-flex items-center gap-1"><span class="text-up font-bold">银行ETF</span> 流入 +3.8%</span>'
+      +         '<span class="text-[10px] text-textSub inline-flex items-center gap-1"><span class="text-up font-bold">比亚迪</span> 大笔买入 +5.2%</span>'
+      +         '<span class="text-[10px] text-textSub inline-flex items-center gap-1"><span class="text-down font-bold">宁德时代</span> 减仓 -2.1%</span>'
       +       '</div>'
       +     '</div>'
       +   '</div>'
+      + '</div>';
+  }
+
+  // ========== Tab 切换 ==========
+  function switchDiscoverTab(btn, tabId) {
+    var tabs = document.querySelectorAll('#discover-tabs .dna-mode-tab');
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById('dna-profile-section').classList.toggle('hidden', tabId !== 'today');
+    document.getElementById('circle-section').classList.toggle('hidden', tabId !== 'circle');
+    // 排行榜和视频只在"我的今日"下显示
+    var rankingSection = document.getElementById('dna-profile-section').nextElementSibling;
+    while (rankingSection && rankingSection.id !== 'circle-section') {
+      if (rankingSection.tagName === 'SECTION') {
+        rankingSection.classList.toggle('hidden', tabId !== 'today');
+      }
+      rankingSection = rankingSection.nextElementSibling;
+    }
+    if (tabId === 'circle') {
+      renderTouXiaoQuan();
+    }
+  }
+
+  // ========== 投小圈渲染 ==========
+  function renderTouXiaoQuan() {
+    var section = document.getElementById('circle-section');
+    var dnaType = getUserDNA();
+    var dna = dnaType && dnaConfig[dnaType] ? dnaConfig[dnaType] : dnaConfig['squirrel'];
+    var posts = dna.posts || [];
+
+    section.innerHTML = ''
+      + '<div class="space-y-3">'
+      + posts.map(function(p) {
+        return '<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">'
+          + '<div class="flex items-center gap-2.5 mb-2.5">'
+          +   '<div class="w-8 h-8 rounded-full ' + p.avatarBg + ' flex items-center justify-center text-sm flex-shrink-0">' + p.avatar + '</div>'
+          +   '<div class="flex-1 min-w-0">'
+          +     '<div class="font-bold text-sm text-textMain">' + p.user + '</div>'
+          +   '</div>'
+          +   '<span class="text-[10px] text-textAssist bg-bgMain px-2 py-0.5 rounded-full">关注</span>'
+          + '</div>'
+          + '<p class="text-sm text-textMain leading-relaxed mb-2.5">' + p.text + '</p>'
+          + '<div class="flex items-center gap-4 text-textAssist">'
+          +   '<button class="flex items-center gap-1 text-[11px] hover:text-up transition-colors" onclick="this.querySelector(\'iconify-icon\\').setAttribute(\'icon\\',\'solar:heart-bold\\');this.classList.add(\'text-up\\')">'
+          +     '<iconify-icon class="text-sm" icon="solar:heart-linear"></iconify-icon>'
+          +     '<span>' + p.likes + '</span>'
+          +   '</button>'
+          +   '<button class="flex items-center gap-1 text-[11px] hover:text-primary transition-colors">'
+          +     '<iconify-icon class="text-sm" icon="solar:chat-round-linear"></iconify-icon>'
+          +     '<span>评论</span>'
+          +   '</button>'
+          +   '<button class="flex items-center gap-1 text-[11px] hover:text-primary transition-colors ml-auto">'
+          +     '<iconify-icon class="text-sm" icon="solar:share-linear"></iconify-icon>'
+          +     '<span>分享</span>'
+          +   '</button>'
+          + '</div>'
+          + '</div>';
+      }).join('')
       + '</div>';
   }
 
